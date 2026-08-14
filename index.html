@@ -908,7 +908,12 @@ function playNode(key){
       typing(true);
       setTimeout(function(){ typing(false); addB(node.them[i], 'them'); i++; setTimeout(next, 500); }, 850);
     } else if (node.choices){
-      node.choices.forEach(function(c){
+      /* Green on top, then yellow, then red, whatever order the node lists. */
+      var RANK = {appease:0, deal:0, counter:1, pivot:1, threaten:2, hardline:2};
+      node.choices.slice().sort(function(a, b){
+        var ra = RANK[(a.tag || '').toLowerCase()], rb = RANK[(b.tag || '').toLowerCase()];
+        return (ra === undefined ? 1 : ra) - (rb === undefined ? 1 : rb);
+      }).forEach(function(c){
         var b = document.createElement('button');
         b.className = 'choice' + (c.tag ? ' t-' + c.tag.toLowerCase() : '');
         b.innerHTML = (c.tag ? '<span class="ctag">' + c.tag + '</span>' : '') + c.t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
