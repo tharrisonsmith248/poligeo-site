@@ -526,7 +526,7 @@
         <div class="demo-cell">
           <div class="dk">Live demo &middot; Shuttle diplomacy</div>
           <h3>Talk to the Kremlin.</h3>
-          <p class="dsub">Pick your reply. In the game, you type anything.</p>
+          <p class="dsub">Pick your reply. Every option is priced, and he answers the one you send.</p>
           <div class="chat">
             <div class="chat-top">
               <div class="avatar">VP</div>
@@ -536,7 +536,7 @@
             <div class="chat-log" id="log"></div>
             <div class="choices" id="choices"></div>
           </div>
-          <p class="disc">Templated dialogue shown for illustration. Every chat in the simulation is freeform.</p>
+          <p class="disc">A short sample of one negotiation. In the game the engine writes both his position and your options from the live state of the war.</p>
         </div>
         <div class="demo-cell">
           <div class="dk">Live demo &middot; A real engine run</div>
@@ -915,7 +915,7 @@ function playNode(key){
       });
     } else {
       var e = document.createElement('div'); e.className = 'endcard';
-      e.innerHTML = node.end + '<br><b>In PoliGeo you type anything, and the engine answers every point.</b><br><br><button class="restart" id="rs">↻ Run it back</button>';
+      e.innerHTML = node.end + '<br><b>In PoliGeo the engine answers every point, from the live state of the war.</b><br><br><button class="restart" id="rs">↻ Run it back</button>';
       chBox.appendChild(e);
       document.getElementById('rs').onclick = function(){ log.innerHTML=''; playNode('start'); };
     }
