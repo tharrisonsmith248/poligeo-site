@@ -874,19 +874,19 @@ var TREE = {
   },
   capitulate:{
     them:["Then it is done. The guns stop tonight, and the world learns what your word costs.","A pleasure doing business, Mr. President. Truly."],
-    end:"Putin will sign tonight, but a deal with one capital is half a deal. Now you have to sell it to Zelensky, whose land you just traded away. In the game, that is your next conversation, and the promise ledger already remembers who blinked."
+    end:"He signs tonight. Now sell it to Zelensky, whose land you just traded away."
   },
   deal:{
     them:["Then we are close, Mr. President, closer than our armies would like.","Neutrality, a relief schedule, the line as it stands. Draft it. I will argue over every comma and sign it anyway. What stands open: sequencing, and the guarantee."],
-    end:"He signs. Then your Senate has to, and your own hawks call it a reward for aggression. The ceasefire still has to survive thirty days of both armies testing it, and the relief only moves as fast as Treasury certifies the line has held."
+    end:"He signs. Now your Senate has to, and your own hawks call it a reward."
   },
   freeze:{
     them:["Then the line freezes, and its name can wait a decade. We can both live with an unfinished sentence.","Send the draft. And Mr. President, keep your planes far from my coast while the ink dries."],
-    end:"The guns stop and nothing is settled. The occupation is permanent in fact and disputed on paper, so the sanctions stay, your allies hedge, and the line you froze is the one somebody tests a year from now."
+    end:"The guns stop, nothing is settled. Sanctions stay, allies hedge, and the line waits to be tested."
   },
   hold:{
     them:["Then we understand each other perfectly.","The guns will speak until one of us crawls back to this table poorer. My door stays open. My terms will not improve. Do svidaniya, Mr. President."],
-    end:"No deal, and the war keeps its own schedule. Oil moves first, then the pump price, then your approval. Congress starts drafting an aid package you never asked for, and his terms will be worse the next time you call."
+    end:"No deal. Oil climbs, approval slides, and his terms only get worse from here."
   }
 };
 var log = document.getElementById('log'), chBox = document.getElementById('choices');
@@ -918,7 +918,7 @@ function playNode(key){
       });
     } else {
       var e = document.createElement('div'); e.className = 'endcard';
-      e.innerHTML = node.end + '<br><b>In PoliGeo the engine answers every point, from the live state of the war.</b><br><br><button class="restart" id="rs">↻ Run it back</button>';
+      e.innerHTML = node.end + '<br><b>The engine answers every point.</b><br><br><button class="restart" id="rs">↻ Run it back</button>';
       chBox.appendChild(e);
       document.getElementById('rs').onclick = function(){ log.innerHTML=''; playNode('start'); };
     }
