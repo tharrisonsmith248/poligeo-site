@@ -222,6 +222,48 @@
   }
   .front-stats b{color:var(--ivory);font-weight:600;font-variant-numeric:tabular-nums}
 
+  /* ---- the chamber ------------------------------------------------- */
+  .cong{border:1px solid var(--line);background:#070c16}
+  .cong-bar{
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;
+    padding:14px 18px;border-bottom:1px solid var(--line-soft);
+  }
+  .chip{
+    all:unset;cursor:pointer;padding:8px 15px;border:1px solid var(--line);
+    font:500 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  }
+  .chip:hover{color:var(--ivory)}
+  .chip.on{border-color:var(--gold);color:var(--gold-hi)}
+  .tally{margin-left:auto;display:flex;gap:16px;font:500 11px/1 var(--mono);letter-spacing:.1em;color:var(--muted)}
+  .chip.side.d{color:#6f93d8}
+  .chip.side.r{color:#d07a7a}
+  .chip.side.on{border-color:currentColor}
+  .cong-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:22px;padding:18px}
+  @media (max-width:900px){.cong-grid{grid-template-columns:1fr}}
+  #seats{width:100%;height:auto;display:block}
+  #seats circle{cursor:pointer}
+  .seat-off{opacity:.13}
+  .cong-side{display:flex;flex-direction:column}
+  .fac-head{font:500 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+  .fac{list-style:none;margin:0;padding:0}
+  .fac li{border-bottom:1px solid var(--line-soft)}
+  .fac button{
+    all:unset;cursor:pointer;display:flex;align-items:baseline;gap:12px;width:100%;padding:10px 2px;
+  }
+  .fac .sw{width:9px;height:9px;flex:none;align-self:center}
+  .fac .nm{flex:1;font-size:14px;color:#c5c2b9}
+  .fac .who{display:block;font:500 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .fac button:hover .nm,.fac button.on .nm{color:var(--ivory)}
+  .fac .ct{font:400 19px/1 var(--serif);color:var(--gold-hi);font-variant-numeric:tabular-nums}
+  .cong-note{font:500 10px/1.6 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 0}
+
+  /* ---- no limits --------------------------------------------------- */
+  .rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .rec{background:var(--panel);border:1px solid var(--line);padding:26px 24px}
+  .rec .n{font:500 11px/1 var(--mono);color:var(--gold);letter-spacing:.2em;margin-bottom:12px}
+  .rec h4{margin:0 0 10px;font:400 19px/1.25 var(--serif)}
+  .rec p{margin:0;color:var(--muted);font-size:14.5px}
+
   /* ---- cards, close, footer ---------------------------------------- */
   .card{border:1px solid var(--line);background:var(--panel-2);padding:26px 24px}
   .card h3{font:400 21px/1.25 var(--serif);margin:0 0 10px}
@@ -365,8 +407,9 @@
     <div class="nav-links">
       <a href="#purpose">Purpose</a>
       <a href="#simulation">Simulation</a>
+      <a href="#congress">Congress</a>
       <a href="#front">War room</a>
-      <a href="#vision">Vision</a>
+      <a href="#dark">No limits</a>
       <a class="nav-cta" href="https://www.reddit.com/r/PoliGeo/" rel="noopener">Community</a>
     </div>
   </div>
@@ -541,6 +584,42 @@
   </div>
 </section>
 
+<section id="congress">
+  <div class="wrap">
+    <div class="sec-head" style="max-width:none">
+      <div class="eyebrow">The legislature</div>
+      <h2>Two hundred and eighteen votes. Go and get them.</h2>
+      <p>
+        The 119th Congress, seated as it really is. No party votes as a block.
+        Pick a side to see the factions inside it, and what each one costs you.
+      </p>
+    </div>
+
+    <div class="cong">
+      <div class="cong-bar">
+        <button class="chip on" data-ch="house">House</button>
+        <button class="chip" data-ch="senate">Senate</button>
+        <button class="chip" data-side="all">All seats</button>
+        <span class="tally">
+          <button class="chip side d" data-side="D" id="t-d"></button>
+          <button class="chip side r" data-side="R" id="t-r"></button>
+          <span id="t-maj"></span>
+        </span>
+      </div>
+      <div class="cong-grid">
+        <div>
+          <svg id="seats" role="img" aria-label="Seating chart of the 119th Congress, coloured by party and caucus"></svg>
+          <p class="cong-note" id="cong-note"></p>
+        </div>
+        <div class="cong-side">
+          <p class="fac-head" id="fac-head">Every faction</p>
+          <ul class="fac" id="fac-list"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="front">
   <div class="wrap">
     <div class="sec-head" style="max-width:none">
@@ -591,20 +670,43 @@
   </div>
 </section>
 
-<section id="vision">
+<section id="dark">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow">Vision</div>
-      <h2>The most extensive geopolitical simulator ever built.</h2>
+      <div class="eyebrow">No limits</div>
+      <h2>Power is unbounded.</h2>
+      <p>PoliGeo simulates the world's sharpest edges the way it simulates everything else: with consequences, not censors. The game never moralizes. The world keeps score.</p>
     </div>
-    <div class="two-col">
-      <div class="card">
-        <h3>No bounds worth the name</h3>
-        <p>The player with the right political strategy should be able to overcome any barrier. Not because the rules bend, but because politics is the instrument that moves them.</p>
+    <div class="rec-grid">
+      <div class="rec">
+        <div class="n">NUCLEAR</div>
+        <h4>The ladder to the unthinkable</h4>
+        <p>Arsenals, postures, standoffs, retaliation tiers. Rattle the saber, blockade a nuclear state, order the decapitation strike. Then live with whatever climbs back down the ladder at you.</p>
       </div>
-      <div class="card">
-        <h3>Every decision modeled</h3>
-        <p>Every possible decision and its outcome, modeled as realistically as we can make it. Integrity comes from millions of hours of AI driven testing across the engine's probabilistic outcomes.</p>
+      <div class="rec">
+        <div class="n">COVERT</div>
+        <h4>The orders you don't sign</h4>
+        <p>Deniable raids, sabotage, snatch and grab operations against foreign leaders. A captured president simply goes missing until you decide what the world learns. When a covert op blows up, it blows up loud.</p>
+      </div>
+      <div class="rec">
+        <div class="n">REGIME CHANGE</div>
+        <h4>Kings, made and unmade</h4>
+        <p>Topple a government and install your candidate. Prop up a client state. Meddle in another power's backyard, then find out they were watching the whole time.</p>
+      </div>
+      <div class="rec">
+        <div class="n">MILITIAS</div>
+        <h4>Hundreds of armed movements</h4>
+        <p>Ideological militias and insurgent fronts recruit, radicalize and rise on their own logic. Starve them, infiltrate them, crush them, or find out the crackdown was exactly what they were waiting for.</p>
+      </div>
+      <div class="rec">
+        <div class="n">EXTREMISTS</div>
+        <h4>Radicalization, modeled and never moralized</h4>
+        <p>Extremism is an output, not a random event. Repression, collapse and humiliation breed movements with real ideologies, real leaders you can talk to, and real ambitions for your country.</p>
+      </div>
+      <div class="rec">
+        <div class="n">THE PRICE</div>
+        <h4>Every choice is priced</h4>
+        <p>Crackdowns have lethality tiers. Strikes have civilian tolls. Broken promises are ledgered forever. Nothing is off the table and nothing is free. How far you go is on you.</p>
       </div>
     </div>
   </div>
@@ -613,11 +715,11 @@
 <section class="fin" id="future">
   <div class="eyebrow">Future</div>
   <div class="wrap">
-    <h2>Development diaries land here first.</h2>
+    <h2>Follow the development updates.</h2>
     <p>
-      Diaries, screenshots and early access go to the community before anywhere
-      else. PoliGeo is backed by a Silicon Valley AI research lab, with
-      political science PhDs working alongside machine learning engineers.
+      Diaries, screenshots and early access are available on r/PoliGeo.
+      PoliGeo is backed by a Silicon Valley AI research lab, with political
+      science PhDs working alongside machine learning engineers.
     </p>
     <div class="cta-row">
       <a class="btn primary" href="https://www.reddit.com/r/PoliGeo/" rel="noopener">Join r/PoliGeo</a>
@@ -891,6 +993,155 @@ playBtn.onclick = function(){
   });
   card.querySelector('.wc-close').addEventListener('click', closeCard);
   addEventListener('keydown', function(e){ if (e.key === 'Escape') closeCard(); });
+})();
+</script>
+
+<script>
+/* ═══ the chamber: real seats, real caucuses ═══ */
+var CONGRESS = {"chambers":{"house":[{"n":"Congressional Progressive Caucus","p":"D","s":64,"i":-4.5,"l":"Greg Casar"},{"n":"New Democrat Coalition","p":"D","s":107,"i":-2.5,"l":"Brad Schneider"},{"n":"Blue Dog Coalition","p":"D","s":44,"i":-1.0,"l":"Jared Golden"},{"n":"Republican Governance Group","p":"R","s":46,"i":1.5,"l":"David Joyce"},{"n":"Republican Study Committee","p":"R","s":138,"i":3.0,"l":"August Pfluger"},{"n":"House Freedom Caucus","p":"R","s":36,"i":4.5,"l":"Andy Harris"}],"senate":[{"n":"Senate Progressives","p":"D","s":8,"i":-4.5,"l":"Bernie Sanders"},{"n":"Senate Liberals","p":"D","s":28,"i":-2.5,"l":"Chuck Schumer"},{"n":"Senate Democratic Moderates","p":"D","s":11,"i":-1.0,"l":"Mark Kelly"},{"n":"Senate Republican Moderates","p":"R","s":6,"i":1.5,"l":"Susan Collins"},{"n":"Senate Conservatives","p":"R","s":19,"i":3.0,"l":"John Cornyn"},{"n":"Senate Libertarians","p":"R","s":5,"i":3.5,"l":"Rand Paul"},{"n":"Senate Nationalists","p":"R","s":23,"i":4.5,"l":"Josh Hawley"}]},"totals":{"house":{"D":215,"R":220,"all":435},"senate":{"D":47,"R":53,"all":100}},"majority":{"house":218,"senate":51}};
+
+(function(){
+  var svg = document.getElementById('seats');
+  if (!svg || typeof CONGRESS === 'undefined') return;
+  var NS = 'http://www.w3.org/2000/svg';
+  var W = 460, CX = W / 2, R_OUT = 214, R_IN = 92, PAD = 10;
+  var H = R_OUT + PAD * 2;
+  var COLOR = {D:['#3f63a8','#6f93d8'], R:['#a04444','#d07a7a']};
+
+  var chamber = 'house', party = null, faction = null, dots = [];
+
+  /* Seats laid on concentric arcs, then read left to right so each faction
+     sits as one wedge, the way the chamber draws it in game. */
+  function layout(n){
+    var rows = n > 200 ? 9 : 5, radii = [], sum = 0, i;
+    for (i = 0; i < rows; i++){
+      var r = R_IN + (R_OUT - R_IN) * (i / (rows - 1));
+      radii.push(r); sum += r;
+    }
+    var counts = radii.map(function(r){ return Math.max(2, Math.round(n * r / sum)); });
+    var drift = n - counts.reduce(function(a, b){ return a + b; }, 0);
+    while (drift !== 0){
+      var k = drift > 0 ? rows - 1 : 0;
+      counts[k] += drift > 0 ? 1 : -1;
+      drift += drift > 0 ? -1 : 1;
+    }
+    var pts = [];
+    for (i = 0; i < rows; i++){
+      var c = counts[i];
+      for (var j = 0; j < c; j++){
+        var t = c === 1 ? 0.5 : j / (c - 1);
+        var a = Math.PI - t * Math.PI;
+        pts.push({a:a, x:CX + Math.cos(a) * radii[i], y:PAD + R_OUT - Math.sin(a) * radii[i]});
+      }
+    }
+    pts.sort(function(p, q){ return q.a - p.a; });
+    return pts;
+  }
+
+  function draw(){
+    var list = CONGRESS.chambers[chamber];
+    var total = CONGRESS.totals[chamber].all;
+    var pts = layout(total);
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.innerHTML = '';
+    dots = [];
+    var seat = 0;
+    list.forEach(function(f, fi){
+      for (var s = 0; s < f.s; s++){
+        var p = pts[seat++]; if (!p) break;
+        var c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', p.x.toFixed(1));
+        c.setAttribute('cy', p.y.toFixed(1));
+        c.setAttribute('r', total > 200 ? 4 : 8);
+        c.setAttribute('fill', COLOR[f.p][0]);
+        c.dataset.f = fi; c.dataset.p = f.p;
+        /* First click takes the side, second isolates the faction under it. */
+        c.addEventListener('click', function(){
+          var i = +this.dataset.f, p = this.dataset.p;
+          if (party !== p) pickParty(p); else pick(p, i);
+        });
+        svg.appendChild(c);
+        dots.push(c);
+      }
+    });
+    paint();
+  }
+
+  function paint(){
+    var list = CONGRESS.chambers[chamber];
+    dots.forEach(function(c){
+      var fi = +c.dataset.f, f = list[fi];
+      var live = (faction === null || faction === fi) && (party === null || party === f.p);
+      c.classList.toggle('seat-off', !live);
+      c.setAttribute('fill', COLOR[f.p][faction === fi ? 1 : 0]);
+    });
+
+    var t = CONGRESS.totals[chamber];
+    document.getElementById('t-d').textContent = t.D + ' D';
+    document.getElementById('t-r').textContent = t.R + ' R';
+    document.getElementById('t-maj').textContent = CONGRESS.majority[chamber] + ' to pass';
+
+    document.querySelectorAll('.chip.side').forEach(function(b){
+      b.classList.toggle('on', b.dataset.side === party);
+    });
+
+    var shown = list.filter(function(f){ return party === null || f.p === party; });
+    document.getElementById('fac-head').textContent =
+      party === null ? 'Every faction' :
+      (party === 'D' ? 'Democratic factions' : 'Republican factions');
+
+    document.getElementById('fac-list').innerHTML = shown.map(function(f){
+      var fi = list.indexOf(f);
+      return '<li><button data-f="' + fi + '" class="' + (faction === fi ? 'on' : '') + '">' +
+        '<span class="sw" style="background:' + COLOR[f.p][0] + '"></span>' +
+        '<span class="nm">' + f.n + '<span class="who">' + f.l + '</span></span>' +
+        '<span class="ct">' + f.s + '</span></button></li>';
+    }).join('');
+
+    var note = document.getElementById('cong-note');
+    if (faction !== null){
+      var f = list[faction];
+      note.textContent = f.n + ': ' + f.s + ' seats under ' + f.l + '. Lose them and you are ' +
+        Math.max(0, CONGRESS.majority[chamber] - (CONGRESS.totals[chamber][f.p] - f.s)) +
+        ' votes short of a party line majority.';
+    } else {
+      note.textContent = 'Click a bloc of seats, or a faction, to isolate it.';
+    }
+  }
+
+  function pick(p, fi){
+    if (faction === fi){ faction = null; }
+    else { faction = fi; party = p; }
+    paint();
+  }
+  function pickParty(p){
+    party = (party === p) ? null : p;
+    faction = null;
+    paint();
+  }
+
+  document.querySelectorAll('.chip[data-side]').forEach(function(b){
+    b.addEventListener('click', function(){
+      if (b.dataset.side === 'all'){ party = null; faction = null; paint(); }
+      else pickParty(b.dataset.side);
+    });
+  });
+
+  document.querySelectorAll('.chip[data-ch]').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.chip[data-ch]').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      chamber = b.dataset.ch; party = null; faction = null;
+      draw();
+    });
+  });
+  document.getElementById('fac-list').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    var fi = +b.dataset.f;
+    pick(CONGRESS.chambers[chamber][fi].p, fi);
+  });
+
+  draw();
 })();
 </script>
 
