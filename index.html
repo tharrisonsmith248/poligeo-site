@@ -855,7 +855,7 @@ var TREE = {
     them:["No further ground, that we can accept. A freeze on the line as it stands.","Legal status of our territories must be recognized. Ukraine has to face this reality."],
     choices:[
       {tag:"COUNTER", t:"I will tell Zelensky that he's not getting his land back. But I can't get him to recognize it.", go:"freeze"},
-      {tag:"DEAL", t:"Zelensky will do what I tell him, or he's not getting any more money. Those territories are Russian.", go:"deal"}
+      {tag:"DEAL", t:"Zelensky will do what I tell him, or he's not getting any more money. Those territories are Russian.", go:"capitulate"}
     ]
   },
   pressure:{
@@ -878,15 +878,15 @@ var TREE = {
   },
   deal:{
     them:["Then we are close, Mr. President, closer than our armies would like.","Neutrality, a relief schedule, the line as it stands. Draft it. I will argue over every comma and sign it anyway. What stands open: sequencing, and the guarantee."],
-    end:"A framework in three moves, one of dozens of paths through this table."
+    end:"He signs. Then your Senate has to, and your own hawks call it a reward for aggression. The ceasefire still has to survive thirty days of both armies testing it, and the relief only moves as fast as Treasury certifies the line has held."
   },
   freeze:{
     them:["Then the line freezes, and its name can wait a decade. We can both live with an unfinished sentence.","Send the draft. And Mr. President, keep your planes far from my coast while the ink dries."],
-    end:"A frozen conflict, the guns stop, the wound stays open. The engine tracks what festers."
+    end:"The guns stop and nothing is settled. The occupation is permanent in fact and disputed on paper, so the sanctions stay, your allies hedge, and the line you froze is the one somebody tests a year from now."
   },
   hold:{
     them:["Then we understand each other perfectly.","The guns will speak until one of us crawls back to this table poorer. My door stays open. My terms will not improve. Do svidaniya, Mr. President."],
-    end:"Talks collapsed, the front line, the markets, and your approval all take the hit."
+    end:"No deal, and the war keeps its own schedule. Oil moves first, then the pump price, then your approval. Congress starts drafting an aid package you never asked for, and his terms will be worse the next time you call."
   }
 };
 var log = document.getElementById('log'), chBox = document.getElementById('choices');
