@@ -226,6 +226,16 @@
   /* Bubbles honour newlines so a list of demands keeps its lines. */
   .chat-log .b{white-space:pre-line}
 
+  /* Reply boxes carry the posture: conciliatory, middle, hostile. The tag
+     chip inside keeps its gold outline. */
+  .choice.t-appease,.choice.t-deal{border-color:#4c8b62;color:#a7d4b6;background:rgba(76,139,98,.10)}
+  .choice.t-appease:hover,.choice.t-deal:hover{background:rgba(76,139,98,.22)}
+  .choice.t-counter,.choice.t-pivot{border-color:#c9a54a;color:#e6cd8c;background:rgba(201,165,74,.10)}
+  .choice.t-counter:hover,.choice.t-pivot:hover{background:rgba(201,165,74,.22)}
+  .choice.t-threaten,.choice.t-hardline{border-color:#b04a4a;color:#e5a9a9;background:rgba(176,74,74,.12)}
+  .choice.t-threaten:hover,.choice.t-hardline:hover{background:rgba(176,74,74,.24)}
+  .choice .ctag{color:var(--gold);border-color:rgba(201,165,74,.55)}
+
   /* ---- the chamber ------------------------------------------------- */
   .cong{border:1px solid var(--line);background:#070c16}
   .cong-bar{
@@ -899,7 +909,8 @@ function playNode(key){
       setTimeout(function(){ typing(false); addB(node.them[i], 'them'); i++; setTimeout(next, 500); }, 850);
     } else if (node.choices){
       node.choices.forEach(function(c){
-        var b = document.createElement('button'); b.className='choice';
+        var b = document.createElement('button');
+        b.className = 'choice' + (c.tag ? ' t-' + c.tag.toLowerCase() : '');
         b.innerHTML = (c.tag ? '<span class="ctag">' + c.tag + '</span>' : '') + c.t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
         b.onclick = function(){ addB(c.t, 'you'); playNode(c.go); };
         chBox.appendChild(b);
