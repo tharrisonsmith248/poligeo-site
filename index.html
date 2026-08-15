@@ -235,11 +235,6 @@
     font:600 9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
     color:var(--crimson);white-space:nowrap;
   }
-  .aftermath{
-    margin:12px 2px 0;padding:12px 0 2px 16px;border-left:2px solid var(--crimson);
-    color:#c9c6bc;font-size:14.5px;line-height:1.6;max-width:62ch;
-  }
-
   /* ---- materiel capacity under the war scrubber --------------------- */
   .caps{
     display:grid;grid-template-columns:1fr 1fr;gap:18px;
@@ -699,8 +694,7 @@
               </div>
             </div>
           </div>
-          <p class="disc" id="ve-disc">The tile map and its 270 tiles are the game's own. The campaign over them is a projection at this tempo, pending the engine's amphibious staging. Results in play depend on the orders the President gives.</p>
-          <p class="aftermath" id="ve-aftermath" hidden>An American-backed candidate has taken power in Caracas, as the Chavista forces launch an insurgency from the southern jungles. Colectivo gangs in Caracas threaten the stability of the new regime as the United States signals commitment to a long term engagement.</p>
+          <p class="disc" id="ve-aftermath" hidden>An American-backed candidate has taken power in Caracas, as the Chavista forces launch an insurgency from the southern jungles. Colectivo gangs in Caracas threaten the stability of the new regime as the United States signals commitment to a long term engagement.</p>
         </div>
       </div>
 
@@ -1191,10 +1185,8 @@ function render(w){
   var over = st.status === 'capitulated';
   document.getElementById('wk').textContent = over ? 'Week ' + w + ' · CAPITULATION' : 'Week ' + w;
   var sub = document.getElementById('wk-sub'),
-      disc = document.getElementById('ve-disc'),
       after = document.getElementById('ve-aftermath');
   if (sub) sub.hidden = !over;
-  if (disc) disc.hidden = over;
   if (after) after.hidden = !over;
   document.getElementById('terr').textContent = occ.size + '/' + VE.total;
   document.getElementById('cas').textContent = st.cas.toLocaleString();
