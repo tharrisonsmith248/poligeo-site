@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+/* Phone browsers restore the scroll position you left a URL at, so this page
+   kept opening halfway down for anyone who had already read some of it. This
+   has to run before first paint, because restoration is applied during load,
+   which is why it sits in the head rather than with the other scripts. */
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+</script>
 <title>PoliGeo : Geopolitical Simulator</title>
 <meta name="description" content="PoliGeo is a modern-day geopolitical simulator. Take command of any global superpower, govern democratically or rule by force, and let a deterministic engine compute every consequence in real time.">
 <link rel="canonical" href="https://poligeo.org/">
@@ -1129,6 +1136,48 @@
    every interaction below is wired for mouse and touch alike. */
 var TOUCH = !!(window.matchMedia &&
                matchMedia('(hover:none) and (pointer:coarse)').matches);
+
+/* ── open at the top ─────────────────────────────────────────────────────
+   Two separate reasons this page did not, both browser behaviour rather
+   than anything on the page: the restored scroll position handled above,
+   and the fragment. Tapping "Purpose" leaves poligeo.org/#purpose in the
+   address bar, so every later visit to that URL opens on that section.
+
+   A fragment someone was actually sent still works. It is only dropped
+   after an in-page tap, once the jump has already been issued.          */
+(function(){
+  function toTop(){
+    if (location.hash) return;
+    /* scroll-behavior is smooth on <html>, and this must not be a visible
+       animation from wherever the browser left off. */
+    var h = document.documentElement, prev = h.style.scrollBehavior;
+    h.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    h.style.scrollBehavior = prev;
+  }
+  toTop();
+
+  /* Images settling can move the page after this script runs, so check once
+     more at load, unless the reader has started moving on their own. Yanking
+     someone back to the top mid-scroll would be worse than the bug. */
+  var moved = false;
+  ['wheel','touchstart','pointerdown','keydown'].forEach(function(ev){
+    addEventListener(ev, function(){ moved = true; }, {passive:true, once:true});
+  });
+  addEventListener('load', function(){ if (!moved) toTop(); });
+
+  /* The browser keeps doing the jump. Taking it over with preventDefault and
+     scrollIntoView would put the whole nav at the mercy of one API, and the
+     fragment is only a nuisance, not worth that trade.
+
+     hashchange fires once the fragment navigation has been processed and the
+     scroll is already under way, so clearing the URL here cannot race it or
+     cancel it. Worst case the fragment survives and the address bar is untidy,
+     which is where this started. The nav still works either way. */
+  addEventListener('hashchange', function(){
+    history.replaceState(null, '', location.pathname + location.search);
+  });
+})();
 </script>
 
 <script>
