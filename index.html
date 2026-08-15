@@ -229,6 +229,17 @@
   .choice.t-counter,.choice.t-pivot{border-color:#c9a54a}
   .choice.t-threaten,.choice.t-hardline{border-color:#b04a4a}
 
+  /* ---- end of campaign ---------------------------------------------- */
+  .wk-box{display:flex;flex-direction:column;align-items:flex-end;gap:3px;min-width:72px}
+  .wk-sub{
+    font:600 9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
+    color:var(--crimson);white-space:nowrap;
+  }
+  .aftermath{
+    margin:12px 2px 0;padding:12px 0 2px 16px;border-left:2px solid var(--crimson);
+    color:#c9c6bc;font-size:14.5px;line-height:1.6;max-width:62ch;
+  }
+
   /* ---- materiel capacity under the war scrubber --------------------- */
   .caps{
     display:grid;grid-template-columns:1fr 1fr;gap:18px;
@@ -648,13 +659,16 @@
             <svg viewBox="0 0 640 579" id="map">
               <rect width="640" height="579" fill="#0a101f"/>
               <text x="22" y="30" fill="#8f97ab" font-size="12" letter-spacing="3" font-family="Georgia">VENEZUELA</text>
-              <text x="22" y="565" fill="#5b647c" font-size="11" letter-spacing="2" font-family="Georgia">US CONTROL <tspan fill="#b04a4a">&#9679;</tspan> &middot; GOVERNMENT <tspan fill="#3d5a94">&#9679;</tspan></text>
+              <text x="22" y="565" fill="#5b647c" font-size="11" letter-spacing="2" font-family="Georgia">US CONTROL <tspan fill="#3d6ac0">&#9679;</tspan> &middot; GOVERNMENT <tspan fill="#b04a4a">&#9679;</tspan></text>
               <g id="tiles"></g>
             </svg>
             <div class="tl-row">
               <button class="play" id="play" aria-label="Play">&#9654;</button>
               <input type="range" id="scrub" min="1" max="26" value="1" aria-label="Week">
-              <div class="wk" id="wk">Week 1</div>
+              <div class="wk-box">
+                <div class="wk" id="wk">Week 1</div>
+                <div class="wk-sub" id="wk-sub" hidden>Insurgency begins</div>
+              </div>
             </div>
             <div class="tl-stats">
               <span>Tiles held <b id="terr">0/270</b></span>
@@ -685,7 +699,8 @@
               </div>
             </div>
           </div>
-          <p class="disc">The tile map and its 270 tiles are the game's own. The campaign over them is a projection at this tempo, pending the engine's amphibious staging. Results in play depend on the orders the President gives.</p>
+          <p class="disc" id="ve-disc">The tile map and its 270 tiles are the game's own. The campaign over them is a projection at this tempo, pending the engine's amphibious staging. Results in play depend on the orders the President gives.</p>
+          <p class="aftermath" id="ve-aftermath" hidden>An American-backed candidate has taken power in Caracas, as the Chavista forces launch an insurgency from the southern jungles. Colectivo gangs in Caracas threaten the stability of the new regime as the United States signals commitment to a long term engagement.</p>
         </div>
       </div>
 
@@ -1151,7 +1166,7 @@ var TILES = VE_PATHS.map(function(d){
   var el = document.createElementNS('http://www.w3.org/2000/svg','path');
   el.setAttribute('d', d);
   el.setAttribute('stroke', '#0a101f'); el.setAttribute('stroke-width', 0.5);
-  el.setAttribute('fill', '#28406e');
+  el.setAttribute('fill', '#8f2f2f');
   tilesG.appendChild(el); return el;
 });
 var CUM = []; (function(){
@@ -1168,13 +1183,19 @@ function render(w){
   var st = VE.weeks[w-1], occ = CUM[w-1], fresh = new Set(st.add);
   TILES.forEach(function(el, i){
     var o = occ.has(i);
-    el.setAttribute('fill', o ? '#8f2f2f' : '#28406e');
+    el.setAttribute('fill', o ? '#3d6ac0' : '#8f2f2f');
     el.setAttribute('stroke', fresh.has(i) ? '#e3c06a' : '#0a101f');
     el.setAttribute('stroke-width', fresh.has(i) ? 1.4 : 0.5);
   });
-  var last = VE.weeks.length;
-  document.getElementById('wk').textContent =
-    st.status === 'capitulated' ? 'Week ' + w + ' · CAPITULATION' : 'Week ' + w;
+  /* The last week is the hand-off: the state falls and the insurgency starts. */
+  var over = st.status === 'capitulated';
+  document.getElementById('wk').textContent = over ? 'Week ' + w + ' · CAPITULATION' : 'Week ' + w;
+  var sub = document.getElementById('wk-sub'),
+      disc = document.getElementById('ve-disc'),
+      after = document.getElementById('ve-aftermath');
+  if (sub) sub.hidden = !over;
+  if (disc) disc.hidden = over;
+  if (after) after.hidden = !over;
   document.getElementById('terr').textContent = occ.size + '/' + VE.total;
   document.getElementById('cas').textContent = st.cas.toLocaleString();
   document.getElementById('kia').textContent = st.kia.toLocaleString();
