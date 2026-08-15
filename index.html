@@ -33,7 +33,12 @@
   /* Single-theme by intent: this is a war-room brand and the dark ground is the
      identity. Every colour is painted explicitly so the page holds on any host. */
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  html{
+    -webkit-text-size-adjust:100%;scroll-behavior:smooth;
+    /* the default is an opaque grey flash, which on this ground looks like a
+       rendering fault rather than a tap */
+    -webkit-tap-highlight-color:rgba(201,165,74,.18);
+  }
   body{
     margin:0;background:var(--ink);color:var(--ivory);
     font:400 16px/1.65 var(--sans);text-rendering:optimizeLegibility;
@@ -67,7 +72,23 @@
     border:1px solid var(--gold);padding:10px 18px;transition:background .18s,color .18s;
   }
   .nav-cta:hover{background:var(--gold);color:#14161c}
-  @media (max-width:900px){.nav-links a:not(.nav-cta){display:none}}
+  /* Below 900 the row cannot hold brand + five links + button. The links used
+     to be display:none here, which left a very long page with no navigation
+     at all. Instead they drop to their own row as a strip that scrolls only
+     if it must; the button stays pinned up top where it converts. */
+  @media (max-width:900px){
+    .nav-in{height:auto;flex-wrap:wrap;gap:0;padding-top:11px;padding-bottom:0}
+    .brandmark{order:1;margin-right:auto}
+    .nav-cta{order:2;flex:none;white-space:nowrap}
+    .nav-links{
+      order:3;width:100%;margin:10px -24px 0;padding:0 24px;gap:0;
+      overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+      border-top:1px solid var(--line-soft);
+    }
+    .nav-links::-webkit-scrollbar{display:none}
+    .nav-links a{display:block;flex:none;padding:12px 13px;white-space:nowrap}
+    .nav-links a:first-child{padding-left:0}
+  }
 
   /* ---- hero -------------------------------------------------------- */
   .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
@@ -364,6 +385,10 @@
 
   @media (max-width:820px){
     .statband .wrap{grid-template-columns:repeat(3,1fr)}
+    /* 9px mono under a 26px numeral survives a desk; it does not survive a
+       tablet held at arm's length. Set here, below the .stat rule it raises,
+       because a media query breaks a specificity tie by source order only. */
+    .stat .l{font-size:10.5px}
     .stat:nth-child(3){border-right:0}
     .stat:nth-child(-n+3){border-bottom:1px solid var(--line-soft)}
     .hero .wrap{padding-top:56px;padding-bottom:52px}
@@ -523,6 +548,145 @@
   @media (max-width:900px){.demo-grid{grid-template-columns:1fr}}
 
 
+
+  /* ---- tablets ------------------------------------------------------
+     The layout still holds at this width; the smallest mono labels do not.
+     Floors only, no reflow. Down here rather than with the other 820px rules
+     because these selectors are also defined in the included sheets, and a
+     media query breaks a specificity tie by source order alone.           */
+  @media (max-width:820px){
+    .cap-row span,.cap-row b{font-size:10px}
+    .cap-head,.ecu-head,.ecu-row span{font-size:10.5px}
+    .wk-sub,.fac .who{font-size:10px}
+    .who small,.chat-day,.b .meta,.ctag{font-size:10px}
+  }
+
+  /* ---- phones -------------------------------------------------------
+     THIS BLOCK MUST STAY LAST, after both {{INC}} sheets. A media query adds
+     no specificity, so `.play` here and `.play` in demos.css are a tie, and a
+     tie is settled by source order. Sitting above the includes it silently
+     lost every overlapping rule while appearing to be correct in the file.
+
+     None of what follows showed up as horizontal overflow, which is why the
+     page could measure clean and still be unusable on a handset. Three
+     separate problems:
+
+     1. THE DEMOS ARE SVG IN A viewBox. Their text scales with the drawing,
+        not with the reader, so a 15-unit city label on a 1000-unit map lands
+        at 5px on a 390px screen. The sizes below are in user units, chosen so
+        each one renders near its legible target once the map is scaled down.
+     2. MONO LABELS AT 9-10px are fine under a desk lamp and illegible in a
+        hand. They are floored at ~11px, with the letter-spacing pulled in so
+        the extra size does not cost a wrap.
+     3. TAP TARGETS SIZED FOR A CURSOR. Rows, chips and buttons go to ~44px.
+
+     The maps and the chamber also break out of the text margin here. On a
+     phone the drawing is the content, and 36px of gutter is worth more to it
+     than it is to the prose.                                              */
+  @media (max-width:700px){
+    .wrap{padding:0 18px}
+    section{padding:54px 0;scroll-margin-top:100px}
+    .sec-head{margin-bottom:30px}
+    .demo-band{margin:6px 0 44px}
+    .demo-full{margin-top:26px}
+
+    /* nav: every link was display:none below 900px, which left a 13,000px
+       page with no navigation at all. Brand on top, links in a strip that
+       scrolls if it has to. */
+    .brandmark span{font-size:17px}
+    .nav-cta{padding:12px 15px;font-size:12.5px}
+    .nav-links{margin-left:-18px;margin-right:-18px;padding:0 18px}
+    .nav-links a{padding:14px 13px;font-size:13.5px}
+
+    /* full-bleed drawings */
+    .front-frame,.tl,.cong{margin-inline:-18px;border-left:0;border-right:0;border-radius:0}
+    .tl{padding:14px}
+    .front-frame{padding:10px}
+    .cong-grid{padding:14px;gap:18px}
+
+    /* SVG text, in user units. UA map scales ~0.37, VE map ~0.57. */
+    /* Ten labels at the size needed to read on a phone would collide into a
+       smear, so only the capital keeps its name. The dots stay, and the list
+       under the map carries every oblast by name anyway. */
+    .city-lbl{display:none}
+    .city-lbl.cap{
+      display:block;font-size:33px;stroke-width:9;letter-spacing:.06em;
+      /* the ring is drawn at r=11 here, past the 9-unit offset the label was
+         given for a 4-unit ring, so the text starts clear of it */
+      transform:translateX(7px);
+    }
+    .city-dot{r:6}
+    .city-cap{r:11;stroke-width:4}
+    .ve-title{font-size:21px;letter-spacing:2.5px}
+    .ve-key{font-size:18px;letter-spacing:1.5px}
+    #front-map{max-height:none}
+    /* the seat dots carry a transparent stroke as their hit area; a thumb
+       needs far more of it than a cursor does */
+    #seats circle{stroke-width:20}
+
+    /* legibility floor */
+    .stat .l{font-size:11px;letter-spacing:.09em}
+    .stat{padding:22px 8px 20px}
+    .legend,.front-head .t,.front-head .d,.fp-lead,.cong-note,.fac-head{font-size:11px}
+    .cong-bar .chip{font-size:11px;padding:14px 16px}
+    .tally{font-size:11.5px}
+    .ob-list button{font-size:11.5px;padding:14px 4px}
+    .front-stats{font-size:11.5px;gap:6px 22px}
+    .cap-head,.ecu-head{font-size:11px;letter-spacing:.12em}
+    .cap-row span,.ecu-row span{font-size:10.5px}
+    .cap-row b{font-size:11px}
+    .cap-head b,.ecu-row b{font-size:15px}
+    .wk-sub{font-size:10px}
+    .fac button{padding:13px 3px}
+    .fac .who{font-size:10.5px}
+    .fac .nm{font-size:15px}
+    .who small,.chat-day,.b .meta,.ctag{font-size:10.5px}
+    .chips .chip .l{font-size:11px;letter-spacing:.12em}
+    .chips .chip .d{font-size:12.5px}
+    .exp-note,.disc{font-size:12.5px}
+    .demo-cell p.dsub{font-size:14px}
+    .tl-stats{font-size:12.5px}
+    .tl-stats b{font-size:15px}
+    .wire-inner>span{font-size:14px}
+    .wire-item b{font-size:11px}
+    .wire-live{padding:0 13px;font-size:10.5px}
+    .wc-note{font-size:11px}
+    footer .wrap,.hazard{font-size:11px;letter-spacing:.09em}
+
+    /* thumbs */
+    .btn{padding:16px 22px}
+    .choice{padding:13px 15px;font-size:14.5px}
+    .lever{padding:13px 17px;font-size:15px}
+    .play{width:44px;height:44px;font-size:15px}
+    .tl-row input[type=range]{height:40px}
+    .wc-close{padding:8px 12px}
+    .b{max-width:88%}
+    summary{padding:16px 16px}
+    .rec{padding:22px 20px}
+    .card{padding:22px 20px}
+  }
+
+  /* A finger cannot hover, and a tap that leaves :hover stuck reads as a bug.
+     Anything that is only a hover cue is dropped rather than faked. */
+  @media (hover:none){
+    .wire:hover .wire-inner{animation-play-state:running}
+    .btn:hover{transform:none}
+    .lever:hover{background:none}
+    .lever.active:hover{background:var(--gold)}
+    /* A native range track is ~16px tall, which is a miss with a thumb at any
+       screen size, so this is keyed to the pointer rather than the width. */
+    .tl-row input[type=range]{height:42px}
+    .play{width:44px;height:44px;font-size:15px}
+    /* Keyed to the pointer, not the width, so a touch tablet above the phone
+       breakpoint still gets targets a thumb can land on. */
+    .cong-bar .chip{padding:14px 16px}
+    .ob-list button{padding:14px 4px}
+    .fac button{padding:13px 3px}
+    .choice{padding:13px 15px}
+    .lever{padding:13px 17px}
+    summary{padding:17px 20px}
+  }
+
 </style>
 </head>
 <body>
@@ -536,8 +700,11 @@
       <a href="#compare">Compare</a>
       <a href="#faq">FAQ</a>
       <a href="#wishlist">Community</a>
-      <a class="nav-cta" href="#wishlist">Wishlist</a>
     </div>
+    <!-- Outside .nav-links on purpose. On a phone the links become a
+         scrolling strip on their own row, and the one button that converts
+         must not be the thing that scrolls out of sight. -->
+    <a class="nav-cta" href="#wishlist">Wishlist</a>
   </div>
 </div>
 
@@ -652,8 +819,8 @@
           <div class="tl">
             <svg viewBox="0 0 640 579" id="map">
               <rect width="640" height="579" fill="#0a101f"/>
-              <text x="22" y="30" fill="#8f97ab" font-size="12" letter-spacing="3" font-family="Georgia">VENEZUELA</text>
-              <text x="22" y="565" fill="#5b647c" font-size="11" letter-spacing="2" font-family="Georgia">US CONTROL <tspan fill="#3d6ac0">&#9679;</tspan> &middot; GOVERNMENT <tspan fill="#b04a4a">&#9679;</tspan></text>
+              <text class="ve-title" x="22" y="30" fill="#8f97ab" font-size="12" letter-spacing="3" font-family="Georgia">VENEZUELA</text>
+              <text class="ve-key" x="22" y="565" fill="#5b647c" font-size="11" letter-spacing="2" font-family="Georgia">US CONTROL <tspan fill="#3d6ac0">&#9679;</tspan> &middot; GOVERNMENT <tspan fill="#b04a4a">&#9679;</tspan></text>
               <g id="tiles"></g>
             </svg>
             <div class="tl-row">
@@ -768,7 +935,8 @@
       <h2>View wars from the perspective of the Commander in Chief.</h2>
       <p>
         The Russo-Ukrainian war as PoliGeo seeds it on 20 January 2025, drawn on
-        the game's own tile grid. Hover an oblast, or pick one from the list.
+        the game's own tile grid.
+        <span id="front-hint">Hover an oblast, or pick one from the list.</span>
       </p>
     </div>
 
@@ -961,6 +1129,16 @@
     <span>Screenshots and map data come from the running engine</span>
   </div>
 </footer>
+
+<script>
+/* One read of the pointer, shared by every demo. Both halves are needed:
+   `hover:none` alone is true in headless browsers and some odd desktop
+   configurations, which would tell a mouse user to tap. Requiring a coarse
+   pointer as well means this is a finger. Used only to word the instructions;
+   every interaction below is wired for mouse and touch alike. */
+var TOUCH = !!(window.matchMedia &&
+               matchMedia('(hover:none) and (pointer:coarse)').matches);
+</script>
 
 <script>
 var VE = {"weeks":[{"w":1,"add":[25,27,117,118,119,154,229,246,249,251,263],"rm":[],"occ_n":11,"cas":3324,"kia":19,"civ":548,"ref":175673,"cost":11.1,"sorties":3888,"mob":101056,"us":{"hw":96.7,"msl":91.8,"ad":99.2,"uav":95.6,"isr":98.5},"ve":{"hw":83.2,"msl":70.5,"ad":64.6,"uav":71.5,"isr":75.5},"status":"active"},{"w":2,"add":[24,28,34,36,37,43,72,120,122,125,126,149,151,152,156,158,159,160,163,168,187,190,202,210,218,244,245,247,253,254,258,262,265,268,269],"rm":[],"occ_n":46,"cas":5919,"kia":38,"civ":918,"ref":261650,"cost":15.9,"sorties":5467,"mob":113612,"us":{"hw":93.9,"msl":86.5,"ad":98.5,"uav":92.1,"isr":97.0},"ve":{"hw":72.8,"msl":58.9,"ad":52.7,"uav":59.8,"isr":64.1},"status":"active"},{"w":3,"add":[30,31,124,145,146,147,148,150,153,155,157,167,169,176,183,184,185,188,189,191,192,199,200,203,204,205,211,214,219,228,232,238,243,248,252,257,260,266],"rm":[],"occ_n":84,"cas":8583,"kia":58,"civ":1270,"ref":335053,"cost":20.2,"sorties":6829,"mob":123509,"us":{"hw":91.2,"msl":81.9,"ad":97.8,"uav":88.9,"isr":95.5},"ve":{"hw":63.8,"msl":50.1,"ad":43.9,"uav":50.7,"isr":55.1},"status":"active"},{"w":4,"add":[26,40,45,71,73,121,123,161,162,165,170,171,175,177,182,186,194,197,198,201,207,212,216,222,224,226,227,231,239,240,241,250,255,259,264],"rm":[],"occ_n":119,"cas":11292,"kia":80,"civ":1610,"ref":401321,"cost":24.3,"sorties":8067,"mob":131996,"us":{"hw":88.6,"msl":77.8,"ad":97.0,"uav":85.8,"isr":94.0},"ve":{"hw":55.8,"msl":42.7,"ad":36.7,"uav":43.1,"isr":47.4},"status":"active"},{"w":5,"add":[32,33,35,38,46,75,78,82,88,90,116,128,144,164,166,174,181,193,196,213,220,221,223,225,230,234,256,261,267],"rm":[],"occ_n":148,"cas":14036,"kia":102,"civ":1942,"ref":462744,"cost":28.1,"sorties":9220,"mob":139569,"us":{"hw":86.1,"msl":73.9,"ad":96.2,"uav":82.8,"isr":92.5},"ve":{"hw":48.3,"msl":36.2,"ad":30.5,"uav":36.4,"isr":40.6},"status":"active"},{"w":6,"add":[39,41,42,44,74,76,77,79,81,85,87,89,93,129,135,139,141,179,206,208,209,215,217,236],"rm":[],"occ_n":172,"cas":16808,"kia":125,"civ":2266,"ref":520564,"cost":31.8,"sorties":10310,"mob":146486,"us":{"hw":83.6,"msl":70.2,"ad":95.5,"uav":79.9,"isr":91.0},"ve":{"hw":41.3,"msl":30.4,"ad":25.0,"uav":30.3,"isr":34.3},"status":"active"},{"w":7,"add":[29,48,51,55,92,127,130,131,133,134,138,142,172,173,178,180,195,237],"rm":[],"occ_n":190,"cas":19603,"kia":148,"civ":2586,"ref":575548,"cost":35.4,"sorties":11351,"mob":152899,"us":{"hw":81.1,"msl":66.7,"ad":94.8,"uav":77.1,"isr":89.5},"ve":{"hw":34.6,"msl":25.0,"ad":19.9,"uav":24.7,"isr":28.5},"status":"active"},{"w":8,"add":[50,53,65,80,83,84,86,136,140,143,233,235,242],"rm":[],"occ_n":203,"cas":22418,"kia":172,"civ":2901,"ref":628217,"cost":38.9,"sorties":12350,"mob":158912,"us":{"hw":78.7,"msl":63.4,"ad":94.0,"uav":74.4,"isr":88.0},"ve":{"hw":28.1,"msl":20.0,"ad":15.3,"uav":19.5,"isr":23.0},"status":"active"},{"w":9,"add":[47,63,64,68,70,91,103,114,115,132,137],"rm":[],"occ_n":214,"cas":25251,"kia":197,"civ":3212,"ref":678942,"cost":42.3,"sorties":13314,"mob":164595,"us":{"hw":76.4,"msl":60.1,"ad":93.2,"uav":71.7,"isr":86.5},"ve":{"hw":22.0,"msl":15.4,"ad":11.0,"uav":14.6,"isr":17.9},"status":"active"},{"w":10,"add":[49,54,60,62,69,98,102],"rm":[],"occ_n":221,"cas":28100,"kia":222,"civ":3520,"ref":728000,"cost":45.6,"sorties":14250,"mob":170000,"us":{"hw":74.0,"msl":57.0,"ad":92.5,"uav":69.0,"isr":85.0},"ve":{"hw":16.0,"msl":11.0,"ad":7.0,"uav":10.0,"isr":13.0},"status":"capitulated"}],"total":270,"occupied":221,"caracas_week":5,"beachheads":[{"n":"Gulf of Venezuela","lat":10.95,"lng":-71.45},{"n":"Puerto Cabello","lat":10.47,"lng":-68.01},{"n":"La Guaira","lat":10.6,"lng":-66.93},{"n":"Puerto La Cruz","lat":10.22,"lng":-64.63}]};
@@ -1442,7 +1620,9 @@ var CONGRESS = {"chambers":{"house":[{"n":"Congressional Progressive Caucus","p"
           '<span class="nm">' + n + '<span class="who">Click to break into caucuses</span></span>' +
           '<span class="ct">' + t[p] + '</span></button></li>';
       }).join('');
-      note.textContent = 'Click a party to open its caucuses. Click anywhere outside to close it.';
+      note.textContent = TOUCH
+        ? 'Tap a party to open its caucuses. Tap anywhere outside to close it.'
+        : 'Click a party to open its caucuses. Click anywhere outside to close it.';
       return;
     }
 
@@ -1461,7 +1641,9 @@ var CONGRESS = {"chambers":{"house":[{"n":"Congressional Progressive Caucus","p"
       note.textContent = f.n + ': ' + f.s + ' seats under ' + f.l + '. Lose them and you are ' +
         Math.max(0, CONGRESS.majority[chamber] - (t[f.p] - f.s)) + ' votes short of a party line majority.';
     } else {
-      note.textContent = 'Hover a caucus to isolate it. Click anywhere outside to close.';
+      note.textContent = TOUCH
+        ? 'Tap a caucus to isolate it. Tap anywhere outside to close.'
+        : 'Hover a caucus to isolate it. Click anywhere outside to close.';
     }
   }
 
@@ -1488,7 +1670,14 @@ var CONGRESS = {"chambers":{"house":[{"n":"Congressional Progressive Caucus","p"
   facList.addEventListener('click', function(e){
     e.stopPropagation();
     var b = e.target.closest('button'); if (!b) return;
-    if (b.dataset.open) setOpen(b.dataset.open);
+    if (b.dataset.open){ setOpen(b.dataset.open); return; }
+    /* Isolating a caucus was hover-only, which meant it could not be done at
+       all on a phone. Tapping the row toggles the same state. */
+    if (b.dataset.f !== undefined){
+      var f = +b.dataset.f;
+      hot = (hot === f) ? null : f;
+      paint();
+    }
   });
   facList.addEventListener('mouseover', function(e){
     var b = e.target.closest('button[data-f]'); if (!b) return;
@@ -1524,6 +1713,10 @@ var UAF = {"w":1000.0,"h":659.0,"tiles":[{"d":"M525.0,264.9 532.1,233.7 551.2,22
     if (region){
       (byRegion[region] = byRegion[region] || []).push(p);
       p.addEventListener('mouseenter', function(){ show(region); });
+      /* mouseenter is never dispatched by a tap, so the map was inert on a
+         phone. The click does not stop propagation: the document handler
+         below checks whether the tap landed inside the map before clearing. */
+      p.addEventListener('click', function(){ show(region); });
     }
     svg.appendChild(p);
   }
@@ -1592,6 +1785,18 @@ var UAF = {"w":1000.0,"h":659.0,"tiles":[{"d":"M525.0,264.9 532.1,233.7 551.2,22
   });
   svg.addEventListener('mouseleave', clear);
   list.addEventListener('mouseleave', clear);
+  /* A pointer leaves; a finger does not. Without this the first tapped oblast
+     stayed selected and the rest of the map stayed dimmed for good. */
+  document.addEventListener('click', function(e){
+    if (current === null) return;
+    if (e.target.closest('#front-map') || e.target.closest('#ob-list')) return;
+    clear();
+  });
+
+  if (TOUCH){
+    var hint = document.getElementById('front-hint');
+    if (hint) hint.textContent = 'Tap an oblast, or pick one from the list.';
+  }
   clear();
 })();
 </script>
