@@ -328,11 +328,14 @@
     html{scroll-behavior:auto}
   }
 
-  /* ── section scaffolding ─────────────────────────── */
-  section{padding:88px 0;border-bottom:1px solid var(--line);scroll-margin-top:60px}
-  .sec-head{margin-bottom:50px;max-width:40em}
-  h2{font-size:clamp(28px,3.6vw,40px);margin:0 0 12px;line-height:1.12;text-wrap:balance}
-  .sec-head p{color:var(--muted);margin:0;font-size:17px}
+/* ═══════════════════════════════════════════════════════════════════════════
+   SIGNAL CHAT — a messaging thread that looks like Signal, painted in the
+   Polaris palette. Reference doc: site/SIGNAL_CHAT.md
+
+   Include it with {{INC:parts/signal-chat.css}} and pair it with the markup
+   and the addB() builder documented in that file. Depends only on the site
+   tokens (--panel-2, --line, --gold, --muted, --mono, --ivory).
+   ═══════════════════════════════════════════════════════════════════════════ */
 
   /* ── 1 · negotiation demo (Signal shape, Polaris palette) ── */
   .chat{
@@ -405,6 +408,12 @@
   .endcard b{color:var(--gold-hi)}
   .restart{all:unset;cursor:pointer;color:var(--gold-hi);font-size:13px;letter-spacing:.06em}
   .restart:hover{text-decoration:underline}
+
+  /* ── section scaffolding ─────────────────────────── */
+  section{padding:88px 0;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+  .sec-head{margin-bottom:50px;max-width:40em}
+  h2{font-size:clamp(28px,3.6vw,40px);margin:0 0 12px;line-height:1.12;text-wrap:balance}
+  .sec-head p{color:var(--muted);margin:0;font-size:17px}
 
   /* ── 2 · consequence explorer ── */
   .levers{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
