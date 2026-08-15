@@ -300,7 +300,7 @@
   .cong-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:22px;padding:18px}
   @media (max-width:900px){.cong-grid{grid-template-columns:1fr}}
   #seats{width:100%;height:auto;display:block}
-  #seats circle{cursor:pointer}
+  #seats circle{cursor:pointer;pointer-events:all}
   .seat-off{opacity:.13}
   .cong-side{display:flex;flex-direction:column}
   .fac-head{font:500 10px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
@@ -899,7 +899,7 @@
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">Questions</div>
-      <h2>The fine print, plainly.</h2>
+      <h2>FAQs</h2>
     </div>
     <div class="faq">
       <details>
@@ -1191,7 +1191,6 @@ document.querySelectorAll('.lever').forEach(function(b){
       picked.map(function(x){ return FXNOTE[x]; }).filter(Boolean).join(' ');
   };
 });
-</script>
 /* ═══ 3 · timeline scrubber. Real tile map, modelled campaign ═══ */
 /* VE comes from parts/ve_campaign.js, included before this script. */
 
@@ -1397,6 +1396,10 @@ var CONGRESS = {"chambers":{"house":[{"n":"Congressional Progressive Caucus","p"
         c.setAttribute('cx', pt.x.toFixed(1));
         c.setAttribute('cy', pt.y.toFixed(1));
         c.setAttribute('r', total > 200 ? 4 : 8);
+        /* A transparent stroke widens the hit area well past the dot, so you
+           do not have to land on a 4px circle to open a party. */
+        c.setAttribute('stroke', 'transparent');
+        c.setAttribute('stroke-width', total > 200 ? 7 : 10);
         c.dataset.f = fi; c.dataset.p = f.p;
         c.addEventListener('click', function(e){
           e.stopPropagation();
@@ -1430,7 +1433,8 @@ var CONGRESS = {"chambers":{"house":[{"n":"Congressional Progressive Caucus","p"
         note = document.getElementById('cong-note');
 
     if (open === null){
-      head.textContent = 'Two parties, ' + list.length + ' ways to lose';
+      var WORD = ['zero','one','two','three','four','five','six','seven','eight','nine','ten'];
+      head.textContent = 'Two parties, ' + (WORD[list.length] || list.length) + ' caucuses';
       box.innerHTML = ['D','R'].map(function(p){
         var n = p === 'D' ? 'Democrats' : 'Republicans';
         return '<li><button data-open="' + p + '">' +
