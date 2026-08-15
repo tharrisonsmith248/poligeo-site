@@ -1113,40 +1113,85 @@ var FXNOTE = {
   irandecap: "You reached for the top of the ladder. A rally at home, fury everywhere else, and every US base within missile range goes to condition red."
 };
 var chipBox = document.getElementById('chips');
-function renderChips(){
+
+/* Approval is DERIVED, not set per lever. A rally for decisive action, with
+   diminishing returns because the public rallies once rather than once per
+   strike; minus the pump price, which is the single strongest thing voters
+   feel; minus overreach for reaching the top of the ladder and for stacking
+   escalations at the same time. */
+var RALLY = {hormuz:0, sanction:0, rates:0, china:0, canada:0,
+             belarus:1.0, iranair:1.0, irandecap:1.4};
+var OVER  = {hormuz:0, sanction:0, rates:0, china:0.6, canada:3.2,
+             belarus:0.8, iranair:0, irandecap:1.1};
+
+function combine(sel){
+  var out = {};
+  BASE.forEach(function(c){ out[c.k] = c.v; });
+  sel.forEach(function(k){
+    var fx = FX[k]; if (!fx) return;
+    BASE.forEach(function(c){
+      var e = fx[c.k];
+      if (!e || c.k === 'appr') return;          // approval is derived below
+      out[c.k] = e[2] === 'add' ? out[c.k] + e[0] : out[c.k] * e[0];
+    });
+  });
+  /* Closing Hormuz while striking Iran is worse than either on its own. */
+  var strike = sel.indexOf('iranair') >= 0 || sel.indexOf('irandecap') >= 0;
+  if (sel.indexOf('hormuz') >= 0 && strike){ out.oil *= 1.08; out.gas *= 1.06; }
+
+  var gasPct = (out.gas / 3.12 - 1) * 100;
+  var m = 0, over = 0;
+  sel.forEach(function(k){ m += (RALLY[k] || 0); over += (OVER[k] || 0); });
+  over += 0.6 * Math.max(0, sel.length - 1);
+  var rally = m ? 4.0 * (1 - Math.pow(0.45, m)) : 0;
+  out.appr = 47.0 + rally - 0.95 * gasPct / 10 - over;
+  return out;
+}
+
+function renderChips(sel){
+  sel = sel || [];
+  var vals = combine(sel);
   chipBox.innerHTML = '';
-  BASE.forEach(function(c){
-    var d = document.createElement('div'); d.className = 'chip'; d.id = 'chip-' + c.k;
-    d.innerHTML = '<div class="l">'+c.l+'</div><div class="v">'+c.fmt(c.v)+'</div><div class="d"></div>';
+  BASE.forEach(function(c, idx){
+    var d = document.createElement('div');
+    d.className = 'chip'; d.id = 'chip-' + c.k;
+    var nv = vals[c.k], delta = nv - c.v;
+    var pct = c.k === 'cpi' || c.k === 'usd' || c.k === 'appr';
+    var moved = Math.abs(delta) > 0.001 && sel.length;
+    var up = delta > 0, goodUp = c.k === 'sp' || c.k === 'usd' || c.k === 'appr';
+    var cls = !moved ? '' : (up ? (goodUp ? 'upg' : 'up') : (goodUp ? 'dng' : 'dn'));
+    var txt = !moved ? '' : (up ? '▲ ' : '▼ ') +
+      (pct ? Math.abs(delta).toFixed(1) : Math.abs(delta / c.v * 100).toFixed(1) + '%');
+    d.innerHTML = '<div class="l">' + c.l + '</div>' +
+                  '<div class="v">' + c.fmt(nv) + '</div>' +
+                  '<div class="d ' + cls + '">' + txt + '</div>';
+    if (moved) setTimeout(function(){ d.classList.add('hit'); }, 90 * idx);
     chipBox.appendChild(d);
   });
 }
 renderChips();
+
+/* Levers are toggles: stack as many as you like. */
+var picked = [];
 document.querySelectorAll('.lever').forEach(function(b){
   b.onclick = function(){
-    document.querySelectorAll('.lever').forEach(function(x){x.classList.remove('active')});
-    if (b.dataset.l === 'reset'){ renderChips(); document.getElementById('exp-flavor').textContent=''; return; }
-    b.classList.add('active'); renderChips();
-    document.getElementById('exp-flavor').textContent = FXNOTE[b.dataset.l] || '';
-    var fx = FX[b.dataset.l], i = 0;
-    BASE.forEach(function(c, idx){
-      var e = fx[c.k]; if (!e) return;
-      setTimeout(function(){
-        var chip = document.getElementById('chip-' + c.k);
-        chip.classList.add('hit');
-        var nv = e[2] === 'add' ? c.v + e[0] : c.v * e[0];
-        var delta = e[2] === 'add' ? e[0] : (e[0] - 1) * 100;
-        var up = delta > 0;
-        var goodUp = e[1] === 1;
-        var cls = up ? (goodUp ? 'upg' : 'up') : (goodUp ? 'dng' : 'dn');
-        var dTxt = (up ? '▲ ' : '▼ ') + (e[2] === 'add' ? Math.abs(e[0]).toFixed(1) : Math.abs(delta).toFixed(1) + '%');
-        chip.querySelector('.v').textContent = c.fmt(nv);
-        var dd = chip.querySelector('.d'); dd.textContent = delta === 0 ? '0' : dTxt; dd.className = 'd ' + cls;
-      }, 160 * (i++));
-    });
+    var k = b.dataset.l;
+    if (k === 'reset'){
+      picked = [];
+      document.querySelectorAll('.lever').forEach(function(x){ x.classList.remove('active'); });
+      renderChips();
+      document.getElementById('exp-flavor').textContent = '';
+      return;
+    }
+    var at = picked.indexOf(k);
+    if (at >= 0){ picked.splice(at, 1); b.classList.remove('active'); }
+    else { picked.push(k); b.classList.add('active'); }
+    renderChips(picked);
+    document.getElementById('exp-flavor').textContent =
+      picked.map(function(x){ return FXNOTE[x]; }).filter(Boolean).join(' ');
   };
 });
-
+</script>
 /* ═══ 3 · timeline scrubber. Real tile map, modelled campaign ═══ */
 /* VE comes from parts/ve_campaign.js, included before this script. */
 
