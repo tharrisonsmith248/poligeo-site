@@ -69,26 +69,33 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     color:var(--ivory);
   }
   .nav-links{margin-left:auto;display:flex;align-items:center;gap:26px}
-  .nav-links a{
+  /* .nav-link is Community, which lives outside .nav-links so it can ride the
+     top row on a phone. Same face as its former neighbours. */
+  .nav-links a,.nav-link{
     font:400 15px/1 var(--serif);color:#b9bccb;text-decoration:none;
-    transition:color .18s;
+    transition:color .18s;white-space:nowrap;
   }
-  .nav-links a:hover{color:var(--gold-hi)}
+  .nav-links a:hover,.nav-link:hover{color:var(--gold-hi)}
   .nav-cta{
     font:400 15px/1 var(--serif);color:var(--gold-hi);text-decoration:none;
     border:1px solid var(--gold);padding:10px 18px;transition:background .18s,color .18s;
   }
   .nav-cta:hover{background:var(--gold);color:#14161c}
-  /* Below 900 the row cannot hold brand + five links + button. The links used
-     to be display:none here, which left a very long page with no navigation
-     at all. Instead they drop to their own row as a strip that scrolls only
-     if it must; the button stays pinned up top where it converts. */
+  /* Below 900 the row cannot hold brand + links + button. They used to be
+     display:none here, which left a very long page with no navigation at all.
+     Instead the four section links drop to their own row as a strip; the
+     brand takes the left with margin-right:auto, and Community and Wishlist
+     are pushed hard against the right of the top row. */
   @media (max-width:900px){
     .nav-in{height:auto;flex-wrap:wrap;gap:0;padding-top:11px;padding-bottom:0}
     .brandmark{order:1;margin-right:auto}
-    .nav-cta{order:2;flex:none;white-space:nowrap}
+    /* Vertical padding is the tap target: as a bare inline link Community was
+       13px tall. 13px either side matches the button's height, so the row
+       does not grow to pay for it. */
+    .nav-link{order:2;flex:none;margin-right:16px;padding:13px 0}
+    .nav-cta{order:3;flex:none;white-space:nowrap}
     .nav-links{
-      order:3;width:100%;margin:10px -24px 0;padding:0 24px;gap:0;
+      order:4;width:100%;margin:10px -24px 0;padding:0 24px;gap:0;
       overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
       border-top:1px solid var(--line-soft);
     }
@@ -597,6 +604,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
        page with no navigation at all. Brand on top, links in a strip that
        scrolls if it has to. */
     .brandmark span{font-size:17px}
+    .nav-link{font-size:13.5px;margin-right:14px}
     .nav-cta{padding:12px 15px;font-size:12.5px}
     .nav-links{margin-left:-18px;margin-right:-18px;padding:0 18px}
     .nav-links a{padding:14px 13px;font-size:13.5px}
@@ -668,6 +676,20 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     .card{padding:22px 20px}
   }
 
+  /* Narrow phones. Brand plus Community plus the button needs about 300px and
+     a 320px screen offers 284, so the button wrapped onto its own line. The
+     row keeps its shape by shrinking its parts rather than dropping any.
+     .wrap padding is deliberately untouched: the full-bleed offsets below are
+     measured against 18px. */
+  @media (max-width:370px){
+    .brandmark{gap:9px}
+    .brandmark img{width:26px;height:26px}
+    .brandmark span{font-size:14.5px;letter-spacing:.17em}
+    .nav-link{font-size:12.5px;margin-right:10px}
+    .nav-cta{padding:10px 11px;font-size:11.5px}
+    .nav-links a{padding:14px 10px;font-size:13px}
+  }
+
   /* A finger cannot hover, and a tap that leaves :hover stuck reads as a bug.
      Anything that is only a hover cue is dropped rather than faked. */
   @media (hover:none){
@@ -701,11 +723,12 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       <a href="#simulation">Simulation</a>
       <a href="#compare">Compare</a>
       <a href="#faq">FAQ</a>
-      <a href="#wishlist">Community</a>
     </div>
-    <!-- Outside .nav-links on purpose. On a phone the links become a
-         scrolling strip on their own row, and the one button that converts
-         must not be the thing that scrolls out of sight. -->
+    <!-- Community and Wishlist sit outside .nav-links on purpose. On a phone
+         the links become a strip on their own row, and the two that lead
+         somebody to the community must not be the ones that scroll out of
+         sight. Both ride the top row, hard right. -->
+    <a class="nav-link" href="#wishlist">Community</a>
     <a class="nav-cta" href="#wishlist">Wishlist</a>
   </div>
 </div>
