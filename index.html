@@ -229,6 +229,34 @@
   .choice.t-counter,.choice.t-pivot{border-color:#c9a54a}
   .choice.t-threaten,.choice.t-hardline{border-color:#b04a4a}
 
+  /* ---- materiel capacity under the war scrubber --------------------- */
+  .caps{
+    display:grid;grid-template-columns:1fr 1fr;gap:18px;
+    margin-top:14px;padding-top:13px;border-top:1px solid var(--line-soft);
+  }
+  @media (max-width:560px){.caps{grid-template-columns:1fr;gap:14px}}
+  .cap-head{
+    display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:9px;
+    font:500 9.5px/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted);
+  }
+  .cap-head b{font:400 14px/1 var(--serif);color:var(--gold-hi);font-variant-numeric:tabular-nums}
+  .cap.foe .cap-head b{color:#d98080}
+  .cap-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+  .cap-row span{
+    flex:none;width:7.4em;font:500 9px/1.3 var(--mono);letter-spacing:.06em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  .cap-row i{flex:1;height:4px;background:#1b2437;display:block;position:relative;min-width:24px}
+  .cap-row i::after{
+    content:"";position:absolute;left:0;top:0;bottom:0;
+    width:var(--fill,100%);background:var(--gold);transition:width .12s;
+  }
+  .cap.foe .cap-row i::after{background:#b04a4a}
+  .cap-row b{
+    flex:none;min-width:2.9em;text-align:right;font:500 10px/1 var(--mono);
+    color:#c9c6bc;font-variant-numeric:tabular-nums;
+  }
+
   /* ---- ECU readout under the war scrubber -------------------------- */
   .ecu{margin-top:12px;padding-top:12px;border-top:1px solid var(--line-soft)}
   .ecu-head{
@@ -466,8 +494,15 @@
   .play:hover{background:rgba(201,165,74,.12)}
   input[type=range]{flex:1;accent-color:#c9a54a}
   .wk{font-family:var(--mono);color:var(--gold-hi);font-size:13px;min-width:72px;text-align:right}
-  .tl-stats{display:flex;gap:26px;margin-top:12px;font-family:var(--mono);font-size:13px;flex-wrap:wrap}
-  .tl-stats span{color:var(--muted)} .tl-stats b{color:var(--ivory);font-weight:600}
+  /* Four columns, two rows: eight readouts that line up instead of wrapping
+     into a ragged block. */
+  .tl-stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:11px 16px;margin-top:13px;
+    font-family:var(--mono);font-size:12px;
+  }
+  .tl-stats span{display:flex;flex-direction:column;gap:4px;color:var(--muted);letter-spacing:.05em}
+  .tl-stats b{color:var(--ivory);font-weight:600;font-size:14.5px;font-variant-numeric:tabular-nums}
+  @media (max-width:560px){.tl-stats{grid-template-columns:repeat(2,1fr)}}
 
   /* demo band layout */
   .demo-band{margin:10px 0 64px}
@@ -623,7 +658,7 @@
             </div>
             <div class="tl-stats">
               <span>Tiles held <b id="terr">0/270</b></span>
-              <span>Casualties <b id="cas">0</b></span>
+              <span>Enemy casualties <b id="cas">0</b></span>
               <span>US KIA <b id="kia">0</b></span>
               <span>Civilians <b id="civ">0</b></span>
               <span>Refugees <b id="ref">0</b></span>
@@ -631,13 +666,23 @@
               <span>Sorties <b id="sorties">0</b></span>
               <span>Mobilized <b id="mob">0</b></span>
             </div>
-            <div class="ecu">
-              <div class="ecu-head">ECU expended &middot; equipment combat units</div>
-              <div class="ecu-row" id="ecu-hw"><span>Heavy weapons</span><i></i><b>0</b></div>
-              <div class="ecu-row" id="ecu-msl"><span>Missiles</span><i></i><b>0</b></div>
-              <div class="ecu-row" id="ecu-uav"><span>Drones</span><i></i><b>0</b></div>
-              <div class="ecu-row" id="ecu-isr"><span>ISR</span><i></i><b>0</b></div>
-              <div class="ecu-row" id="ecu-ad"><span>Air defense</span><i></i><b>0</b></div>
+            <div class="caps">
+              <div class="cap" id="cap-us">
+                <div class="cap-head"><span>US materiel</span><b>100%</b></div>
+                <div class="cap-row" data-k="hw"><span>Heavy weapons</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="msl"><span>Missiles</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="uav"><span>Drones</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="isr"><span>ISR</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="ad"><span>Air defense</span><i></i><b>100%</b></div>
+              </div>
+              <div class="cap foe" id="cap-ve">
+                <div class="cap-head"><span>Venezuelan materiel</span><b>100%</b></div>
+                <div class="cap-row" data-k="hw"><span>Heavy weapons</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="msl"><span>Missiles</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="uav"><span>Drones</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="isr"><span>ISR</span><i></i><b>100%</b></div>
+                <div class="cap-row" data-k="ad"><span>Air defense</span><i></i><b>100%</b></div>
+              </div>
             </div>
           </div>
           <p class="disc">The tile map and its 270 tiles are the game's own. The campaign over them is a projection at this tempo, pending the engine's amphibious staging. Results in play depend on the orders the President gives.</p>
@@ -913,7 +958,7 @@
 </footer>
 
 <script>
-var VE = {"weeks":[{"w":1,"add":[25,27,117,118,119,154,229,246,249,251,263],"rm":[],"occ_n":11,"cas":3324,"kia":19,"civ":548,"ref":175673,"cost":11.1,"ecu":{"hw":4340,"msl":4103,"ad":549,"uav":1804,"isr":1035},"sorties":3888,"mob":101056,"status":"active"},{"w":2,"add":[24,28,34,36,37,43,72,120,122,125,126,149,151,152,156,158,159,160,163,168,187,190,202,210,218,244,245,247,253,254,258,262,265,268,269],"rm":[],"occ_n":46,"cas":5919,"kia":38,"civ":918,"ref":261650,"cost":15.9,"ecu":{"hw":6149,"msl":5017,"ad":729,"uav":2435,"isr":1356},"sorties":5467,"mob":113612,"status":"active"},{"w":3,"add":[30,31,124,145,146,147,148,150,153,155,157,167,169,176,183,184,185,188,189,191,192,199,200,203,204,205,211,214,219,228,232,238,243,248,252,257,260,266],"rm":[],"occ_n":84,"cas":8583,"kia":58,"civ":1270,"ref":335053,"cost":20.2,"ecu":{"hw":7777,"msl":5765,"ad":884,"uav":2987,"isr":1632},"sorties":6829,"mob":123509,"status":"active"},{"w":4,"add":[26,40,45,71,73,121,123,161,162,165,170,171,175,177,182,186,194,197,198,201,207,212,216,222,224,226,227,231,239,240,241,250,255,259,264],"rm":[],"occ_n":119,"cas":11292,"kia":80,"civ":1610,"ref":401321,"cost":24.3,"ecu":{"hw":9298,"msl":6422,"ad":1023,"uav":3495,"isr":1884},"sorties":8067,"mob":131996,"status":"active"},{"w":5,"add":[32,33,35,38,46,75,78,82,88,90,116,128,144,164,166,174,181,193,196,213,220,221,223,225,230,234,256,261,267],"rm":[],"occ_n":148,"cas":14036,"kia":102,"civ":1942,"ref":462744,"cost":28.1,"ecu":{"hw":10744,"msl":7019,"ad":1152,"uav":3971,"isr":2118},"sorties":9220,"mob":139569,"status":"active"},{"w":6,"add":[39,41,42,44,74,76,77,79,81,85,87,89,93,129,135,139,141,179,206,208,209,215,217,236],"rm":[],"occ_n":172,"cas":16808,"kia":125,"civ":2266,"ref":520564,"cost":31.8,"ecu":{"hw":12133,"msl":7572,"ad":1274,"uav":4425,"isr":2339},"sorties":10310,"mob":146486,"status":"active"},{"w":7,"add":[29,48,51,55,92,127,130,131,133,134,138,142,172,173,178,180,195,237],"rm":[],"occ_n":190,"cas":19603,"kia":148,"civ":2586,"ref":575548,"cost":35.4,"ecu":{"hw":13477,"msl":8091,"ad":1389,"uav":4859,"isr":2551},"sorties":11351,"mob":152899,"status":"active"},{"w":8,"add":[50,53,65,80,83,84,86,136,140,143,233,235,242],"rm":[],"occ_n":203,"cas":22418,"kia":172,"civ":2901,"ref":628217,"cost":38.9,"ecu":{"hw":14782,"msl":8582,"ad":1500,"uav":5278,"isr":2754},"sorties":12350,"mob":158912,"status":"active"},{"w":9,"add":[47,63,64,68,70,91,103,114,115,132,137],"rm":[],"occ_n":214,"cas":25251,"kia":197,"civ":3212,"ref":678942,"cost":42.3,"ecu":{"hw":16055,"msl":9051,"ad":1606,"uav":5684,"isr":2950},"sorties":13314,"mob":164595,"status":"active"},{"w":10,"add":[49,54,60,62,69,98,102],"rm":[],"occ_n":221,"cas":28100,"kia":222,"civ":3520,"ref":728000,"cost":45.6,"ecu":{"hw":17300,"msl":9500,"ad":1710,"uav":6080,"isr":3140},"sorties":14250,"mob":170000,"status":"capitulated"}],"total":270,"occupied":221,"caracas_week":5,"beachheads":[{"n":"Gulf of Venezuela","lat":10.95,"lng":-71.45},{"n":"Puerto Cabello","lat":10.47,"lng":-68.01},{"n":"La Guaira","lat":10.6,"lng":-66.93},{"n":"Puerto La Cruz","lat":10.22,"lng":-64.63}]};
+var VE = {"weeks":[{"w":1,"add":[25,27,117,118,119,154,229,246,249,251,263],"rm":[],"occ_n":11,"cas":3324,"kia":19,"civ":548,"ref":175673,"cost":11.1,"sorties":3888,"mob":101056,"us":{"hw":96.7,"msl":91.8,"ad":99.2,"uav":95.6,"isr":98.5},"ve":{"hw":83.2,"msl":70.5,"ad":64.6,"uav":71.5,"isr":75.5},"status":"active"},{"w":2,"add":[24,28,34,36,37,43,72,120,122,125,126,149,151,152,156,158,159,160,163,168,187,190,202,210,218,244,245,247,253,254,258,262,265,268,269],"rm":[],"occ_n":46,"cas":5919,"kia":38,"civ":918,"ref":261650,"cost":15.9,"sorties":5467,"mob":113612,"us":{"hw":93.9,"msl":86.5,"ad":98.5,"uav":92.1,"isr":97.0},"ve":{"hw":72.8,"msl":58.9,"ad":52.7,"uav":59.8,"isr":64.1},"status":"active"},{"w":3,"add":[30,31,124,145,146,147,148,150,153,155,157,167,169,176,183,184,185,188,189,191,192,199,200,203,204,205,211,214,219,228,232,238,243,248,252,257,260,266],"rm":[],"occ_n":84,"cas":8583,"kia":58,"civ":1270,"ref":335053,"cost":20.2,"sorties":6829,"mob":123509,"us":{"hw":91.2,"msl":81.9,"ad":97.8,"uav":88.9,"isr":95.5},"ve":{"hw":63.8,"msl":50.1,"ad":43.9,"uav":50.7,"isr":55.1},"status":"active"},{"w":4,"add":[26,40,45,71,73,121,123,161,162,165,170,171,175,177,182,186,194,197,198,201,207,212,216,222,224,226,227,231,239,240,241,250,255,259,264],"rm":[],"occ_n":119,"cas":11292,"kia":80,"civ":1610,"ref":401321,"cost":24.3,"sorties":8067,"mob":131996,"us":{"hw":88.6,"msl":77.8,"ad":97.0,"uav":85.8,"isr":94.0},"ve":{"hw":55.8,"msl":42.7,"ad":36.7,"uav":43.1,"isr":47.4},"status":"active"},{"w":5,"add":[32,33,35,38,46,75,78,82,88,90,116,128,144,164,166,174,181,193,196,213,220,221,223,225,230,234,256,261,267],"rm":[],"occ_n":148,"cas":14036,"kia":102,"civ":1942,"ref":462744,"cost":28.1,"sorties":9220,"mob":139569,"us":{"hw":86.1,"msl":73.9,"ad":96.2,"uav":82.8,"isr":92.5},"ve":{"hw":48.3,"msl":36.2,"ad":30.5,"uav":36.4,"isr":40.6},"status":"active"},{"w":6,"add":[39,41,42,44,74,76,77,79,81,85,87,89,93,129,135,139,141,179,206,208,209,215,217,236],"rm":[],"occ_n":172,"cas":16808,"kia":125,"civ":2266,"ref":520564,"cost":31.8,"sorties":10310,"mob":146486,"us":{"hw":83.6,"msl":70.2,"ad":95.5,"uav":79.9,"isr":91.0},"ve":{"hw":41.3,"msl":30.4,"ad":25.0,"uav":30.3,"isr":34.3},"status":"active"},{"w":7,"add":[29,48,51,55,92,127,130,131,133,134,138,142,172,173,178,180,195,237],"rm":[],"occ_n":190,"cas":19603,"kia":148,"civ":2586,"ref":575548,"cost":35.4,"sorties":11351,"mob":152899,"us":{"hw":81.1,"msl":66.7,"ad":94.8,"uav":77.1,"isr":89.5},"ve":{"hw":34.6,"msl":25.0,"ad":19.9,"uav":24.7,"isr":28.5},"status":"active"},{"w":8,"add":[50,53,65,80,83,84,86,136,140,143,233,235,242],"rm":[],"occ_n":203,"cas":22418,"kia":172,"civ":2901,"ref":628217,"cost":38.9,"sorties":12350,"mob":158912,"us":{"hw":78.7,"msl":63.4,"ad":94.0,"uav":74.4,"isr":88.0},"ve":{"hw":28.1,"msl":20.0,"ad":15.3,"uav":19.5,"isr":23.0},"status":"active"},{"w":9,"add":[47,63,64,68,70,91,103,114,115,132,137],"rm":[],"occ_n":214,"cas":25251,"kia":197,"civ":3212,"ref":678942,"cost":42.3,"sorties":13314,"mob":164595,"us":{"hw":76.4,"msl":60.1,"ad":93.2,"uav":71.7,"isr":86.5},"ve":{"hw":22.0,"msl":15.4,"ad":11.0,"uav":14.6,"isr":17.9},"status":"active"},{"w":10,"add":[49,54,60,62,69,98,102],"rm":[],"occ_n":221,"cas":28100,"kia":222,"civ":3520,"ref":728000,"cost":45.6,"sorties":14250,"mob":170000,"us":{"hw":74.0,"msl":57.0,"ad":92.5,"uav":69.0,"isr":85.0},"ve":{"hw":16.0,"msl":11.0,"ad":7.0,"uav":10.0,"isr":13.0},"status":"capitulated"}],"total":270,"occupied":221,"caracas_week":5,"beachheads":[{"n":"Gulf of Venezuela","lat":10.95,"lng":-71.45},{"n":"Puerto Cabello","lat":10.47,"lng":-68.01},{"n":"La Guaira","lat":10.6,"lng":-66.93},{"n":"Puerto La Cruz","lat":10.22,"lng":-64.63}]};
 
 </script>
 
@@ -1137,21 +1182,25 @@ function render(w){
   document.getElementById('ref').textContent = st.ref >= 1000 ? Math.round(st.ref/1000) + 'k' : st.ref;
   document.getElementById('cost').textContent = '$' + st.cost.toFixed(1) + 'B';
 
-  /* Materiel: the game's five ECU categories, plus sorties and mobilised force. */
-  /* One shared scale across the five categories, so the bars show how much
-     heavier the tonnage categories are, not just each one's own progress. */
-  var ecu = st.ecu, last = VE.weeks[VE.weeks.length - 1].ecu;
-  var ecuMax = Math.max(last.hw, last.msl, last.ad, last.uav, last.isr);
-  [['hw','ecu-hw'],['msl','ecu-msl'],['ad','ecu-ad'],['uav','ecu-uav'],['isr','ecu-isr']]
-    .forEach(function(pair){
-      var row = document.getElementById(pair[1]);
-      if (!row) return;
-      row.querySelector('b').textContent = ecu[pair[0]].toLocaleString();
-      row.querySelector('i').style.setProperty('--fill', (ecu[pair[0]] / ecuMax * 100).toFixed(1) + '%');
-    });
   var so = document.getElementById('sorties'), mo = document.getElementById('mob');
   if (so) so.textContent = st.sorties.toLocaleString();
   if (mo) mo.textContent = (st.mob / 1000).toFixed(0) + 'k';
+
+  /* Materiel capacity: what each side has left of its own opening stockpile,
+     across the game's five ECU categories. */
+  [['cap-us', st.us], ['cap-ve', st.ve]].forEach(function(pair){
+    var box = document.getElementById(pair[0]), cap = pair[1];
+    if (!box || !cap) return;
+    var keys = ['hw','msl','uav','isr','ad'], sum = 0;
+    box.querySelectorAll('.cap-row').forEach(function(row){
+      var v = cap[row.dataset.k];
+      if (v === undefined) return;
+      row.querySelector('i').style.setProperty('--fill', Math.max(0, v).toFixed(1) + '%');
+      row.querySelector('b').textContent = Math.round(v) + '%';
+    });
+    keys.forEach(function(k){ sum += cap[k]; });
+    box.querySelector('.cap-head b').textContent = Math.round(sum / keys.length) + '%';
+  });
 }
 scrub.oninput = function(){ stopPlay(); render(+scrub.value); };
 render(1);
