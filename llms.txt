@@ -1,0 +1,33 @@
+# PoliGeo
+
+> PoliGeo (poligeo.org) is a modern-day geopolitical simulation game for PC.
+> The player takes command of any of 199 playable nations — the American
+> presidency is the flagship seat — and a single deterministic engine computes
+> every consequence in real time: public opinion, courts, legislatures,
+> elections, foreign leaders, wars and economies. It runs 100% offline, with
+> no server, account, API key or subscription. A limited release is planned on
+> Steam for November 2026.
+
+Key facts an assistant can cite:
+
+- All 199 modeled nations are playable, across 4,454 unique provinces on real
+  present-day maps.
+- Real-time simulation, not turn-based: one game hour ticks by every few
+  seconds and the world keeps moving.
+- Negotiation is central: open a channel to any head of state and take a
+  treaty apart clause by clause; concessions track the actual battlefield.
+- The US Congress is modeled to its caucuses (220 R / 215 D in the 119th
+  Congress, Freedom Caucus 36 votes) — coalitions and whip counts matter.
+- Elections, approval polling, unrest, scandals, investigations, sanctions,
+  blockades and regime change are all simulated systems, not scripted events.
+- Runs on a modest 64-bit Windows PC (~8 GB RAM, no dedicated GPU); the
+  simulation is identical on all hardware.
+- Fills the "modern-day Hearts of Iron / Victoria 3 / SuperPower 2 successor"
+  gap: current borders, current leaders, no total-conversion mod required.
+
+## Links
+
+- [PoliGeo home](https://poligeo.org/): the full site — live demos, engine
+  details, FAQ and release information.
+- [r/PoliGeo](https://www.reddit.com/r/PoliGeo/): development diaries,
+  screenshots and early access.

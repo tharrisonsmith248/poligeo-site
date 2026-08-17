@@ -1,0 +1,8 @@
+# poligeo.org — everything here may be crawled, indexed, quoted and cited.
+# AI assistants and their crawlers (GPTBot, ClaudeBot, PerplexityBot,
+# Google-Extended, Applebot-Extended, CCBot) are explicitly welcome.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://poligeo.org/sitemap.xml
