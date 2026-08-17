@@ -79,8 +79,39 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   .nav-cta{
     font:400 15px/1 var(--serif);color:var(--gold-hi);text-decoration:none;
     border:1px solid var(--gold);padding:10px 18px;transition:background .18s,color .18s;
+    display:inline-flex;align-items:center;gap:8px;
   }
   .nav-cta:hover{background:var(--gold);color:#14161c}
+  .nav-cta .ric{width:16px;height:16px;flex:none}
+  /* Features dropdown: CSS hover on pointer devices, JS tap-toggle everywhere */
+  .nav-drop{position:relative}
+  .drop-btn{
+    font:400 15px/1 var(--serif);color:#b9bccb;background:none;border:0;padding:0;
+    cursor:pointer;display:inline-flex;align-items:center;gap:7px;
+    transition:color .18s;white-space:nowrap;
+  }
+  .drop-btn:hover{color:var(--gold-hi)}
+  .drop-btn .chev{width:9px;height:6px;transition:transform .18s}
+  .nav-drop.open .drop-btn .chev{transform:rotate(180deg)}
+  .drop-menu{
+    position:absolute;top:100%;left:50%;transform:translateX(-50%);
+    padding-top:15px;display:none;z-index:40;
+  }
+  .drop-menu-in{
+    min-width:170px;background:rgba(11,18,32,.97);border:1px solid var(--line-soft);
+    box-shadow:0 12px 30px rgba(0,0,0,.45);padding:6px 0;
+    display:flex;flex-direction:column;
+  }
+  .nav-drop.open .drop-menu{display:block}
+  @media (hover:hover){
+    .nav-drop:hover .drop-menu,.nav-drop:focus-within .drop-menu{display:block}
+  }
+  .nav-links .drop-menu-in a,.drop-menu-in a,.drop-menu-in .drop-dis{
+    font:400 14.5px/1 var(--serif);padding:12px 18px;text-decoration:none;white-space:nowrap;
+  }
+  .nav-links .drop-menu-in a{color:#b9bccb;transition:color .18s,background .18s}
+  .nav-links .drop-menu-in a:hover{color:var(--gold-hi);background:rgba(201,169,97,.08)}
+  .drop-dis{color:#565b6e;cursor:default}
   /* Below 900 the row cannot hold brand + links + button. They used to be
      display:none here, which left a very long page with no navigation at all.
      Instead the four section links drop to their own row as a strip; the
@@ -92,16 +123,17 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     /* Vertical padding is the tap target: as a bare inline link Community was
        13px tall. 13px either side matches the button's height, so the row
        does not grow to pay for it. */
-    .nav-link{order:2;flex:none;margin-right:16px;padding:13px 0}
+    .nav-com{order:2;flex:none;margin-right:10px}
     .nav-cta{order:3;flex:none;white-space:nowrap}
     .nav-links{
       order:4;width:100%;margin:10px -24px 0;padding:0 24px;gap:0;
-      overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
+      justify-content:flex-end;
       border-top:1px solid var(--line-soft);
     }
-    .nav-links::-webkit-scrollbar{display:none}
     .nav-links a{display:block;flex:none;padding:12px 13px;white-space:nowrap}
-    .nav-links a:first-child{padding-left:0}
+    .nav-links a:last-child{padding-right:0}
+    .drop-btn{padding:12px 13px 12px 0}
+    .drop-menu{left:0;transform:none}
   }
 
   /* ---- hero -------------------------------------------------------- */
@@ -604,10 +636,12 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
        page with no navigation at all. Brand on top, links in a strip that
        scrolls if it has to. */
     .brandmark span{font-size:17px}
-    .nav-link{font-size:13.5px;margin-right:14px}
-    .nav-cta{padding:12px 15px;font-size:12.5px}
+    .nav-com{margin-right:10px}
+    .nav-cta{padding:12px 13px;font-size:12.5px}
+    .nav-cta .ric{width:14px;height:14px}
     .nav-links{margin-left:-18px;margin-right:-18px;padding:0 18px}
     .nav-links a{padding:14px 13px;font-size:13.5px}
+    .drop-btn{font-size:13.5px;padding:14px 13px 14px 0}
 
     /* full-bleed drawings */
     .front-frame,.tl,.cong{margin-inline:-18px;border-left:0;border-right:0;border-radius:0}
@@ -685,9 +719,11 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     .brandmark{gap:9px}
     .brandmark img{width:26px;height:26px}
     .brandmark span{font-size:14.5px;letter-spacing:.17em}
-    .nav-link{font-size:12.5px;margin-right:10px}
-    .nav-cta{padding:10px 11px;font-size:11.5px}
-    .nav-links a{padding:14px 10px;font-size:13px}
+    .nav-com{margin-right:6px}
+    .nav-cta{padding:10px 9px;font-size:11.5px}
+    .nav-cta .ric{width:13px;height:13px}
+    .nav-links a{padding:14px 9px;font-size:13px}
+    .drop-btn{font-size:13px;padding:14px 9px 14px 0}
   }
 
   /* A finger cannot hover, and a tap that leaves :hover stuck reads as a bug.
@@ -719,7 +755,15 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   <div class="wrap nav-in">
     <a class="brandmark" href="#top"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj4KPGRlZnM+CiAgPHJhZGlhbEdyYWRpZW50IGlkPSJmaWVsZCIgY3g9IjM4JSIgY3k9IjMwJSIgcj0iODAlIj4KICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMyNjMzNWYiLz4KICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjMTMxYTMwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwYTBlMWEiLz4KICA8L3JhZGlhbEdyYWRpZW50PgogIDxsaW5lYXJHcmFkaWVudCBpZD0iZ29sZCIgeDE9IjAiIHkxPSIwIiB4Mj0iMC4zNSIgeTI9IjEiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U4Y2Y4ZSIvPgogICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNjOWE5NjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzhhNmQzNSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkcmV2IiB4MT0iMCIgeTE9IjEiIHgyPSIwLjM1IiB5Mj0iMCI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZThjZjhlIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iI2M5YTk2MSIvPgogICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjOGE2ZDM1Ii8+CiAgPC9saW5lYXJHcmFkaWVudD4KPC9kZWZzPgo8Y2lyY2xlIGN4PSI2MCIgY3k9IjYwIiByPSI1OCIgZmlsbD0idXJsKCNmaWVsZCkiIHN0cm9rZT0idXJsKCNnb2xkKSIgc3Ryb2tlLXdpZHRoPSIyLjQiLz4KPGNpcmNsZSBjeD0iNjAiIGN5PSI2MCIgcj0iNTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkcmV2KSIgc3Ryb2tlLXdpZHRoPSIwLjciIG9wYWNpdHk9IjAuODUiLz4KCjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDYwLDYwLjUpIHNjYWxlKDEuMykgdHJhbnNsYXRlKC02MCwtNjAuNSkiPjxwYXRoIGQ9Ik0gNjcuMTcsOTQuNzUgQSAzNC41LDM0LjUgMCAwIDAgOTAuNDYsNDQuODAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkKSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz48cGF0aCBkPSJNIDAsMCBDIDIuMzAsLTIuODggMS42NiwtNi4wNyAwLC03LjU5IEMgLTEuNjYsLTYuMDcgLTIuMzAsLTIuODggMCwwIFoiIGZpbGw9InVybCgjZ29sZCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDY3LjE3LDk0Ljc1KSByb3RhdGUoMjAyLjApIi8+PHBhdGggZD0iTSAwLDAgQyAyLjMwLC0yLjc3IDEuNjYsLTUuODQgMCwtNy4zMCBDIC0xLjY2LC01Ljg0IC0yLjMwLC0yLjc3IDAsMCBaIiBmaWxsPSJ1cmwoI2dvbGRyZXYpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg3NC43Miw5Mi4yMCkgcm90YXRlKDIwOS44KSIvPjxwYXRoIGQ9Ik0gMCwwIEMgMi4zMCwtMi42NiAxLjY2LC01LjYxIDAsLTcuMDEgQyAtMS42NiwtNS42MSAtMi4zMCwtMi42NiAwLDAgWiIgZmlsbD0idXJsKCNnb2xkKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoODEuNDgsODguMDApIHJvdGF0ZSgxNzUuNSkiLz48cGF0aCBkPSJNIDAsMCBDIDIuMzAsLTIuNTYgMS42NiwtNS4zOCAwLC02LjcyIEMgLTEuNjYsLTUuMzggLTIuMzAsLTIuNTYgMCwwIFoiIGZpbGw9InVybCgjZ29sZHJldikiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDg3LjA5LDgyLjM2KSByb3RhdGUoMTgzLjIpIi8+PHBhdGggZD0iTSAwLDAgQyAyLjMwLC0yLjQ1IDEuNjYsLTUuMTUgMCwtNi40NCBDIC0xLjY2LC01LjE1IC0yLjMwLC0yLjQ1IDAsMCBaIiBmaWxsPSJ1cmwoI2dvbGQpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5MS4yNyw3NS41OCkgcm90YXRlKDE0OS4wKSIvPjxwYXRoIGQ9Ik0gMCwwIEMgMi4zMCwtMi4zNCAxLjY2LC00LjkyIDAsLTYuMTUgQyAtMS42NiwtNC45MiAtMi4zMCwtMi4zNCAwLDAgWiIgZmlsbD0idXJsKCNnb2xkcmV2KSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTMuNzgsNjguMDMpIHJvdGF0ZSgxNTYuOCkiLz48cGF0aCBkPSJNIDAsMCBDIDIuMzAsLTIuMjMgMS42NiwtNC42OSAwLC01Ljg2IEMgLTEuNjYsLTQuNjkgLTIuMzAsLTIuMjMgMCwwIFoiIGZpbGw9InVybCgjZ29sZCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDk0LjQ5LDYwLjEwKSByb3RhdGUoMTIyLjUpIi8+PHBhdGggZD0iTSAwLDAgQyAyLjMwLC0yLjEyIDEuNjYsLTQuNDYgMCwtNS41NyBDIC0xLjY2LC00LjQ2IC0yLjMwLC0yLjEyIDAsMCBaIiBmaWxsPSJ1cmwoI2dvbGRyZXYpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg5My4zNiw1Mi4yMikgcm90YXRlKDEzMC4yKSIvPjxwYXRoIGQ9Ik0gMCwwIEMgMi4zMCwtMi4wMSAxLjY2LC00LjIyIDAsLTUuMjggQyAtMS42NiwtNC4yMiAtMi4zMCwtMi4wMSAwLDAgWiIgZmlsbD0idXJsKCNnb2xkKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTAuNDYsNDQuODApIHJvdGF0ZSg5Ni4wKSIvPjxwYXRoIGQ9Ik0gNTIuODMsOTQuNzUgQSAzNC41LDM0LjUgMCAwIDEgMjkuNTQsNDQuODAiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkKSIgc3Ryb2tlLXdpZHRoPSIxLjEiLz48cGF0aCBkPSJNIDAsMCBDIDIuMzAsLTIuODggMS42NiwtNi4wNyAwLC03LjU5IEMgLTEuNjYsLTYuMDcgLTIuMzAsLTIuODggMCwwIFoiIGZpbGw9InVybCgjZ29sZCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUyLjgzLDk0Ljc1KSByb3RhdGUoLTIwMi4wKSIvPjxwYXRoIGQ9Ik0gMCwwIEMgMi4zMCwtMi43NyAxLjY2LC01Ljg0IDAsLTcuMzAgQyAtMS42NiwtNS44NCAtMi4zMCwtMi43NyAwLDAgWiIgZmlsbD0idXJsKCNnb2xkcmV2KSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNDUuMjgsOTIuMjApIHJvdGF0ZSgtMjA5LjgpIi8+PHBhdGggZD0iTSAwLDAgQyAyLjMwLC0yLjY2IDEuNjYsLTUuNjEgMCwtNy4wMSBDIC0xLjY2LC01LjYxIC0yLjMwLC0yLjY2IDAsMCBaIiBmaWxsPSJ1cmwoI2dvbGQpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzOC41Miw4OC4wMCkgcm90YXRlKC0xNzUuNSkiLz48cGF0aCBkPSJNIDAsMCBDIDIuMzAsLTIuNTYgMS42NiwtNS4zOCAwLC02LjcyIEMgLTEuNjYsLTUuMzggLTIuMzAsLTIuNTYgMCwwIFoiIGZpbGw9InVybCgjZ29sZHJldikiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMyLjkxLDgyLjM2KSByb3RhdGUoLTE4My4yKSIvPjxwYXRoIGQ9Ik0gMCwwIEMgMi4zMCwtMi40NSAxLjY2LC01LjE1IDAsLTYuNDQgQyAtMS42NiwtNS4xNSAtMi4zMCwtMi40NSAwLDAgWiIgZmlsbD0idXJsKCNnb2xkKSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjguNzMsNzUuNTgpIHJvdGF0ZSgtMTQ5LjApIi8+PHBhdGggZD0iTSAwLDAgQyAyLjMwLC0yLjM0IDEuNjYsLTQuOTIgMCwtNi4xNSBDIC0xLjY2LC00LjkyIC0yLjMwLC0yLjM0IDAsMCBaIiBmaWxsPSJ1cmwoI2dvbGRyZXYpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyNi4yMiw2OC4wMykgcm90YXRlKC0xNTYuOCkiLz48cGF0aCBkPSJNIDAsMCBDIDIuMzAsLTIuMjMgMS42NiwtNC42OSAwLC01Ljg2IEMgLTEuNjYsLTQuNjkgLTIuMzAsLTIuMjMgMCwwIFoiIGZpbGw9InVybCgjZ29sZCkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1LjUxLDYwLjEwKSByb3RhdGUoLTEyMi41KSIvPjxwYXRoIGQ9Ik0gMCwwIEMgMi4zMCwtMi4xMiAxLjY2LC00LjQ2IDAsLTUuNTcgQyAtMS42NiwtNC40NiAtMi4zMCwtMi4xMiAwLDAgWiIgZmlsbD0idXJsKCNnb2xkcmV2KSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYuNjQsNTIuMjIpIHJvdGF0ZSgtMTMwLjIpIi8+PHBhdGggZD0iTSAwLDAgQyAyLjMwLC0yLjAxIDEuNjYsLTQuMjIgMCwtNS4yOCBDIC0xLjY2LC00LjIyIC0yLjMwLC0yLjAxIDAsMCBaIiBmaWxsPSJ1cmwoI2dvbGQpIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyOS41NCw0NC44MCkgcm90YXRlKC05Ni4wKSIvPjxjaXJjbGUgY3g9IjYwIiBjeT0iNjEiIHI9IjI2LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkKSIgc3Ryb2tlLXdpZHRoPSIwLjgiIG9wYWNpdHk9IjAuOCIvPjxwb2x5Z29uIHBvaW50cz0iNjAuMDAsMzAuNTAgNTUuNDAsNjEuMDAgNjAsNjEiIGZpbGw9InVybCgjZ29sZCkiLz48cG9seWdvbiBwb2ludHM9IjYwLjAwLDMwLjUwIDY0LjYwLDYxLjAwIDYwLDYxIiBmaWxsPSIjOGE2ZDM1Ii8+PHBvbHlnb24gcG9pbnRzPSI4Mi4wMCw2MS4wMCA2MC4wMCw1Ni44MCA2MCw2MSIgZmlsbD0idXJsKCNnb2xkKSIvPjxwb2x5Z29uIHBvaW50cz0iODIuMDAsNjEuMDAgNjAuMDAsNjUuMjAgNjAsNjEiIGZpbGw9IiM4YTZkMzUiLz48cG9seWdvbiBwb2ludHM9IjYwLjAwLDgzLjAwIDY0LjIwLDYxLjAwIDYwLDYxIiBmaWxsPSJ1cmwoI2dvbGQpIi8+PHBvbHlnb24gcG9pbnRzPSI2MC4wMCw4My4wMCA1NS44MCw2MS4wMCA2MCw2MSIgZmlsbD0iIzhhNmQzNSIvPjxwb2x5Z29uIHBvaW50cz0iMzguMDAsNjEuMDAgNjAuMDAsNjUuMjAgNjAsNjEiIGZpbGw9InVybCgjZ29sZCkiLz48cG9seWdvbiBwb2ludHM9IjM4LjAwLDYxLjAwIDYwLjAwLDU2LjgwIDYwLDYxIiBmaWxsPSIjOGE2ZDM1Ii8+PHBvbHlnb24gcG9pbnRzPSI2OS41NSw1MS40NSA1Ny43NCw1OC43NCA2MCw2MSIgZmlsbD0idXJsKCNnb2xkKSIvPjxwb2x5Z29uIHBvaW50cz0iNjkuNTUsNTEuNDUgNjIuMjYsNjMuMjYgNjAsNjEiIGZpbGw9IiM4YTZkMzUiLz48cG9seWdvbiBwb2ludHM9IjY5LjU1LDcwLjU1IDYyLjI2LDU4Ljc0IDYwLDYxIiBmaWxsPSJ1cmwoI2dvbGQpIi8+PHBvbHlnb24gcG9pbnRzPSI2OS41NSw3MC41NSA1Ny43NCw2My4yNiA2MCw2MSIgZmlsbD0iIzhhNmQzNSIvPjxwb2x5Z29uIHBvaW50cz0iNTAuNDUsNzAuNTUgNjIuMjYsNjMuMjYgNjAsNjEiIGZpbGw9InVybCgjZ29sZCkiLz48cG9seWdvbiBwb2ludHM9IjUwLjQ1LDcwLjU1IDU3Ljc0LDU4Ljc0IDYwLDYxIiBmaWxsPSIjOGE2ZDM1Ii8+PHBvbHlnb24gcG9pbnRzPSI1MC40NSw1MS40NSA1Ny43NCw2My4yNiA2MCw2MSIgZmlsbD0idXJsKCNnb2xkKSIvPjxwb2x5Z29uIHBvaW50cz0iNTAuNDUsNTEuNDUgNjIuMjYsNTguNzQgNjAsNjEiIGZpbGw9IiM4YTZkMzUiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjYxIiByPSIzLjYiIGZpbGw9IiMwZTE0MjQiIHN0cm9rZT0idXJsKCNnb2xkKSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz48Y2lyY2xlIGN4PSI2MCIgY3k9IjYxIiByPSIxLjIiIGZpbGw9IiNlOGNmOGUiLz48L2c+Cjwvc3ZnPg==" alt=""><span>PoliGeo</span></a>
     <div class="nav-links">
-      <a href="#purpose">Purpose</a>
+      <div class="nav-drop" id="features-drop">
+        <button class="drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Features<svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="drop-menu"><div class="drop-menu-in">
+          <a href="pam.html">Politics</a>
+          <span class="drop-dis" aria-disabled="true">Military</span>
+          <span class="drop-dis" aria-disabled="true">Economy</span>
+          <span class="drop-dis" aria-disabled="true">Diplomacy</span>
+        </div></div>
+      </div>
       <a href="#simulation">Simulation</a>
       <a href="#compare">Compare</a>
       <a href="#faq">FAQ</a>
@@ -728,7 +772,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
          the links become a strip on their own row, and the two that lead
          somebody to the community must not be the ones that scroll out of
          sight. Both ride the top row, hard right. -->
-    <a class="nav-link" href="#wishlist">Community</a>
+    <a class="nav-cta nav-com" href="#wishlist"><svg class="ric" viewBox="0 0 24 24" aria-hidden="true"><circle cx="17" cy="3.6" r="1.7" fill="currentColor"/><path d="M12 8.3c.5-2.4 2-4 4.2-4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="3.6" cy="13" r="2.3" fill="currentColor"/><circle cx="20.4" cy="13" r="2.3" fill="currentColor"/><ellipse cx="12" cy="15.2" rx="8.6" ry="6.4" fill="currentColor"/><circle cx="8.7" cy="14.4" r="1.5" fill="#0b1220"/><circle cx="15.3" cy="14.4" r="1.5" fill="#0b1220"/><path d="M8.4 18.1c1.1 1.1 2.3 1.6 3.6 1.6s2.5-.5 3.6-1.6" fill="none" stroke="#0b1220" stroke-width="1.4" stroke-linecap="round"/></svg>Community</a>
     <a class="nav-cta" href="#wishlist">Wishlist</a>
   </div>
 </div>
@@ -1864,5 +1908,22 @@ var UAF = {"w":1000.0,"h":659.0,"tiles":[{"d":"M525.0,264.9 532.1,233.7 551.2,22
 })();
 </script>
 
+<script>
+(function(){
+  var d=document.getElementById('features-drop');if(!d)return;
+  var b=d.querySelector('.drop-btn');
+  b.addEventListener('click',function(e){
+    e.stopPropagation();
+    var open=d.classList.toggle('open');
+    b.setAttribute('aria-expanded',open?'true':'false');
+  });
+  document.addEventListener('click',function(e){
+    if(!d.contains(e.target)){d.classList.remove('open');b.setAttribute('aria-expanded','false');}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){d.classList.remove('open');b.setAttribute('aria-expanded','false');}
+  });
+})();
+</script>
 </body>
 </html>

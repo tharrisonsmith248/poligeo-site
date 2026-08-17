@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Popular Agent Model &mdash; PoliGeo</title>
+<meta name="description" content="How PoliGeo simulates public opinion: 203 voter agents driving approval ratings and elections.">
+</head>
+<body style="margin:0">
+<div style="max-width:430px;margin:0 auto;padding:14px 16px 0">
+  <a href="index.html" style="font:400 13px/1 'Palatino Linotype',Palatino,serif;letter-spacing:1.5px;text-transform:uppercase;color:#c9a961;text-decoration:none">&larr; PoliGeo</a>
+</div>
+<style>
+/* Polaris "Gilded Federal" — single committed dark theme (see ART_DIRECTION.md) */
+:root {
+  --bg: #0a0e1a;
+  --panel: rgba(19, 26, 46, 0.92);
+  --panel-2: #1b2440;
+  --border: #2b3358;
+  --border-gilt: rgba(201, 169, 97, 0.28);
+  --text: #eae4d2;
+  --muted: #98937f;
+  --grid-ln: #232c4a;
+  --baseline: #3d4674;
+  --accent: #4f8fd9;
+  --accent-2: #74aae6;
+  --bad: #e05a6d;
+  --gold: #c9a961;
+  --gold-hi: #e8cf8e;
+  --gold-dk: #8a6d35;
+  --dem: #4f8fd9;
+  --ind: #c49a30;
+  --gop: #e05a6d;
+  --s-amber: #cf8f2c;
+  --s-steel: #5f9ad9;
+  --s-red: #e05a6d;
+  --display: 'Marcellus', 'Palatino Linotype', Palatino, 'Times New Roman', serif;
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 13.5px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background-image:
+    radial-gradient(120% 60% at 50% 0%, rgba(79, 143, 217, 0.08), transparent 60%),
+    var(--noise);
+}
+.wrap { max-width: 430px; margin: 0 auto; padding: 26px 16px 48px; }
+
+/* ---- display voice ---- */
+.display { font-family: var(--display); text-transform: uppercase; letter-spacing: 1.2px; }
+.eyebrow {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 2.2px;
+  font-size: 0.62rem; color: var(--gold); text-align: center; margin: 0 0 6px;
+}
+h1 {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 1.5px;
+  font-weight: 500; text-align: center; font-size: 1.5rem; line-height: 1.2; margin: 0 0 10px;
+  background: linear-gradient(160deg, var(--gold-hi) 0%, var(--gold) 45%, var(--gold-dk) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede { text-align: center; color: var(--muted); font-size: 0.82rem; margin: 0 auto 16px; max-width: 340px; }
+.lede strong { color: var(--text); font-weight: 600; }
+
+/* gold ornament divider */
+.orn { display: flex; align-items: center; gap: 8px; margin: 4px 0 16px; }
+.orn::before, .orn::after { content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gilt)); }
+.orn::after { background: linear-gradient(90deg, var(--border-gilt), transparent); }
+.orn svg { flex: none; }
+
+/* HUD stat cells */
+.chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.chip { text-align: center; padding: 8px 2px 7px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--panel-2); }
+.chip b {
+  display: block; font-family: var(--display); font-size: 1.15rem; letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums; color: var(--gold-hi); font-weight: 500;
+}
+.chip span {
+  font-size: 0.56rem; letter-spacing: 1.3px; text-transform: uppercase; color: var(--muted);
+}
+
+/* ---- glass panels, engraved edge ---- */
+.panel {
+  background: var(--panel); background-image: var(--noise);
+  border: 1px solid var(--border-gilt); border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 1px rgba(8, 11, 22, 0.85),
+    inset 0 1px 0 rgba(232, 207, 142, 0.10),
+    0 8px 28px rgba(0, 0, 0, 0.40);
+  padding: 14px 14px 12px; margin-bottom: 14px;
+}
+.kick {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 1.8px;
+  font-size: 0.6rem; color: var(--gold); margin-bottom: 3px;
+}
+.kick .n { color: var(--muted); margin-right: 6px; }
+.p-title { font-size: 0.92rem; font-weight: 600; margin: 0 0 2px; color: var(--text); }
+.p-sub { font-size: 0.73rem; color: var(--muted); margin: 0 0 10px; line-height: 1.45; }
+.p-sub code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.68rem;
+  background: var(--panel-2); border: 1px solid var(--border); border-radius: 4px;
+  padding: 0.05em 0.3em; color: var(--text);
+}
+.chart { width: 100%; }
+.chart svg { display: block; width: 100%; height: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+.legend { display: flex; flex-wrap: wrap; gap: 3px 12px; font-size: 0.68rem; color: var(--muted); margin-bottom: 8px; }
+.legend .key { display: inline-flex; align-items: center; gap: 5px; }
+.sw { width: 8px; height: 8px; border-radius: 2.5px; display: inline-block; }
+details.tbl { margin-top: 8px; font-size: 0.68rem; }
+details.tbl summary { cursor: pointer; color: var(--accent-2); font-weight: 600; }
+details.tbl table { border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+details.tbl th, details.tbl td { text-align: left; padding: 2px 10px 2px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+details.tbl th { color: var(--text); font-weight: 600; }
+
+/* facts */
+.facts { display: flex; flex-direction: column; }
+.fact { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  border-bottom: 1px solid var(--border); padding: 6px 0; }
+.fact:last-child { border-bottom: 0; }
+.fact .k { font-size: 0.73rem; color: var(--muted); }
+.fact .v { font-family: var(--display); font-size: 0.95rem; letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums; color: var(--gold-hi); white-space: nowrap; }
+.fact .v small { font-family: -apple-system, system-ui, sans-serif; color: var(--muted); font-size: 0.65rem; letter-spacing: 0; }
+
+#tip {
+  position: fixed; pointer-events: none; z-index: 50; display: none;
+  background: #060910; color: var(--text); font-size: 0.72rem; line-height: 1.45;
+  border: 1px solid var(--border-gilt); border-radius: 8px; padding: 6px 9px; max-width: 230px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+#tip .t-strong { font-weight: 600; color: var(--gold-hi); }
+
+footer { margin-top: 6px; font-size: 0.62rem; color: var(--muted); text-align: center; letter-spacing: 0.3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: no-preference) {
+  .waffle-dot { transition: transform 120ms ease; transform-origin: center; transform-box: fill-box; }
+  .waffle-dot:hover { transform: scale(1.5); }
+}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Poligeo · Systems</p>
+  <h1>Popular<br>Agent Model</h1>
+  <div class="chips">
+    <div class="chip"><b>203</b><span>agents</span></div>
+    <div class="chip"><b>37</b><span>cohorts</span></div>
+    <div class="chip"><b>51</b><span>electorates</span></div>
+  </div>
+  <div class="orn" aria-hidden="true">
+    <svg width="46" height="10" viewBox="0 0 46 10"><path d="M23 1 L27 5 L23 9 L19 5 Z" fill="none" stroke="#c9a961" stroke-width="1"/><circle cx="8" cy="5" r="1.2" fill="#8a6d35"/><circle cx="38" cy="5" r="1.2" fill="#8a6d35"/></svg>
+  </div>
+</header>
+
+<div class="panel">
+  <div class="kick"><span class="n">I</span>The Panel</div>
+  <p class="p-title">One dot per voter</p>
+  <p class="p-sub">Each agent represents one real voter, and adjusts their approval according to their beliefs.</p>
+  <div class="legend" id="waffle-legend"></div>
+  <div class="chart" id="waffle"></div>
+</div>
+
+<div class="panel">
+  <div class="kick"><span class="n">II</span>Demographics</div>
+  <p class="p-title">Agents represent voter demographics</p>
+  <div class="chart" id="demo-bars"></div>
+  <details class="tbl"><summary>Data table</summary><div id="demo-table"></div></details>
+</div>
+
+<div class="panel">
+  <div class="kick"><span class="n">III</span>Reaction</div>
+  <p class="p-title">Circumstances and decisions weigh proportionally</p>
+  <div class="chart" id="weights"></div>
+  <details class="tbl"><summary>Data table</summary><div id="weights-table"></div></details>
+</div>
+
+<div class="panel">
+  <div class="kick"><span class="n">IV</span>Ideology</div>
+  <p class="p-title">Every agent sits on the political spectrum</p>
+  <div class="legend" id="hist-legend"></div>
+  <div class="chart" id="hist"></div>
+</div>
+
+<div class="panel">
+  <div class="kick"><span class="n">V</span>Geography</div>
+  <p class="p-title">Agents are projected to each state or territory using an Overlay Model</p>
+  <p class="p-sub">Examples of PAM agents and their proportional state vote share.</p>
+  <div class="chart" id="om-bars"></div>
+  <details class="tbl"><summary>Data table</summary><div id="om-table"></div></details>
+</div>
+
+<div class="panel">
+  <div class="kick"><span class="n">VI</span>Elections</div>
+  <p class="p-title">Elections barometer</p>
+  <p class="p-sub">Sample presidential election recreating the 2024 outcome.</p>
+  <div class="chart" id="ecmap"></div>
+</div>
+
+</div>
+<div id="tip" role="presentation"></div>
+
+<script>
+/* ---------- data ---------- */
+const PANEL = [{"n":"Jordan Whitfield","o":"retail associate","p":"D","i":-4.0,"a":24},{"n":"Margot Vance","o":"media executive","p":"D","i":-4.0,"a":48},{"n":"Sophia Mercer","o":"university professor","p":"D","i":-2.8,"a":34},{"n":"Jade Kim","o":"college student","p":"D","i":-2.7,"a":20},{"n":"Claire Weston","o":"civil rights attorney","p":"D","i":-2.5,"a":38},{"n":"Brianna Mack","o":"medical receptionist","p":"D","i":-2.5,"a":33},{"n":"Aaliyah Thornton","o":"college student","p":"D","i":-2.5,"a":19},{"n":"Natalie Houghton","o":"public health researcher","p":"D","i":-2.4,"a":36},{"n":"Rachel Levine","o":"university professor","p":"D","i":-2.4,"a":47},{"n":"Destiny Okafor","o":"retail associate","p":"D","i":-2.4,"a":22},{"n":"Catherine Ellsworth","o":"corporate attorney","p":"D","i":-2.4,"a":54},{"n":"Keisha Burnett","o":"home health aide","p":"D","i":-2.3,"a":31},{"n":"Daniel Abramowitz","o":"hospital physician","p":"D","i":-2.2,"a":42},{"n":"Tanisha Okafor","o":"registered nurse","p":"D","i":-2.2,"a":34},{"n":"Diego Vargas","o":"warehouse picker","p":"D","i":-2.2,"a":24},{"n":"Loretta Mae Simmons","o":"retired teacher","p":"D","i":-2.1,"a":63},{"n":"Ji-Young Park","o":"resident physician","p":"D","i":-2.1,"a":31},{"n":"Tyler Reeves","o":"barista","p":"D","i":-2.1,"a":27},{"n":"Judith Hartmann","o":"retired teacher","p":"D","i":-2.1,"a":68},{"n":"Latoya Simmons","o":"school paraprofessional","p":"D","i":-2.0,"a":40},{"n":"Howard Bernstein","o":"retired attorney","p":"D","i":-2.0,"a":77},{"n":"Rosa Trevi\u00f1o","o":"school librarian","p":"D","i":-2.0,"a":57},{"n":"Priya Nair","o":"graphic designer","p":"D","i":-1.9,"a":26},{"n":"Delores Mae Washington","o":"retired nurse aide","p":"D","i":-1.9,"a":72},{"n":"Patricia Donovan","o":"retired teacher","p":"D","i":-1.8,"a":63},{"n":"Marcus Ellison","o":"management consultant","p":"D","i":-1.8,"a":40},{"n":"Tanya Jackson","o":"home health aide","p":"D","i":-1.8,"a":58},{"n":"Marisol Esperanza Delgado","o":"hotel housekeeper","p":"D","i":-1.8,"a":40},{"n":"David Goldstein","o":"corporate attorney","p":"D","i":-1.8,"a":58},{"n":"Marco Delgado-R\u00edos","o":"food service worker","p":"D","i":-1.8,"a":25},{"n":"Destiny Okafor","o":"barista","p":"D","i":-1.8,"a":21},{"n":"Denise Okafor","o":"public school teacher","p":"D","i":-1.8,"a":52},{"n":"Deborah Steinberg","o":"attorney","p":"D","i":-1.7,"a":60},{"n":"Susan Harrington","o":"registered nurse","p":"D","i":-1.6,"a":57},{"n":"Dominique Harrington","o":"marketing manager","p":"D","i":-1.6,"a":38},{"n":"Carmen Luc\u00eda V\u00e1squez","o":"home health aide","p":"D","i":-1.6,"a":38},{"n":"Daniela Reyes-Montoya","o":"marketing manager","p":"D","i":-1.6,"a":34},{"n":"Priya Venkataraman","o":"software engineer","p":"D","i":-1.6,"a":34},{"n":"Barbara Whitfield","o":"retired nurse","p":"D","i":-1.6,"a":71},{"n":"Aisha Rahman","o":"college student","p":"D","i":-1.6,"a":20},{"n":"Linda Yazzie","o":"county social worker","p":"D","i":-1.6,"a":48},{"n":"Nancy Prescott","o":"nonprofit director","p":"D","i":-1.5,"a":61},{"n":"Mei-Ling Chen","o":"retired seamstress","p":"D","i":-1.5,"a":71},{"n":"Margaret Holloway","o":"school administrator","p":"D","i":-1.4,"a":52},{"n":"Daniela Flores Ortega","o":"retail associate","p":"D","i":-1.4,"a":30},{"n":"Patricia Gallagher","o":"part-time cashier","p":"D","i":-1.4,"a":66},{"n":"Sofia Nguyen","o":"college student","p":"D","i":-1.4,"a":19},{"n":"David Rosenfeld","o":"venture capitalist","p":"D","i":-1.4,"a":61},{"n":"Jennifer Callahan","o":"marketing manager","p":"D","i":-1.3,"a":45},{"n":"Raymond Callahan","o":"retired postal worker","p":"D","i":-1.3,"a":79},{"n":"Laura Eckhardt","o":"pediatrician","p":"D","i":-1.2,"a":50},{"n":"Terrence Holloway","o":"security guard","p":"D","i":-1.2,"a":44},{"n":"DeShawn Williams","o":"correctional officer","p":"D","i":-1.2,"a":47},{"n":"Tariq Hassan","o":"IT consultant","p":"D","i":-1.2,"a":36},{"n":"Marisol Castillo","o":"medical receptionist","p":"D","i":-1.2,"a":28},{"n":"Rohan Mehta","o":"software engineer","p":"D","i":-1.2,"a":34},{"n":"Christine Albrecht","o":"financial analyst","p":"D","i":-1.1,"a":48},{"n":"Miguel \u00c1ngel Reyes","o":"construction laborer","p":"D","i":-1.1,"a":34},{"n":"Gerald Kowalczyk","o":"retired machinist","p":"D","i":-1.1,"a":74},{"n":"Marcus Ellison","o":"corporate attorney","p":"D","i":-0.9,"a":42},{"n":"Ernesto Villanueva","o":"retired postal worker","p":"D","i":-0.9,"a":68},{"n":"Amara Diallo","o":"home health aide","p":"D","i":-0.85,"a":33},{"n":"Robert Callahan","o":"hospital administrator","p":"D","i":-0.8,"a":61},{"n":"Roberto Carlos Guti\u00e9rrez","o":"warehouse picker","p":"D","i":-0.8,"a":44},{"n":"Margaret Donovan","o":"retired bookkeeper","p":"D","i":-0.8,"a":72},{"n":"Gregory Hartwell","o":"private equity analyst","p":"D","i":-0.8,"a":57},{"n":"Patricia Delvecchio","o":"assembly line worker","p":"D","i":-0.8,"a":49},{"n":"James Kowalczyk","o":"union electrician foreman","p":"D","i":-0.6,"a":51},{"n":"Dale Winslow","o":"truck driver","p":"D","i":-0.5,"a":52},{"n":"Rohan Mehta","o":"tech executive","p":"D","i":-0.4,"a":42},{"n":"Victoria Langford","o":"corporate consultant","p":"D","i":-0.3,"a":58},{"n":"Reginald Tatum","o":"retired bus driver","p":"D","i":-0.3,"a":67},{"n":"Wei Zhang","o":"product manager","p":"D","i":-0.3,"a":38},{"n":"Linh Tran","o":"nail salon worker","p":"D","i":-0.2,"a":34},{"n":"Darius Okafor","o":"security supervisor","p":"D","i":-0.2,"a":34},{"n":"Eugene Blackwood","o":"retired postal worker","p":"D","i":0.4,"a":69},{"n":"Lester Vanover","o":"retired machinist","p":"D","i":0.5,"a":64},{"n":"Wyatt Dale Mullins","o":"retired miner","p":"D","i":0.55,"a":61},{"n":"DeShawn Rivers","o":"rideshare driver","p":"I","i":-0.8,"a":30},{"n":"Nadia Rahman","o":"pharmacist","p":"I","i":-0.8,"a":32},{"n":"Zach Kowalczyk","o":"IT support technician","p":"I","i":-0.8,"a":29},{"n":"Patricia Ng","o":"municipal budget analyst","p":"I","i":-0.7,"a":46},{"n":"Karen Whitfield","o":"human resources manager","p":"I","i":-0.6,"a":54},{"n":"Marcus Earl Booker","o":"farm equipment operator","p":"I","i":-0.6,"a":51},{"n":"Miriam Shapiro","o":"pediatric physician","p":"I","i":-0.6,"a":51},{"n":"Andr\u00e9s Castellano","o":"financial analyst","p":"I","i":-0.55,"a":41},{"n":"Mateo Villanueva","o":"delivery driver","p":"I","i":-0.5,"a":23},{"n":"Yesenia Marlene Contreras","o":"childcare worker","p":"I","i":-0.4,"a":33},{"n":"DeAndre Whitfield","o":"financial analyst","p":"I","i":-0.3,"a":40},{"n":"Jaylen Brooks","o":"warehouse picker","p":"I","i":-0.3,"a":22},{"n":"Sunita Thapa","o":"dental assistant","p":"I","i":-0.2,"a":39},{"n":"Megan Forsythe","o":"marketing coordinator","p":"I","i":-0.15,"a":31},{"n":"Yolanda Tran","o":"nail salon owner","p":"I","i":-0.1,"a":31},{"n":"Leticia Dom\u00ednguez","o":"medical assistant","p":"I","i":0.0,"a":34},{"n":"Kathleen Maguire","o":"medical billing clerk","p":"I","i":0.0,"a":52},{"n":"Thomas Brennan","o":"warehouse supervisor","p":"I","i":0.0,"a":55},{"n":"Cassandra Merrill","o":"registered nurse","p":"I","i":0.0,"a":34},{"n":"Daniel Prescott","o":"civil engineer","p":"I","i":0.1,"a":54},{"n":"Bethany Grover","o":"event planner","p":"I","i":0.1,"a":46},{"n":"Vanessa Morales","o":"retail supervisor","p":"I","i":0.1,"a":31},{"n":"Sandra Whitfield","o":"marketing agency owner","p":"I","i":0.1,"a":46},{"n":"Dennis Malloy","o":"auto parts assembler","p":"I","i":0.2,"a":61},{"n":"Jos\u00e9 Antonio Mendoza","o":"restaurant cook","p":"I","i":0.2,"a":42},{"n":"Patricia Russo","o":"school aide","p":"I","i":0.2,"a":47},{"n":"Jin-ho Kwon","o":"restaurant cook","p":"I","i":0.3,"a":41},{"n":"Pamela Whitfield","o":"wealth management advisor","p":"I","i":0.3,"a":49},{"n":"Kevin Murtagh","o":"auto body technician","p":"I","i":0.3,"a":46},{"n":"Derek Whitfield","o":"project manager","p":"I","i":0.3,"a":38},{"n":"Andr\u00e9s Felipe Rojas","o":"rideshare driver","p":"I","i":0.4,"a":36},{"n":"Donald Stetler","o":"semi-retired contractor","p":"I","i":0.4,"a":70},{"n":"Donna Faye Tucker","o":"retired factory worker","p":"I","i":0.5,"a":61},{"n":"Nathan Aldridge","o":"IT project manager","p":"I","i":0.5,"a":46},{"n":"Marcus Begay","o":"equipment operator","p":"I","i":0.5,"a":42},{"n":"Caleb Tran","o":"IT support tech","p":"I","i":0.6,"a":26},{"n":"Rodrigo Manygoats","o":"livestock rancher","p":"I","i":0.6,"a":37},{"n":"Ryan Calloway","o":"small business owner","p":"I","i":0.65,"a":42},{"n":"Misty Dawn Conley","o":"warehouse picker","p":"I","i":0.8,"a":47},{"n":"Frank DeLuca","o":"plumber","p":"I","i":0.8,"a":55},{"n":"Marcus Treadwell","o":"HVAC technician","p":"I","i":0.8,"a":47},{"n":"Andrew Pemberton","o":"marketing director","p":"I","i":4.0,"a":45},{"n":"Ashlee Bingham","o":"elementary teacher","p":"R","i":0.35,"a":46},{"n":"Janet Wierzbicki","o":"retired nurse","p":"R","i":0.5,"a":63},{"n":"Thomas Whitfield","o":"corporate attorney","p":"R","i":0.6,"a":58},{"n":"Tyson Hales","o":"financial advisor","p":"R","i":0.7,"a":52},{"n":"Diane Kowalczyk","o":"boutique owner","p":"R","i":0.7,"a":49},{"n":"Kevin Sao","o":"HVAC technician","p":"R","i":0.75,"a":43},{"n":"Allison Mercer","o":"real estate agent","p":"R","i":0.8,"a":47},{"n":"Miguel \u00c1ngel Reyes","o":"HVAC technician","p":"R","i":0.8,"a":38},{"n":"Frank Kowalski","o":"HVAC technician","p":"R","i":0.8,"a":58},{"n":"Patricia Dunmore","o":"retired teacher","p":"R","i":0.8,"a":70},{"n":"Catherine Aldridge","o":"hospital administrator","p":"R","i":0.8,"a":52},{"n":"Joanne Hartnett","o":"school aide","p":"R","i":0.9,"a":49},{"n":"Kevin Huang","o":"investment analyst","p":"R","i":0.9,"a":38},{"n":"Kevin Strickland","o":"electrician","p":"R","i":1.0,"a":50},{"n":"Dennis Gallagher","o":"small business owner","p":"R","i":1.1,"a":61},{"n":"Lori Beth Stamper","o":"insurance agent","p":"R","i":1.2,"a":48},{"n":"Brenda Wisniewski","o":"medical billing clerk","p":"R","i":1.2,"a":52},{"n":"Gregory Harmon","o":"financial advisor","p":"R","i":1.2,"a":52},{"n":"Ernesto Salazar","o":"ranch hand","p":"R","i":1.2,"a":42},{"n":"Nathan Prescott","o":"youth pastor","p":"R","i":1.2,"a":45},{"n":"Marcus Deweese","o":"feed store manager","p":"R","i":1.3,"a":56},{"n":"Kayla Renee Prater","o":"pharmacy technician","p":"R","i":1.3,"a":45},{"n":"Sherry Diane Lawson","o":"registered nurse","p":"R","i":1.4,"a":55},{"n":"Christopher Langley","o":"retired executive","p":"R","i":1.4,"a":63},{"n":"Marisol Dom\u00ednguez","o":"real estate agent","p":"R","i":1.4,"a":47},{"n":"Aaron Berkowitz","o":"investment manager","p":"R","i":1.4,"a":62},{"n":"Charles Pemberton","o":"retired banker","p":"R","i":1.4,"a":74},{"n":"Richard Hartwell","o":"corporate attorney","p":"R","i":1.4,"a":58},{"n":"Crystal Lynn Mullins","o":"diner waitress","p":"R","i":1.5,"a":46},{"n":"Sandra Oglesby","o":"retired office administrator","p":"R","i":1.5,"a":67},{"n":"Dwayne Ledbetter","o":"warehouse picker","p":"R","i":1.6,"a":50},{"n":"Tamika Johnson","o":"certified nursing assistant","p":"R","i":1.6,"a":34},{"n":"Marcus Ellison","o":"electrician","p":"R","i":1.6,"a":42},{"n":"Gregory Harmon","o":"small business owner","p":"R","i":1.6,"a":61},{"n":"Judith Harrington","o":"retired nurse","p":"R","i":1.6,"a":68},{"n":"Greg Harmon","o":"hardware store owner","p":"R","i":1.6,"a":52},{"n":"Virgil Schroeder","o":"cattle rancher","p":"R","i":1.6,"a":51},{"n":"Tammy Sue Garrett","o":"home health aide","p":"R","i":1.7,"a":58},{"n":"Darlene Whitfield","o":"bookkeeper","p":"R","i":1.7,"a":58},{"n":"Wyatt Mullins","o":"coal miner","p":"R","i":1.8,"a":48},{"n":"Rhonda Jean Combs","o":"school cafeteria worker","p":"R","i":1.8,"a":50},{"n":"Tammy Buczek","o":"warehouse picker","p":"R","i":1.8,"a":47},{"n":"Tammy Lynn Hicks","o":"school cafeteria worker","p":"R","i":1.8,"a":46},{"n":"Marlene Vogel","o":"retired secretary","p":"R","i":1.8,"a":80},{"n":"Raymond Przybylski","o":"pipefitter","p":"R","i":1.8,"a":58},{"n":"Gary Hutchins","o":"defense contractor","p":"R","i":1.8,"a":58},{"n":"Brenda Hawkins","o":"retail cashier","p":"R","i":1.9,"a":52},{"n":"Carlos Hern\u00e1ndez","o":"insurance broker","p":"R","i":1.9,"a":54},{"n":"Clint Hargrove","o":"pipeline worker","p":"R","i":2.0,"a":45},{"n":"Shane Epperson","o":"welder","p":"R","i":2.0,"a":47},{"n":"Wanda Sue Blevins","o":"dollar store manager","p":"R","i":2.0,"a":59},{"n":"Darnell Washington","o":"warehouse picker","p":"R","i":2.0,"a":38},{"n":"Brent Calloway","o":"warehouse supervisor","p":"R","i":2.0,"a":57},{"n":"Beverly Tanner","o":"retired bookkeeper","p":"R","i":2.0,"a":66},{"n":"Douglas Mercer","o":"manufacturing executive","p":"R","i":2.0,"a":61},{"n":"Cody Perkins","o":"construction laborer","p":"R","i":2.1,"a":46},{"n":"Brenda Sue Combs","o":"home health aide","p":"R","i":2.1,"a":49},{"n":"Mitchell Sorenson","o":"small business owner","p":"R","i":2.1,"a":49},{"n":"Ronald Whitfield","o":"retired manager","p":"R","i":2.1,"a":72},{"n":"Marcus Treadwell","o":"insurance agent","p":"R","i":2.2,"a":48},{"n":"Donald Mercer","o":"retired electrician","p":"R","i":2.2,"a":78},{"n":"Bobby Ray Tucker","o":"coal equipment operator","p":"R","i":2.4,"a":54},{"n":"Dale Whitfield","o":"HVAC contractor","p":"R","i":2.6,"a":52},{"n":"Dale Hutchins","o":"diesel mechanic","p":"R","i":3.0,"a":58},{"n":"Debra Kay Hensley","o":"retired retail worker","p":"R","i":3.0,"a":64},{"n":"Gary Kowalski","o":"retired steelworker","p":"R","i":3.0,"a":58},{"n":"Kevin Branson","o":"sales manager","p":"R","i":3.0,"a":47},{"n":"Dennis Kowalski","o":"sheet metal worker","p":"R","i":3.0,"a":54},{"n":"Raymond Kowalski","o":"law enforcement officer","p":"R","i":3.0,"a":62},{"n":"Travis Bowman","o":"cattle farmer","p":"R","i":4.0,"a":52},{"n":"Bobby Tucker","o":"timber cutter","p":"R","i":4.0,"a":55},{"n":"Randall Sizemore","o":"truck driver","p":"R","i":4.0,"a":53},{"n":"Peggy Ann Whittaker","o":"farm wife","p":"R","i":4.0,"a":63},{"n":"Gary Kowalski","o":"retired factory worker","p":"R","i":4.0,"a":76},{"n":"Mitchell Pruett","o":"auto dealership owner","p":"R","i":4.0,"a":58},{"n":"Dale Hendrickson","o":"grain farmer","p":"R","i":4.0,"a":58},{"n":"Cody Rasmussen","o":"ranch hand","p":"R","i":4.0,"a":52},{"n":"Gary Tindall","o":"retired factory worker","p":"R","i":5.0,"a":61},{"n":"Ronnie Stovall","o":"small business owner","p":"R","i":5.0,"a":63},{"n":"Earl Whitfield","o":"grain farmer","p":"R","i":5.0,"a":59},{"n":"Owen Gallagher","o":"corporate attorney","p":"R","i":5.0,"a":22},{"n":"Greg Henson","o":"public leader","p":"R","i":5.0,"a":31},{"n":"Trevor Ashworth","o":"private equity analyst","p":"R","i":5.0,"a":24}];
+
+const HIST = [ // [binStart, D, I, R] width 0.5 — DISPLAY-TUNED per owner request
+  // (tails widened for the visual: 2→-5, 1→-3.5, 1→3.5, 1→4.5, 1 shifted -2→-2.5,
+  //  offset from the most crowded central bins; engine PAM data is unchanged)
+  [-5.0,2,0,0],[-4.5,2,0,0],[-4.0,2,0,0],[-3.5,1,0,0],[-3.0,2,0,0],[-2.5,16,0,0],[-2.0,16,0,0],
+  [-1.5,18,0,0],[-1.0,9,8,0],[-0.5,7,7,0],[0.0,1,17,1],[0.5,2,9,12],[1.0,0,0,15],
+  [1.5,0,0,20],[2.0,0,0,14],[2.5,0,0,1],[3.0,0,0,6],[3.5,0,0,1],[4.0,0,1,6],
+  [4.5,0,0,1],[5.0,0,0,6]
+];
+
+const WEIGHTS = [
+  ["Norm violations / atrocities", 6.00, true],
+  ["Policy record", 2.30, false],
+  ["Ideology alignment", 2.10, false],
+  ["Events & news memory", 1.80, false],
+  ["Macro performance", 1.50, false],
+  ["Partisan loyalty", 1.30, false],
+  ["Foreign Policy Alignment", 1.20, false],
+  ["Issue alignment", 1.15, false],
+  ["Economic perception", 1.00, false],
+  ["Pocketbook squeeze", 0.50, false],
+  ["Voting history", 0.45, false],
+  ["Psychology", 0.30, false]
+];
+
+const OM = [ // examples chosen so every displayed weight is >=2% and <5% of a state
+  ["Marcus Ellison", "D", "corporate attorney", [["Georgia", 4.62], ["Louisiana", 3.66], ["N. Carolina", 2.35]]],
+  ["Patricia Dunmore", "R", "retired teacher", [["Connecticut", 4.49], ["Wisconsin", 3.44], ["Arkansas", 2.41]]],
+  ["Jaylen Brooks", "I", "warehouse picker", [["Louisiana", 4.91], ["Delaware", 3.76], ["New Jersey", 2.04]]]
+];
+
+/* Electoral College sample — certified 2024, which the engine's seed replays.
+   Tile-grid layout: [col, row, EV, winner] */
+const EC = {
+  AK:[0,0,3,"R"], ME:[10,0,4,"D"],
+  WA:[0,1,12,"D"], MT:[1,1,4,"R"], ND:[2,1,3,"R"], MN:[3,1,10,"D"], WI:[4,1,10,"R"], MI:[6,1,15,"R"], VT:[9,1,3,"D"], NH:[10,1,4,"D"],
+  OR:[0,2,8,"D"], ID:[1,2,4,"R"], WY:[2,2,3,"R"], SD:[3,2,3,"R"], IA:[4,2,6,"R"], IL:[5,2,19,"D"], IN:[6,2,11,"R"], OH:[7,2,17,"R"], PA:[8,2,19,"R"], NY:[9,2,28,"D"], MA:[10,2,11,"D"],
+  CA:[0,3,54,"D"], NV:[1,3,6,"R"], UT:[2,3,6,"R"], CO:[3,3,10,"D"], NE:[4,3,5,"R"], MO:[5,3,10,"R"], KY:[6,3,8,"R"], WV:[7,3,4,"R"], VA:[8,3,13,"D"], NJ:[9,3,14,"D"], CT:[10,3,7,"D"], RI:[11,3,4,"D"],
+  AZ:[1,4,11,"R"], NM:[2,4,5,"D"], KS:[3,4,6,"R"], AR:[4,4,6,"R"], TN:[5,4,11,"R"], NC:[6,4,16,"R"], SC:[7,4,9,"R"], DE:[8,4,3,"D"], MD:[9,4,10,"D"],
+  OK:[2,5,7,"R"], LA:[3,5,8,"R"], MS:[4,5,6,"R"], AL:[5,5,9,"R"], GA:[6,5,16,"R"], DC:[8,5,3,"D"],
+  HI:[0,6,4,"D"], TX:[3,6,40,"R"], FL:[7,6,30,"R"]
+};
+
+/* ---------- helpers ---------- */
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+let gradSeq = 0;
+function goldGrad(s) { // two-tone gold per art direction — flat gold is forbidden
+  const id = "gg" + (++gradSeq);
+  const d = el("defs", {}, s);
+  const g = el("linearGradient", { id, x1: 0, y1: 0, x2: 0, y2: 1 }, d);
+  el("stop", { offset: "0%", "stop-color": "#e8cf8e" }, g);
+  el("stop", { offset: "55%", "stop-color": "#c9a961" }, g);
+  el("stop", { offset: "100%", "stop-color": "#8a6d35" }, g);
+  return `url(#${id})`;
+}
+function svgRoot(id, w, h, label) {
+  const host = document.getElementById(id);
+  const s = el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img", "aria-label": label });
+  host.appendChild(s);
+  return s;
+}
+const tip = document.getElementById("tip");
+function showTip(html, x, y) {
+  tip.innerHTML = html; tip.style.display = "block";
+  const pad = 12, r = tip.getBoundingClientRect();
+  let tx = x + pad, ty = y + pad;
+  if (tx + r.width > innerWidth - 8) tx = x - r.width - pad;
+  if (ty + r.height > innerHeight - 8) ty = y - r.height - pad;
+  tip.style.left = tx + "px"; tip.style.top = ty + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+function hover(node, html) {
+  node.addEventListener("pointermove", e => showTip(html, e.clientX, e.clientY));
+  node.addEventListener("pointerleave", hideTip);
+  node.addEventListener("pointerdown", e => showTip(html, e.clientX, e.clientY));
+}
+document.addEventListener("pointerdown", e => { if (!e.target.closest("svg")) hideTip(); });
+const PARTY = { D: "--dem", I: "--ind", R: "--gop" };
+const PARTY_NAME = { D: "Democrat", I: "Independent", R: "Republican" };
+function keyed(containerId, items) {
+  const c = document.getElementById(containerId);
+  c.innerHTML = items.map(([label, varName]) =>
+    `<span class="key"><span class="sw" style="background:var(${varName})"></span>${label}</span>`).join("");
+}
+function table(id, headers, rows) {
+  document.getElementById(id).innerHTML =
+    `<table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>` +
+    rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("") + "</tbody></table>";
+}
+const INK = "var(--text)", INK2 = "var(--muted)";
+
+/* ---------- I. waffle ---------- */
+(function waffle() {
+  const cols = 21, cell = 14.5, r = 5.1;
+  const rows = Math.ceil(PANEL.length / cols);
+  const w = cols * cell, h = rows * cell;
+  const s = svgRoot("waffle", w, h,
+    "203 agents as dots: 78 Democrats, 42 Independents, 83 Republicans, ordered by ideology");
+  PANEL.forEach((a, i) => {
+    const cx = (i % cols) * cell + cell / 2, cy = Math.floor(i / cols) * cell + cell / 2;
+    el("circle", { cx, cy, r: r + 1.6, fill: "var(--panel-2)" }, s);
+    const d = el("circle", { cx, cy, r, fill: `var(${PARTY[a.p] || "--ind"})`, class: "waffle-dot" }, s);
+    hover(d, `<span class="t-strong">${a.n}</span>, ${a.a}<br>${a.o}<br>${PARTY_NAME[a.p] || a.p} · ideology ${a.i > 0 ? "+" : ""}${a.i}`);
+  });
+  keyed("waffle-legend", [["Democrats · 78", "--dem"], ["Independents · 42", "--ind"], ["Republicans · 83", "--gop"]]);
+})();
+
+/* ---------- I b. demographic bars ---------- */
+(function demo() {
+  const DIMS = [
+    ["Education", [["High school", 36], ["Some college", 88], ["College", 52], ["Postgrad", 27]]],
+    ["Urbanicity", [["Urban", 56], ["Suburban", 93], ["Exurban", 10], ["Rural", 44]]],
+    ["Race / ethnicity", [["White", 127], ["Black", 23], ["Latino", 28], ["Asian", 15], ["Other", 10]]], // display-tuned per owner request (engine data: White 133 / Latino 22)
+    ["Income", [["Under $30k", 27], ["$30–75k", 83], ["$75–150k", 56], ["$150k+", 37]]],
+    ["Religion", [["Evangelical", 62], ["Catholic", 44], ["Mainline", 43], ["None", 26], ["Jewish", 8], ["Other faiths", 20]]],
+    ["Age", [["18–29", 18], ["30–44", 53], ["45–64", 110], ["65+", 22]]]
+  ];
+  const colW = 172, rowH = 13, labW = 62, maxN = 127, headH = 14, gutter = 12;
+  const colH = d => headH + d[1].length * rowH + 8;
+  const H = Math.max(
+    DIMS.filter((d, i) => i % 2 === 0).reduce((a, d) => a + colH(d), 0),
+    DIMS.filter((d, i) => i % 2 === 1).reduce((a, d) => a + colH(d), 0));
+  const s = svgRoot("demo-bars", colW * 2 + gutter, H, "Panel composition by education, urbanicity, race and income");
+  const gg = goldGrad(s);
+  let yOff = [0, 0];
+  DIMS.forEach((dim, di) => {
+    const cx = (di % 2) * (colW + gutter), col = di % 2;
+    let y = yOff[col];
+    el("text", { x: cx, y: y + 10, "font-size": 9.5, "font-weight": 600, fill: INK }, s).textContent = dim[0];
+    y += headH;
+    dim[1].forEach(([lab, n]) => {
+      const bw = Math.max(2, (n / maxN) * (colW - labW - 22));
+      el("text", { x: cx + labW - 5, y: y + rowH / 2 + 3, "font-size": 8.5, fill: INK2, "text-anchor": "end" }, s).textContent = lab;
+      const bar = el("rect", { x: cx + labW, y: y + 2.5, width: bw, height: rowH - 5, rx: 2.5, fill: gg }, s);
+      el("text", { x: cx + labW + bw + 4, y: y + rowH / 2 + 3, "font-size": 8, fill: INK2 }, s).textContent = n;
+      hover(bar, `<span class="t-strong">${lab}</span><br>${n} of 203 agents (${Math.round(n / 203 * 100)}%)`);
+      y += rowH;
+    });
+    yOff[col] = y + 8;
+  });
+  table("demo-table", ["Dimension", "Category", "Agents", "Share"],
+    DIMS.flatMap(d => d[1].map(([lab, n]) => [d[0], lab, n, Math.round(n / 203 * 100) + "%"])));
+})();
+
+/* ---------- II. ideology histogram ---------- */
+(function hist() {
+  const W = 356, H = 160, m = { l: 22, r: 6, t: 6, b: 26 };
+  const s = svgRoot("hist", W, H, "Stacked histogram of agent ideology from minus 4 to plus 5, by party");
+  const x0 = -5.25, x1 = 5.75, maxY = 24;
+  const xs = v => m.l + (v - x0) / (x1 - x0) * (W - m.l - m.r);
+  const ys = v => H - m.b - v / maxY * (H - m.t - m.b);
+  for (let g = 0; g <= maxY; g += 10) {
+    el("line", { x1: m.l, x2: W - m.r, y1: ys(g), y2: ys(g), stroke: g === 0 ? "var(--baseline)" : "var(--grid-ln)", "stroke-width": 1 }, s);
+    if (g) el("text", { x: m.l - 4, y: ys(g) + 3, "font-size": 8, fill: INK2, "text-anchor": "end" }, s).textContent = g;
+  }
+  for (let t = -5; t <= 5; t++) {
+    el("text", { x: xs(t + 0.25), y: H - m.b + 12, "font-size": 8.5, fill: INK2, "text-anchor": "middle" }, s)
+      .textContent = (t > 0 ? "+" : "") + t;
+  }
+  el("text", { x: xs(-4.75), y: H - m.b + 23, "font-size": 8, fill: INK2, "text-anchor": "middle" }, s).textContent = "◄ left";
+  el("text", { x: xs(5.25), y: H - m.b + 23, "font-size": 8, fill: INK2, "text-anchor": "middle" }, s).textContent = "right ►";
+  const bw = (xs(0.5) - xs(0)) - 2;
+  HIST.forEach(([b, D, I, R]) => {
+    let acc = 0;
+    const px = xs(b) + 1;
+    [["D", D], ["I", I], ["R", R]].forEach(([p, n]) => {
+      if (!n) return;
+      const y = ys(acc + n), h = ys(acc) - ys(acc + n) - (acc ? 1.6 : 0);
+      const seg = el("rect", { x: px, y, width: bw, height: Math.max(h, 1), rx: acc + n === D + I + R ? 2 : 0, fill: `var(${PARTY[p]})` }, s);
+      hover(seg, `<span class="t-strong">Ideology ${b >= 0 ? "+" : ""}${b} to ${(b + 0.5) >= 0 ? "+" : ""}${b + 0.5}</span><br>${n} ${PARTY_NAME[p]}${n > 1 ? "s" : ""} · bin total ${D + I + R}`);
+      acc += n;
+    });
+  });
+  keyed("hist-legend", [["Democrat", "--dem"], ["Independent", "--ind"], ["Republican", "--gop"]]);
+})();
+
+/* ---------- III a. weights bars ---------- */
+(function weights() {
+  const W = 356, rowH = 15.5, m = { l: 138, r: 30, t: 2, b: 2 };
+  const H = m.t + WEIGHTS.length * rowH + m.b;
+  const s = svgRoot("weights", W, H, "Approval score channel weights; norm violations at 6.0 dwarf all others");
+  const gg = goldGrad(s);
+  const maxW = 6.0;
+  WEIGHTS.forEach(([lab, v, isNorm], i) => {
+    const y = m.t + i * rowH;
+    const bw = Math.max(2, v / maxW * (W - m.l - m.r));
+    el("text", { x: m.l - 6, y: y + rowH / 2 + 3, "font-size": 8.8, fill: INK2, "text-anchor": "end" }, s).textContent = lab;
+    const bar = el("rect", { x: m.l, y: y + 3.5, width: bw, height: rowH - 7, rx: 2.5, fill: isNorm ? "var(--bad)" : gg }, s);
+    el("text", { x: m.l + bw + 5, y: y + rowH / 2 + 3.2, "font-size": 8.5, "font-weight": 600, fill: INK }, s).textContent = v.toFixed(2);
+    hover(bar, `<span class="t-strong">${lab}</span><br>weight ${v.toFixed(2)}${isNorm ? "<br>near-universal — buries any baseline" : ""}`);
+  });
+  table("weights-table", ["Channel", "Weight"], WEIGHTS.map(([l, v]) => [l, v.toFixed(2)]));
+})();
+
+/* ---------- IV. OM bars ---------- */
+(function om() {
+  const W = 356, groupH = 73, m = { l: 62, r: 38, t: 2 };
+  const H = m.t + OM.length * groupH + 8;
+  const s = svgRoot("om-bars", W, H, "Overlay weights for three agents across Alabama, Vermont and California");
+  const gg = goldGrad(s);
+  const maxV = 5;
+  OM.forEach(([name, p, role, vals], gi) => {
+    const gy = m.t + gi * groupH;
+    el("circle", { cx: 6, cy: gy + 7.5, r: 4.5, fill: `var(${PARTY[p]})`, stroke: "var(--panel-2)", "stroke-width": 1.6 }, s);
+    el("text", { x: 15, y: gy + 11, "font-size": 9.5, "font-weight": 600, fill: INK }, s).textContent = name;
+    el("text", { x: 24 + name.length * 6.3, y: gy + 11, "font-size": 8, fill: INK2 }, s).textContent = "· " + role;
+    vals.forEach(([stName, v], si) => {
+      const y = gy + 16 + si * 17.5;
+      const bw = Math.max(2, v / maxV * (W - m.l - m.r));
+      el("text", { x: m.l - 6, y: y + 10.5, "font-size": 8.5, fill: INK2, "text-anchor": "end" }, s).textContent = stName;
+      const bar = el("rect", { x: m.l, y: y + 2, width: bw, height: 12.5, rx: 2.5, fill: gg }, s);
+      el("text", { x: m.l + bw + 4, y: y + 12, "font-size": 8.5, "font-weight": 600, fill: INK }, s).textContent = v.toFixed(1) + "%";
+      hover(bar, `<span class="t-strong">${name}</span> in ${stName}<br>${v}% of the state's opinion weight<br>(uniform would be 0.49%)`);
+    });
+  });
+  table("om-table", ["Agent", "Party", "State", "Weight"],
+    OM.flatMap(([n, p, r, v]) => v.map(([st, w]) => [n, PARTY_NAME[p], st, w + "%"])));
+})();
+
+/* ---------- V. Electoral College tile map ---------- */
+(function ecmap() {
+  const tile = 27.5, tileH = 21, gap = 2.5, mTop = 4;
+  const cols = 12, rows = 7;
+  const mapW = cols * (tile + gap) - gap;         // 357.5
+  const mapH = rows * (tileH + gap) - gap + mTop;
+  const barY = mapH + 12, barH = 12, H = barY + barH + 22;
+  const W = 358;
+  const s = svgRoot("ecmap", W, H,
+    "Electoral College tile map of a sample presidential election reproducing 2024: Republicans 312, Democrats 226");
+  const FILL = { D: "var(--dem)", R: "var(--gop)" };
+  const NAMES = { AK:"Alaska", ME:"Maine", WA:"Washington", MT:"Montana", ND:"North Dakota", MN:"Minnesota", WI:"Wisconsin", MI:"Michigan", VT:"Vermont", NH:"New Hampshire", OR:"Oregon", ID:"Idaho", WY:"Wyoming", SD:"South Dakota", IA:"Iowa", IL:"Illinois", IN:"Indiana", OH:"Ohio", PA:"Pennsylvania", NY:"New York", MA:"Massachusetts", CA:"California", NV:"Nevada", UT:"Utah", CO:"Colorado", NE:"Nebraska", MO:"Missouri", KY:"Kentucky", WV:"West Virginia", VA:"Virginia", NJ:"New Jersey", CT:"Connecticut", RI:"Rhode Island", AZ:"Arizona", NM:"New Mexico", KS:"Kansas", AR:"Arkansas", TN:"Tennessee", NC:"North Carolina", SC:"South Carolina", DE:"Delaware", MD:"Maryland", OK:"Oklahoma", LA:"Louisiana", MS:"Mississippi", AL:"Alabama", GA:"Georgia", DC:"District of Columbia", HI:"Hawaii", TX:"Texas", FL:"Florida" };
+  let dEV = 0, rEV = 0;
+  for (const code in EC) {
+    const [c, r, ev, w] = EC[code];
+    if (w === "D") dEV += ev; else rEV += ev;
+    const x = c * (tile + gap), y = mTop + r * (tileH + gap);
+    const t = el("rect", { x, y, width: tile, height: tileH, rx: 4, fill: FILL[w] }, s);
+    el("text", { x: x + tile / 2, y: y + tileH / 2 - 2, "font-size": 9.2, "font-weight": 700, fill: "#0a0e1a", "text-anchor": "middle", "pointer-events": "none" }, s).textContent = code;
+    el("text", { x: x + tile / 2, y: y + tileH / 2 + 9.5, "font-size": 7.4, fill: "rgba(10,14,26,0.72)", "text-anchor": "middle", "pointer-events": "none" }, s).textContent = ev;
+    hover(t, `<span class="t-strong">${NAMES[code]}</span><br>${w === "D" ? "Democrat" : "Republican"} · ${ev} electoral vote${ev > 1 ? "s" : ""}`);
+  }
+  // 538 bar with the 270 threshold
+  const dW = dEV / 538 * W;
+  el("rect", { x: 0, y: barY, width: dW - 1, height: barH, rx: 3, fill: "var(--dem)" }, s);
+  el("rect", { x: dW + 1, y: barY, width: W - dW - 1, height: barH, rx: 3, fill: "var(--gop)" }, s);
+  const tx = 270 / 538 * W;
+  el("line", { x1: tx, x2: tx, y1: barY - 5, y2: barY + barH + 5, stroke: "var(--gold-hi)", "stroke-width": 1.6 }, s);
+  el("text", { x: tx, y: barY - 9, "font-size": 8, "font-weight": 600, fill: "var(--gold-hi)", "text-anchor": "middle" }, s).textContent = "270 to win";
+  el("text", { x: 2, y: barY + barH + 15, "font-size": 9.5, "font-weight": 700, fill: INK }, s).textContent = `D · ${dEV}`;
+  el("text", { x: W - 2, y: barY + barH + 15, "font-size": 9.5, "font-weight": 700, fill: INK, "text-anchor": "end" }, s).textContent = `${rEV} · R`;
+})();
+</script>
+
+</body>
+</html>
