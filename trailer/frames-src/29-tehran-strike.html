@@ -1,0 +1,75 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:34 — Strikes reported across Tehran</title>
+<style>
+  body{background:#04060c}
+  .sky{position:absolute; inset:0;
+    background:linear-gradient(180deg,#05070f 0%, #0a0d18 50%, #14101a 78%, #090a12 100%)}
+  /* Alborz mountain ridge */
+  .ridge{position:absolute; left:0; right:0; bottom:420px; height:220px}
+  .city{position:absolute; left:0; right:0; bottom:80px; height:380px}
+  .bldg{position:absolute; bottom:0; background:#070a13}
+  .lights{position:absolute; left:0; right:0; bottom:80px; height:340px; opacity:0.7;
+    background-image:radial-gradient(circle, rgba(201,165,74,0.65) 1px, transparent 1.6px);
+    background-size:34px 46px}
+  .tower{position:absolute; left:1210px; bottom:120px; width:14px; height:400px; background:#060911}
+  .tower::before{content:""; position:absolute; left:-24px; top:60px; width:62px; height:70px;
+    background:#060911; border-radius:10px}
+  .tower::after{content:""; position:absolute; left:5px; top:-40px; width:4px; height:44px; background:#060911}
+  .bloom{position:absolute; border-radius:50%;}
+  .b1{left:420px; bottom:330px; width:200px; height:200px;
+    background:radial-gradient(circle, rgba(232,190,110,0.85) 0%, rgba(176,84,58,0.5) 34%, transparent 68%)}
+  .b2{left:900px; bottom:290px; width:120px; height:120px;
+    background:radial-gradient(circle, rgba(232,190,110,0.7) 0%, rgba(176,84,58,0.4) 36%, transparent 70%)}
+  .tracer{position:absolute; width:3px; transform-origin:bottom center;
+    background:linear-gradient(to top, rgba(227,192,106,0.9), rgba(227,192,106,0))}
+  .smoke{position:absolute; left:380px; bottom:400px; width:280px; height:260px; filter:blur(20px);
+    background:radial-gradient(ellipse 45% 60% at 50% 90%, rgba(30,26,32,0.9), transparent 75%)}
+  .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.95);
+    border-top:3px solid var(--crimson); padding:20px 56px 24px}
+  .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
+    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:10px}
+  .chyron h2{font-family:var(--display); font-weight:400; font-size:36px; color:var(--ivory); margin:0}
+  .live{position:absolute; top:52px; left:56px; font-family:var(--mono); font-size:17px;
+    letter-spacing:0.28em; color:var(--ivory); z-index:50}
+  .live::before{content:"●"; color:var(--crimson); margin-right:12px}
+  .cam{position:absolute; top:52px; right:56px; font-family:var(--mono); font-size:15px;
+    letter-spacing:0.22em; color:var(--dim); z-index:50}
+</style>
+<div class="stage">
+  <div class="sky"></div>
+  <svg class="ridge" width="1920" height="220" viewBox="0 0 1920 220" preserveAspectRatio="none">
+    <path d="M0 220 L0 150 L200 90 L380 140 L560 60 L760 130 L980 40 L1180 120 L1400 70 L1620 140 L1800 100 L1920 130 L1920 220 Z" fill="#0b0f1c"/>
+  </svg>
+  <div class="lights"></div>
+  <div class="city">
+    <div class="bldg" style="left:60px;width:90px;height:180px"></div>
+    <div class="bldg" style="left:170px;width:60px;height:240px"></div>
+    <div class="bldg" style="left:250px;width:110px;height:150px"></div>
+    <div class="bldg" style="left:390px;width:70px;height:280px"></div>
+    <div class="bldg" style="left:480px;width:100px;height:200px"></div>
+    <div class="bldg" style="left:610px;width:80px;height:320px"></div>
+    <div class="bldg" style="left:710px;width:120px;height:170px"></div>
+    <div class="bldg" style="left:860px;width:70px;height:260px"></div>
+    <div class="bldg" style="left:950px;width:110px;height:190px"></div>
+    <div class="bldg" style="left:1080px;width:80px;height:300px"></div>
+    <div class="bldg" style="left:1300px;width:100px;height:210px"></div>
+    <div class="bldg" style="left:1430px;width:70px;height:270px"></div>
+    <div class="bldg" style="left:1520px;width:120px;height:160px"></div>
+    <div class="bldg" style="left:1670px;width:90px;height:230px"></div>
+    <div class="bldg" style="left:1790px;width:80px;height:190px"></div>
+  </div>
+  <div class="tower"></div>
+  <div class="smoke"></div>
+  <div class="bloom b1"></div><div class="bloom b2"></div>
+  <div class="tracer" style="left:760px; bottom:200px; height:500px; transform:rotate(14deg)"></div>
+  <div class="tracer" style="left:820px; bottom:200px; height:560px; transform:rotate(9deg)"></div>
+  <div class="tracer" style="left:1500px; bottom:220px; height:460px; transform:rotate(-12deg)"></div>
+  <div class="live">LIVE · TEHRAN · 03:26</div>
+  <div class="cam">FIXED CAM · NORTH RIDGE · SIMULATED COVERAGE</div>
+  <div class="chyron">
+    <span class="plate">● BREAKING</span>
+    <h2>Strikes reported across Tehran; air defenses fire over the capital</h2>
+  </div>
+  <div class="timecode" style="bottom:110px">TEASER 02 · 0:34 · FAL REF</div>
+  <div class="grade"></div>
+</div>

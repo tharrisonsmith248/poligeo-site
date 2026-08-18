@@ -1,0 +1,77 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:30 — War with Iran · the interface</title>
+<style>
+  body{background:#070b14}
+  .hud{position:absolute; left:56px; top:50px; font-family:var(--mono); font-size:19px;
+    letter-spacing:0.3em; color:var(--muted); z-index:50}
+  .hud b{color:#d98a8a; font-weight:normal}
+  .panel{position:absolute; background:rgba(11,17,30,0.94); border:1px solid var(--line);
+    border-radius:8px; font-family:var(--mono)}
+  .p-h{font-size:15px; letter-spacing:0.26em; color:var(--gold); padding:18px 24px 12px;
+    border-bottom:1px solid var(--line-soft)}
+  .p-b{padding:14px 24px 20px}
+  .kv{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line-soft);
+    font-size:15.5px; letter-spacing:0.1em; color:var(--muted)}
+  .kv b{color:var(--ivory); font-weight:normal} .kv .warn{color:#d98a8a} .kv .ok{color:#7fb896} .kv .g{color:var(--gold-hi)}
+  .covert{left:64px; top:150px; width:470px}
+  .air{right:64px; top:150px; width:470px}
+  .mapbox{position:absolute; left:580px; top:130px; width:760px; height:660px}
+  .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.95);
+    border-top:3px solid var(--crimson); padding:22px 56px 26px}
+  .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
+    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:12px}
+  .chyron h2{font-family:var(--display); font-weight:400; font-size:38px; color:var(--ivory); margin:0; letter-spacing:0.03em}
+</style>
+<div class="stage">
+  <div class="hud">WAR WITH IRAN · DAY 12 · <b>TWO CAMPAIGNS, ONE SCREEN</b></div>
+  <div class="panel covert">
+    <div class="p-h">COVERT · OPERATION EMBER</div>
+    <div class="p-b">
+      <div class="kv"><span>OBJECTIVE</span><b>INCITE UNREST</b></div>
+      <div class="kv"><span>STATUS</span><b class="ok">ACTIVE · DENIABLE</b></div>
+      <div class="kv"><span>CELLS FUNDED</span><b>14 · SIX PROVINCES</b></div>
+      <div class="kv"><span>BROADCAST REACH</span><b>2.1M / NIGHT</b></div>
+      <div class="kv"><span>UNREST INDEX</span><b class="g">61 ▲▲</b></div>
+      <div class="kv"><span>EXPOSURE RISK</span><b class="warn">RISING</b></div>
+    </div>
+  </div>
+  <div class="panel air">
+    <div class="p-h">AIR CAMPAIGN · MILITARY TARGETS</div>
+    <div class="p-b">
+      <div class="kv"><span>SORTIES FLOWN</span><b>412</b></div>
+      <div class="kv"><span>TARGETS STRUCK</span><b>178 / 214</b></div>
+      <div class="kv"><span>AIR DEFENSES</span><b class="g">DEGRADED 64%</b></div>
+      <div class="kv"><span>AIRCRAFT LOST</span><b>3</b></div>
+      <div class="kv"><span>CIVILIAN TOLL · EST</span><b class="warn">PRICED · LEDGERED</b></div>
+      <div class="kv"><span>NEXT PACKAGE</span><b>TEHRAN · COMMAND NODES</b></div>
+    </div>
+  </div>
+  <svg class="mapbox" viewBox="0 0 760 660">
+    <!-- rough Iran silhouette -->
+    <path d="M120 180 L200 120 L300 100 L370 130 L470 120 L560 170 L640 240 L660 330 L620 380
+             L640 440 L560 500 L470 520 L400 560 L300 540 L240 480 L150 440 L110 350 L90 260 Z"
+          fill="#101a2f" stroke="#243352" stroke-width="2"/>
+    <text x="330" y="330" font-family="DejaVu Sans Mono" font-size="26" letter-spacing="8" fill="#3d4a6b">IRAN</text>
+    <!-- strike markers -->
+    <g font-family="DejaVu Sans Mono" font-size="14" fill="#8f97ab">
+      <g><circle cx="330" cy="180" r="12" fill="none" stroke="#e3c06a" stroke-width="2.5"/><circle cx="330" cy="180" r="4" fill="#e3c06a"/><text x="348" y="176">TEHRAN · PENDING</text></g>
+      <g><circle cx="200" cy="150" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="200" cy="150" r="3.5" fill="#b04a4a"/><text x="216" y="142">TABRIZ ✓</text></g>
+      <g><circle cx="330" cy="280" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="330" cy="280" r="3.5" fill="#b04a4a"/><text x="348" y="286">NATANZ ✓</text></g>
+      <g><circle cx="360" cy="360" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="360" cy="360" r="3.5" fill="#b04a4a"/><text x="378" y="366">ISFAHAN ✓</text></g>
+      <g><circle cx="260" cy="470" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="260" cy="470" r="3.5" fill="#b04a4a"/><text x="150" y="504">BUSHEHR ✓</text></g>
+      <g><circle cx="440" cy="520" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="440" cy="520" r="3.5" fill="#b04a4a"/><text x="458" y="528">BANDAR ABBAS ✓</text></g>
+    </g>
+    <!-- unrest markers -->
+    <g fill="#c9a54a" opacity="0.9">
+      <circle cx="290" cy="200" r="5"/><circle cx="420" cy="240" r="5"/><circle cx="250" cy="330" r="5"/>
+      <circle cx="480" cy="400" r="5"/><circle cx="200" cy="250" r="5"/><circle cx="530" cy="300" r="5"/>
+    </g>
+    <text x="500" y="590" font-family="DejaVu Sans Mono" font-size="13" fill="#5b647c" letter-spacing="2">● UNREST FLARE · ○ STRIKE</text>
+  </svg>
+  <div class="chyron">
+    <span class="plate">● THE WIRE</span>
+    <h2>US incites unrest inside Iran as airstrikes pound military assets</h2>
+  </div>
+  <div class="timecode" style="bottom:130px">TEASER 02 · 0:30 · H5</div>
+  <div class="grade"></div>
+</div>

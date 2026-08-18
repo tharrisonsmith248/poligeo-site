@@ -1,0 +1,70 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:20.5 — The Minsk raid</title>
+<style>
+  body{background:#04060b}
+  .sky{position:absolute; inset:0; background:linear-gradient(180deg,#060a14 0%, #08101e 60%, #050810 100%)}
+  .snow{position:absolute; inset:0; opacity:0.35;
+    background-image:radial-gradient(circle, rgba(207,212,224,0.6) 1px, transparent 1.4px);
+    background-size:170px 140px}
+  /* government palace facade */
+  .palace{position:absolute; left:360px; right:360px; top:170px; height:430px; background:#0a0f1c;
+    border-top:6px solid #121a2e}
+  .cols{position:absolute; left:0; right:0; top:60px; bottom:0; display:flex; justify-content:space-evenly}
+  .col{width:52px; background:linear-gradient(90deg,#0e1526,#080d18)}
+  .pediment{position:absolute; left:300px; right:300px; top:96px; height:80px;
+    background:linear-gradient(180deg,#0d1424,#0a0f1c); clip-path:polygon(0 100%,50% 0,100% 100%)}
+  .door{position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:150px; height:200px;
+    background:#03050a; border-top:4px solid #1a2438}
+  .doorlight{position:absolute; left:50%; bottom:150px; transform:translateX(-50%); width:300px; height:140px;
+    background:radial-gradient(ellipse 50% 60% at 50% 100%, rgba(201,165,74,0.14), transparent 75%)}
+  .plaza{position:absolute; left:0; right:0; bottom:0; height:480px;
+    background:linear-gradient(180deg,#070b14 0%, #05070d 100%)}
+  /* operators stacking toward the door */
+  .op{position:absolute; background:#02030699; width:56px; height:150px; border-radius:26px 26px 6px 6px;
+    filter:blur(1.5px)}
+  .op::before{content:""; position:absolute; left:14px; top:-30px; width:28px; height:32px; border-radius:50%; background:#020306}
+  .op.crouch{height:110px; border-radius:26px 26px 10px 10px}
+  .beam{position:absolute; height:3px; transform-origin:left center;
+    background:linear-gradient(to right, rgba(227,192,106,0.85), rgba(227,192,106,0)); filter:blur(1px)}
+  .van{position:absolute; left:210px; bottom:210px; width:340px; height:120px; background:#04070d;
+    border-radius:10px 26px 6px 6px}
+  .van::after{content:""; position:absolute; right:18px; top:18px; width:80px; height:34px; background:#0a1120; border-radius:4px}
+  .hud{position:absolute; left:56px; top:52px; font-family:var(--mono); font-size:18px;
+    letter-spacing:0.3em; color:var(--muted); z-index:50}
+  .hud b{color:var(--gold-hi); font-weight:normal}
+  .reticle{position:absolute; right:120px; top:120px; width:200px; height:200px; opacity:0.5}
+  .clock{position:absolute; right:120px; top:340px; font-family:var(--mono); font-size:16px;
+    letter-spacing:0.24em; color:var(--dim); text-align:right; line-height:2.2}
+  .clock b{color:var(--ivory); font-weight:normal}
+</style>
+<div class="stage">
+  <div class="sky"></div><div class="snow"></div>
+  <div class="pediment"></div>
+  <div class="palace"><div class="cols">
+    <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+    <div class="col"></div><div class="col"></div><div class="col"></div><div class="col"></div>
+  </div></div>
+  <div class="doorlight"></div>
+  <div class="palace" style="background:none; border:none"><div class="door"></div></div>
+  <div class="plaza"></div>
+  <div class="van"></div>
+  <div class="op" style="left:700px; bottom:300px"></div>
+  <div class="op crouch" style="left:770px; bottom:290px"></div>
+  <div class="op" style="left:840px; bottom:305px"></div>
+  <div class="op crouch" style="left:1105px; bottom:295px"></div>
+  <div class="op" style="left:1175px; bottom:300px"></div>
+  <div class="beam" style="left:756px; bottom:395px; width:260px; transform:rotate(-8deg)"></div>
+  <div class="beam" style="left:1120px; bottom:385px; width:230px; transform:rotate(-166deg)"></div>
+  <div class="hud">DENIABLE OPERATION · <b>MINSK</b> · 02:14 LOCAL · NO FLAG · NO CLAIM</div>
+  <svg class="reticle" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="44" fill="none" stroke="#243352" stroke-width="1.2"/>
+    <circle cx="50" cy="50" r="26" fill="none" stroke="#243352" stroke-width="1.2"/>
+    <line x1="50" y1="0" x2="50" y2="100" stroke="#243352" stroke-width="1.2"/>
+    <line x1="0" y1="50" x2="100" y2="50" stroke="#243352" stroke-width="1.2"/>
+    <circle cx="50" cy="50" r="3" fill="#b04a4a"/>
+  </svg>
+  <div class="clock">FEED · <b>ISR-4 THERMAL</b><br>PRINCIPAL · <b>LOCATED · FLOOR 2</b><br>EXFIL WINDOW · <b>00:03:41</b></div>
+  <div class="disclaimer">FAL COMPOSITION REF · COVERT ELEMENT STACKS ON THE PALACE DOOR · ONE SECOND, NO SHOTS SHOWN</div>
+  <div class="timecode">TEASER 02 · 0:20.5</div>
+  <div class="grade"></div>
+</div>

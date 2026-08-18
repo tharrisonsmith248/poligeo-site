@@ -1,0 +1,67 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:26 — Week 4 · a government installed</title>
+<style>
+  .map{position:absolute; left:330px; top:20px}
+  .ve-tag{position:absolute; left:360px; top:70px; font-family:var(--mono); font-size:22px;
+    letter-spacing:0.42em; color:var(--muted)}
+  .wk{position:absolute; left:360px; top:112px; font-family:var(--mono); font-size:64px;
+    color:var(--gold-hi); letter-spacing:0.06em}
+  .stats{position:absolute; right:130px; top:170px; width:430px; font-family:var(--mono)}
+  .stat{display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--line-soft); padding:18px 4px}
+  .stat .l{font-size:16px; letter-spacing:0.22em; color:var(--muted)}
+  .stat .v{font-size:30px; color:var(--ivory)}
+  .stat .v.gold{color:var(--gold-hi)}
+  .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.95);
+    border-top:3px solid var(--crimson); padding:26px 56px 30px}
+  .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
+    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:14px}
+  .chyron h2{font-family:var(--display); font-weight:400; font-size:42px; color:var(--ivory); margin:0; letter-spacing:0.03em}
+  .chyron .sub{font-family:var(--mono); font-size:15px; letter-spacing:0.16em; color:var(--muted); margin-top:10px}
+</style>
+<div class="stage">
+  <div class="map"><svg id="ve" width="940" height="850" viewBox="0 0 640 579"></svg></div>
+  <div class="ve-tag">OPERATION SOUTHERN SHIELD · TIMELAPSE</div>
+  <div class="wk">WEEK 4</div>
+  <div class="stats" id="stats"></div>
+  <div class="chyron">
+    <span class="plate">● THE WIRE · CARACAS</span>
+    <h2>US-backed government installed in Caracas; opposition calls it a puppet regime</h2>
+    <div class="sub">THE PALACE CHANGES HANDS BEFORE THE COUNTRY DOES · CHAVISTA FORCES WITHDRAW SOUTH</div>
+  </div>
+  <div class="timecode" style="bottom:160px">TEASER 02 · 0:26 · WEEK 4</div>
+  <div class="grade"></div>
+</div>
+<script src="data.js"></script>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('ve');
+  var GOV="#28406e", OCC="#8f3040", FRESH="#c9a961", BGLN="#0a101f";
+  var CUMS=[]; var cur=new Set();
+  VE.weeks.forEach(function(w){ w.add.forEach(function(i){cur.add(i)}); w.rm.forEach(function(i){cur.delete(i)}); CUMS.push(new Set(cur)); });
+  var MAP=[2,5,7,10,13,16,18,21,23,26];
+  var W=4, ow=MAP[W-1], prevOw=MAP[W-2];
+  var occ=CUMS[ow-1], prev=CUMS[prevOw-1], st=VE.weeks[ow-1];
+  VE_PATHS.forEach(function(d,i){
+    var p=document.createElementNS(NS,'path');
+    p.setAttribute('d',d);
+    var fresh=occ.has(i)&&!prev.has(i);
+    p.setAttribute('fill', occ.has(i)?OCC:GOV);
+    p.setAttribute('stroke', fresh?FRESH:BGLN);
+    p.setAttribute('stroke-width', fresh?1.6:0.5);
+    svg.appendChild(p);
+  });
+  var rows=[
+    ['TILES HELD', occ.size+'/270', true],
+    ['CARACAS', 'ENCIRCLED', true],
+    ['ENEMY CASUALTIES', st.cas.toLocaleString('en-US'), false],
+    ['US KIA', st.kia.toLocaleString('en-US'), false],
+    ['REFUGEES', st.ref>=1000?Math.round(st.ref/1000)+'k':st.ref, false],
+    ['COST', '$'+st.cost.toFixed(1)+'B', false]
+  ];
+  document.getElementById('stats').innerHTML=rows.map(function(r){
+    return '<div class="stat"><span class="l">'+r[0]+'</span><span class="v'+(r[2]?' gold':'')+'">'+r[1]+'</span></div>';
+  }).join('');
+})();
+</script>

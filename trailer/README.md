@@ -1,71 +1,59 @@
-# Teaser 01 — visual assets
+# Teaser 02 "One Term" — visual assets
 
-Styleframes for every beat of the 38-second announcement teaser
-(see `../docs/teaser-01-treatment.md` for the full treatment).
+Styleframes for every beat of the 56-second narrative teaser: one presidency's
+arc from a 2024 landslide to martial law. Full beat sheet:
+`../docs/teaser-02-storyline.md`. Clip-by-clip production manifest (what to
+animate vs. what to generate with fal, with prompts): `FAL-NOTES.md`.
 
-- `frames/` — 3840×2160 PNG styleframes, one per beat, in cut order.
-  These are the frame of reference for animation: layout, palette, type,
-  and data are final-intent; motion is described in the treatment.
-- `frames/thumbs/` — 880px previews of the same frames.
-- `frames-src/` — the HTML/CSS/JS sources. Each frame is a 1920×1080 page
-  rendered at 2× by headless Chromium (`frames-src/render.sh`). Edit the
-  HTML, re-run the script, and the PNG updates. `data.js` carries real data
-  extracted from the site: `VE_PATHS`/`VE` (the 270-tile Venezuela campaign),
-  `UA_TILES`/`UA_NEI`/`UA_CITIES`/`UAV` (Ukraine's 421 tiles at the
-  20 Jan 2025 seed), and `CONGRESS` (119th Congress caucus data).
-  `hero-map.jpg` is the engine screenshot embedded in index.html.
+- `frames/` — 3840×2160 PNG styleframes. Layout, palette, type and data are
+  final-intent; motion is specified in FAL-NOTES.md.
+- `frames/thumbs/` — 880px previews.
+- `frames-src/` — HTML/CSS/JS sources; each frame is a 1920×1080 page rendered
+  at 2× by `render.sh` (headless Chromium). Edit + re-run to update a frame.
+  `data.js` carries real data extracted from the site: `VE_PATHS`/`VE`
+  (270-tile Venezuela campaign, weekly control sets), `UA_TILES`/`UA_NEI`/
+  `UA_CITIES`/`UAV` (Ukraine's 421 tiles at the 20 Jan 2025 seed), `CONGRESS`
+  (119th Congress caucuses). `hero-map.jpg` is the engine screenshot from
+  index.html. Frame 20 hardcodes the real 2024 electoral result
+  (312–226, state by state, ME-02/NE-02 splits).
 
-## Frame → beat map
+## The cut (0:56)
 
-| Frame | Beat | Music cue | Built from |
-|---|---|---|---|
-| 01-wire-headline | 0:00 cold open | silence, ticker keys | Wire ticker |
-| 02-newsreels | 0:01.5 | timpani roll begins | **fal ref** — 3 news reels |
-| 03-oval-office | 0:04 | swell peaks | **fal ref** — Oval still + parallax |
-| 04-one-engine | 0:06 H1 | crash, theme bar 1 | engine screenshot (hero-map.jpg) |
-| 05-every-vote | 0:08 H2 | antecedent bar 3 | real 119th Congress caucus data |
-| 06-every-word | 0:10 H3 | consequent begins | site diplomacy demo copy |
-| 07-every-war | 0:12 H4 | consequent cadence | real 270-tile engine run, week 6 |
-| 08-every-consequence | 0:14 H5 | broadening phrase | site lever demo + ripple charts |
-| 09-existential | 0:18 H6 | answering phrase | real 421-tile Ukraine seed |
-| 10-real-time | 0:20 | statement closes | PAM (203 agents) + barometer |
-| 11-wall-of-screens | 0:22 H7 | stretto begins | **fal ref** — broadcast mosaic |
-| 12-redacted-cable | 0:23 | motif step 2 | motion-gfx layout |
-| 13-militias-missiles | 0:24 | motif steps 3–4 | engine-style map plates |
-| 14-unbounded | 0:26 H8 | peak tutti | posture-ladder UI |
-| 15-the-hand | 0:28 | music cuts off | **fal ref** — pre-title sting |
-| 16-caesura | 0:29.5 | dead silence | type card |
-| 17-title | 0:30 chord 1 | cadence chord 1 | assets/logo-pg.png + wordmark.png |
-| 18-tagline | 0:32 chord 2 | cadence chord 2 | wordmark + tagline |
-| 19-endslate | 0:34–0:38 | chord 3 held | end slate (Oct 2026 + wishlist CTA) |
+| TC | Frame | Beat |
+|---|---|---|
+| 0:00 | 01-wire-headline | Cold open — the engine calls the election |
+| 0:02 | 20-electoral-map | Real 2024 map, 312–226 · "A LANDSLIDE." |
+| 0:05 | 21-approval | Polling & approval, honeymoon +9 |
+| 0:07.5 | 22-markets-wall | Candlestick + economy wall · "COMPUTED IN REAL TIME." |
+| 0:10 · H1 | 04-one-engine | Brass slam — engine globe · "ONE ENGINE." |
+| 0:12 · H2 | 23-ukraine-timelapse | Invasion timelapse 2022 → 2025 seed |
+| 0:16 · H3 | 06-every-word | Kremlin channel — most hostile reply sent |
+| 0:18.5 | 12-redacted-cable | Covert order: capture the President of Belarus |
+| 0:20.5 | 24-minsk-raid | fal: the Minsk raid |
+| 0:22.5 · H4 | 25-invasion-headline | "US launches full-scale invasion of Venezuela" |
+| 0:24–0:28 | 26-puppet-regime · 27-insurgency | Control timelapse · wk 4 puppet-regime headline · wk 10 insurgency headline |
+| 0:30 · H5 | 28-iran-warroom | Iran war interface: covert unrest + air campaign |
+| 0:32.5 | 08-every-consequence | Decapitation strikes lever flips ON |
+| 0:34 | 29-tehran-strike | fal: night strikes over Tehran |
+| 0:36 | 30-iran-crackdown | fal: regime crackdown newsreel, thousands dead |
+| 0:38 | 31-hormuz-closed | Iran closes the Strait of Hormuz |
+| 0:40 | 32-home-unrest | Leftist unrest · ORDER: FEDERAL CRACKDOWN (fal clips) |
+| 0:42.5 | 33-martial-law | Courts defied, martial law · "The only bounds on power are the ones you can overcome." |
+| 0:45 | 15-the-hand | Sting: the hand stops at STRATEGIC RELEASE |
+| 0:46.5 | 16-caesura | Silence · "The Ultimate Geopolitical Simulator." |
+| 0:47.5 | 17-title | PG cube + wordmark (85% of runtime) |
+| 0:49.5 | 18-tagline | "History is in session." |
+| 0:51.5 | 19-endslate | COMING TO STEAM · OCTOBER 2026 · WISHLIST NOW |
 
-## fal generation notes
+**Alternates** (rendered, not in this cut — for cutdowns/gameplay trailer):
+02-newsreels, 03-oval-office, 05-every-vote, 07-every-war, 09-existential,
+10-real-time, 11-wall-of-screens, 13-militias-missiles, 14-unbounded.
 
-Frames marked **fal ref** are compositions to feed as image references;
-generate the live-action/photoreal versions with fal, then grade to the
-frame's palette (ink `#0b1220`, gold `#c9a54a`, ivory `#ece5d3`) so
-everything sits in one world. Keep all persons generic — no real faces,
-no real network branding.
+## fal usage
 
-- **02 news reels** (×3, ~1s each, 4:3): "1990s-to-modern broadcast news
-  footage, dark studio anchor desk mid-sentence / night motorcade with
-  security escort / aircraft-carrier deck at dawn, deep navy grade, gold
-  practicals, slight scanline texture, generic anchor, no logos."
-  Composite the frame's lower-thirds and SIMULATED COVERAGE watermark on top.
-- **03 Oval Office** (still → 2.5D parallax): "empty presidential office at
-  dawn, resolute-style desk, high-back chair turned away, three tall arched
-  windows, warm low light through glass, dust motes, dark navy shadows,
-  cinematic, no people." Push in 4% over 2s.
-- **11 wall of screens**: generate 3–4 anchor/broadcast clips (different
-  languages/sets) and tile them into the frame's 4×3 mosaic; the mosaic
-  chrome, lower-thirds and EMERGENCY plates come from the frame.
-- **15 the hand**: "out-of-focus silhouette of a hand entering frame,
-  fingers open, reaching toward a glowing brass lever and stopping short,
-  single warm key light, everything else near-black." The frame gives the
-  blocking; fal gives the photoreal hand. It must NOT touch the lever.
-- **10 insets (optional)**: half-second crowd clips (confetti / protest)
-  boxed like the 02 reels.
-
-Everything else (maps, congress, chat, charts, ladder, cable, title cards)
-animates from the real UI/engine layers in these frames — no generation
-needed.
+Frames marked FAL in the cut are image references for generation — see
+`FAL-NOTES.md` for per-clip prompts, durations and compositing notes.
+Rules that apply to every generated clip: generic faces only, no real
+persons or network branding, violence implied never shown, grade to ink
+`#0b1220` / gold `#c9a54a` / ivory `#ece5d3`, and composite the frame's own
+chyrons/watermarks over the output rather than asking the model for text.
