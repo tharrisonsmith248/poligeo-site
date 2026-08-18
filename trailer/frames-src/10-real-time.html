@@ -1,0 +1,71 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:20 — Election night</title>
+<style>
+  .panel-tag{position:absolute; left:0; right:0; top:60px; text-align:center;
+    font-family:var(--mono); font-size:19px; letter-spacing:0.4em; color:var(--dim)}
+  .spectrum{position:absolute; left:130px; top:210px; width:760px; height:520px}
+  .spec-axis{position:absolute; left:0; right:0; bottom:60px; height:2px; background:var(--line)}
+  .spec-lab{position:absolute; bottom:20px; font-family:var(--mono); font-size:15px;
+    letter-spacing:0.22em; color:var(--dim)}
+  .spec-head{position:absolute; top:-44px; left:0; font-family:var(--mono); font-size:16px;
+    letter-spacing:0.26em; color:var(--muted)}
+  .gauge{position:absolute; right:150px; top:210px; width:640px; text-align:center}
+  .gauge svg{overflow:visible}
+  .ev{display:flex; justify-content:space-between; font-family:var(--mono); margin-top:-30px}
+  .ev .n{font-size:76px} .ev .d{color:#5f7fc0} .ev .r{color:#d98a8a}
+  .ev .l{font-size:15px; letter-spacing:0.3em; color:var(--muted); margin-top:6px}
+  .needle-lab{font-family:var(--mono); font-size:17px; letter-spacing:0.34em; color:var(--gold-hi); margin-top:24px}
+</style>
+<div class="stage">
+  <div class="panel-tag">POPULAR AGENT MODEL · 203 AGENTS · 37 COHORTS · 51 ELECTORATES</div>
+  <div class="spectrum" id="spec">
+    <div class="spec-head">ONE DOT PER VOTER — IDEOLOGY, LIVE</div>
+    <div class="spec-axis"></div>
+    <div class="spec-lab" style="left:0">FAR LEFT</div>
+    <div class="spec-lab" style="left:47%">CENTER</div>
+    <div class="spec-lab" style="right:0">FAR RIGHT</div>
+  </div>
+  <div class="gauge">
+    <svg width="640" height="360" viewBox="0 0 640 360">
+      <path d="M60 330 A260 260 0 0 1 580 330" fill="none" stroke="#1a2742" stroke-width="44"/>
+      <path d="M60 330 A260 260 0 0 1 320 70" fill="none" stroke="#3f63a8" stroke-width="44" opacity="0.85"/>
+      <path d="M320 70 A260 260 0 0 1 580 330" fill="none" stroke="#a04444" stroke-width="44" opacity="0.85"/>
+      <line x1="320" y1="330" x2="320" y2="52" stroke="#e3c06a" stroke-width="5"/>
+      <circle cx="320" cy="330" r="14" fill="#e3c06a"/>
+      <text x="320" y="34" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="19" fill="#e3c06a" letter-spacing="4">270 TO WIN</text>
+    </svg>
+    <div class="ev">
+      <div><div class="n d">269</div><div class="l">DEM EV</div></div>
+      <div><div class="n r">269</div><div class="l">GOP EV</div></div>
+    </div>
+    <div class="needle-lab">TWO STATES OUTSTANDING · RECOUNT LIKELY</div>
+  </div>
+  <p class="card">COMPUTED IN <span class="g">REAL TIME</span>.</p>
+  <div class="card-rule"></div>
+  <div class="disclaimer">PAM DEMOS RE-RENDER (PAM.HTML) · 8,000+ AGENTS SIMULATED GAME-WIDE</div>
+  <div class="timecode">TEASER 01 · 0:20</div>
+  <div class="grade"></div>
+</div>
+<script>
+// 203 agent dots on an ideology spectrum, deterministic layout
+(function(){
+  var host=document.getElementById('spec');
+  var W=760, H=380, N=203;
+  function rnd(seed){ return function(){ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648 } }
+  var r=rnd(77);
+  for(var i=0;i<N;i++){
+    // two-lobe ideology distribution
+    var lobe = r()<0.52 ? -1 : 1;
+    var x = 0.5 + lobe*(0.16+0.22*Math.pow(r(),1.4)) + (r()-0.5)*0.1;
+    x=Math.max(0.02,Math.min(0.98,x));
+    var y = 0.12 + 0.78*r();
+    var d=document.createElement('div');
+    var col = x<0.46 ? '#3f63a8' : x>0.54 ? '#a04444' : '#8f97ab';
+    var sz = 9+Math.round(r()*7);
+    d.style.cssText='position:absolute;border-radius:50%;width:'+sz+'px;height:'+sz+'px;'+
+      'left:'+(x*W)+'px;top:'+(y*H)+'px;background:'+col+';opacity:'+(0.55+0.45*r()).toFixed(2)+
+      ';box-shadow:0 0 '+(sz)+'px rgba(95,127,192,0.18)';
+    host.appendChild(d);
+  }
+})();
+</script>

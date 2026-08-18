@@ -1,0 +1,48 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:22 — H7 · Wall of screens</title>
+<style>
+  body{background:#05080f}
+  .wall{position:absolute; left:70px; right:70px; top:70px; bottom:120px;
+    display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr); gap:22px}
+  .scr{position:relative; background:var(--panel2); border:1px solid var(--line); overflow:hidden}
+  .scr .fill{position:absolute; inset:0}
+  .scr .bar{position:absolute; left:0; right:0; bottom:0; padding:9px 14px;
+    font-family:var(--mono); font-size:14px; letter-spacing:0.1em; color:var(--ivory);
+    background:linear-gradient(to top, rgba(7,12,22,0.95), transparent)}
+  .scr .bar .o{display:inline-block; padding:3px 8px; margin-right:10px; font-size:12px; letter-spacing:0.18em}
+  .scr .live{position:absolute; top:10px; left:12px; font-family:var(--mono); font-size:12px;
+    letter-spacing:0.22em; color:var(--ivory); opacity:0.9}
+  .scr .live::before{content:"●"; color:var(--crimson); margin-right:7px}
+  .anchor-s{position:absolute; bottom:26%; left:50%; transform:translateX(-50%);
+    width:26%; height:44%; background:#0a101f; border-radius:50% 50% 0 0}
+  .anchor-s::before{content:""; position:absolute; left:29%; top:-30%; width:42%; height:36%;
+    border-radius:50%; background:#0a101f}
+  .alert{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); letter-spacing:0.25em; text-align:center; line-height:2}
+  .em{border-color:var(--crimson); box-shadow:0 0 40px rgba(176,74,74,0.25), inset 0 0 60px rgba(176,74,74,0.08)}
+  .hot{border-color:var(--gold); box-shadow:0 0 40px rgba(201,165,74,0.2)}
+  .mapfill{background:
+    radial-gradient(circle at 30% 40%, rgba(61,90,148,0.5) 0 12%, transparent 13%),
+    radial-gradient(circle at 62% 55%, rgba(176,74,74,0.5) 0 16%, transparent 17%),
+    linear-gradient(180deg,#0c1425,#0a101f)}
+  .chartfill{background:linear-gradient(180deg,#0c1425,#0a101f)}
+</style>
+<div class="stage">
+  <div class="wall">
+    <div class="scr"><div class="fill" style="background:linear-gradient(180deg,#101a31,#0b1220)"></div><div class="anchor-s"></div><div class="live">LIVE</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--crimson)">GNC</span>PRESIDENT ADDRESSES THE NATION AT 9</div></div>
+    <div class="scr em"><div class="fill" style="background:#160d12"></div><div class="alert" style="color:#d98a8a; font-size:17px">EMERGENCY<br>BROADCAST</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--crimson)">NBS</span>MARKETS HALTED — CIRCUIT BREAKER</div></div>
+    <div class="scr"><div class="fill mapfill"></div><div class="live">DIRECTO</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--blue)">TVA·ES</span>ÚLTIMA HORA: BLOQUEO EN EL ESTRECHO</div></div>
+    <div class="scr"><div class="fill" style="background:linear-gradient(180deg,#101a31,#0b1220)"></div><div class="anchor-s" style="left:38%"></div><div class="live">生放送</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:#6b5a2e">NTK·JP</span>安全保障理事会 緊急招集へ</div></div>
+    <div class="scr"><div class="fill chartfill"></div><svg style="position:absolute;inset:0" width="100%" height="100%" viewBox="0 0 400 240" preserveAspectRatio="none"><polyline points="0,80 60,84 120,76 180,90 220,100 260,150 300,140 340,180 400,172" fill="none" stroke="#b04a4a" stroke-width="3"/></svg><div class="live">MARKETS</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:#3a3550">FBN</span>BRENT +31% · S&amp;P −4.8% · VIX 41</div></div>
+    <div class="scr hot"><div class="fill" style="background:linear-gradient(180deg,#131d34,#0b1220)"></div><div class="alert" style="color:var(--gold-hi); font-size:15px">CARRIER GROUP<br>ENTERS THE STRAIT</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:#6b5a2e">WSN</span>FIFTH FLEET ESCORT FORMATION</div></div>
+    <div class="scr"><div class="fill mapfill"></div><div class="live">EN DIRECT</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--blue)">RFI·FR</span>LE CONSEIL SE RÉUNIT EN URGENCE</div></div>
+    <div class="scr"><div class="fill" style="background:linear-gradient(180deg,#101a31,#0b1220)"></div><div class="anchor-s" style="width:22%"></div><div class="live">مباشر</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--crimson)">AQN</span>إغلاق مضيق هرمز أمام الملاحة</div></div>
+    <div class="scr"><div class="fill chartfill"></div><svg style="position:absolute;inset:0" width="100%" height="100%" viewBox="0 0 400 240" preserveAspectRatio="none"><polyline points="0,180 70,176 140,160 200,120 260,90 320,60 400,30" fill="none" stroke="#e3c06a" stroke-width="3"/></svg><div class="live">ENERGY</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:#6b5a2e">OGX</span>PUMP PRICE ANSWERS WITHIN THE WEEK</div></div>
+    <div class="scr"><div class="fill" style="background:linear-gradient(180deg,#101a31,#0b1220)"></div><div class="anchor-s" style="left:60%"></div><div class="live">AO VIVO</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--blue)">GBR·BR</span>PLANALTO CONVOCA REUNIÃO DE CRISE</div></div>
+    <div class="scr em"><div class="fill" style="background:#160d12"></div><div class="alert" style="color:#d98a8a; font-size:15px">AIRSPACE<br>CLOSED</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--crimson)">GNC</span>NOTAM: GULF CORRIDOR SHUT</div></div>
+    <div class="scr"><div class="fill" style="background:linear-gradient(180deg,#101a31,#0b1220)"></div><div class="anchor-s"></div><div class="live">LIVE · UN</div><div class="scanlines"></div><div class="bar"><span class="o" style="background:var(--blue)">UNW</span>SECURITY COUNCIL EMERGENCY SESSION</div></div>
+  </div>
+  <div class="disclaimer">FAL COMPOSITION REF · ONE ANCHOR BECOMES TWELVE · ALL OUTLETS FICTIONAL</div>
+  <div class="timecode">TEASER 01 · 0:22 · H7</div>
+  <div class="grade"></div>
+</div>

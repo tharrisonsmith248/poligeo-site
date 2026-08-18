@@ -1,0 +1,50 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:26 — H8 · Power is unbounded</title>
+<style>
+  body{background:#080b14}
+  .ladder{position:absolute; left:200px; top:120px; width:900px}
+  .tier{display:flex; align-items:center; gap:34px; margin-bottom:26px}
+  .tier .plate{flex:none; width:640px; padding:26px 34px; border:1px solid var(--line);
+    border-radius:6px; background:rgba(14,22,40,0.85); font-family:var(--mono)}
+  .tier .plate .t{font-size:26px; letter-spacing:0.2em; color:var(--muted)}
+  .tier .plate .d{font-size:15px; letter-spacing:0.1em; color:var(--dim); margin-top:8px}
+  .tier .num{font-family:var(--mono); font-size:44px; color:var(--dim); width:70px; text-align:right}
+  .tier.past .plate{border-color:#2c3c60}
+  .tier.past .plate .t{color:#6d7890}
+  .tier.active .plate{border-color:var(--gold); box-shadow:0 0 50px rgba(201,165,74,0.2)}
+  .tier.active .plate .t{color:var(--gold-hi)}
+  .tier.active .num{color:var(--gold-hi)}
+  .tier.next .plate{border-color:rgba(176,74,74,0.7);
+    box-shadow:0 0 60px rgba(176,74,74,0.18), inset 0 0 40px rgba(176,74,74,0.06)}
+  .tier.next .plate .t{color:#d98a8a}
+  .tier .step{font-family:var(--mono); font-size:15px; letter-spacing:0.2em; color:var(--gold-hi)}
+  .posture{position:absolute; right:130px; top:140px; width:430px; font-family:var(--mono)}
+  .p-head{font-size:17px; letter-spacing:0.3em; color:var(--muted); margin-bottom:26px}
+  .p-row{display:flex; justify-content:space-between; border-bottom:1px solid var(--line-soft);
+    padding:17px 4px; font-size:16px; letter-spacing:0.12em}
+  .p-row .l{color:var(--dim)} .p-row .v{color:var(--ivory)}
+  .p-row .v.warn{color:#d98a8a}
+</style>
+<div class="stage">
+  <div class="ladder">
+    <p class="ui-head" style="font-size:19px; letter-spacing:0.34em; margin:0 0 34px 104px">RETALIATION LADDER · STRATEGIC COMMAND</p>
+    <div class="tier past"><div class="num">5</div><div class="plate"><div class="t">PEACETIME POSTURE</div><div class="d">ARSENALS DISPERSED · EXERCISES ROUTINE</div></div></div>
+    <div class="tier past"><div class="num">4</div><div class="plate"><div class="t">ELEVATED READINESS</div><div class="d">BOMBERS DISPERSED · CREWS RECALLED</div></div><span class="step">✓ 04:12</span></div>
+    <div class="tier active"><div class="num">3</div><div class="plate"><div class="t">FORCES GENERATED</div><div class="d">SUBS FLUSHED · WARHEADS MATED</div></div><span class="step">● NOW</span></div>
+    <div class="tier next"><div class="num">2</div><div class="plate"><div class="t">LAUNCH ON WARNING</div><div class="d">DECISION WINDOW · 7 MINUTES</div></div></div>
+    <div class="tier"><div class="num" style="color:#3a2430">1</div><div class="plate" style="border-color:#3a2430"><div class="t" style="color:#6e3a44">RELEASE AUTHORIZED</div><div class="d" style="color:#4a2c34">THE UNTHINKABLE</div></div></div>
+  </div>
+  <div class="posture">
+    <div class="p-head">STANDOFF · US ↔ RU</div>
+    <div class="p-row"><span class="l">DEPLOYED WARHEADS</span><span class="v">1,550 / 1,480</span></div>
+    <div class="p-row"><span class="l">POSTURE</span><span class="v warn">GENERATED / GENERATED</span></div>
+    <div class="p-row"><span class="l">BLOCKADE OF A NUCLEAR STATE</span><span class="v warn">IN EFFECT</span></div>
+    <div class="p-row"><span class="l">BACK-CHANNEL</span><span class="v">OPEN · STALLED</span></div>
+    <div class="p-row"><span class="l">CLIMB-DOWN PRICE</span><span class="v">NAMED · UNPAID</span></div>
+  </div>
+  <p class="card">POWER IS <span class="g">UNBOUNDED</span>.</p>
+  <div class="card-rule"></div>
+  <div class="disclaimer">ENGINE POSTURE UI · ONE TIER STEP PER BRASS HIT · COLD DATA, NO MUSHROOM CLOUDS</div>
+  <div class="timecode">TEASER 01 · 0:26 · H8</div>
+  <div class="grade"></div>
+</div>

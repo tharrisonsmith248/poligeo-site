@@ -1,0 +1,48 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:23 — The orders you don't sign</title>
+<style>
+  body{background:#080c15}
+  .satgrid{position:absolute; inset:0; opacity:0.35;
+    background:
+      linear-gradient(rgba(36,51,82,0.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(36,51,82,0.4) 1px, transparent 1px);
+    background-size:96px 96px}
+  .crosshair{position:absolute; right:220px; top:140px; width:280px; height:280px; opacity:0.5}
+  .cable{position:absolute; left:330px; top:110px; width:1150px; padding:70px 90px;
+    background:rgba(11,17,30,0.96); border:1px solid var(--line);
+    box-shadow:0 50px 140px rgba(0,0,0,0.8); font-family:var(--mono)}
+  .c-head{display:flex; justify-content:space-between; font-size:17px; letter-spacing:0.24em;
+    color:var(--crimson); border-bottom:2px solid var(--crimson); padding-bottom:20px; margin-bottom:44px}
+  .c-line{font-size:23px; line-height:2.5; color:#a9b0c2; letter-spacing:0.06em}
+  .redact{display:inline-block; background:#03050a; color:transparent; border:1px solid #1a2742;
+    padding:0 6px; vertical-align:-2px; user-select:none}
+  .annot{position:absolute; right:64px; bottom:150px; border:2px solid var(--crimson);
+    padding:10px 18px; font-size:15px; letter-spacing:0.22em; color:var(--crimson); transform:rotate(2deg)}
+  .c-foot{margin-top:44px; font-size:15px; letter-spacing:0.2em; color:var(--dim)}
+</style>
+<div class="stage">
+  <div class="satgrid"></div>
+  <svg class="crosshair" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="42" fill="none" stroke="#243352" stroke-width="1"/>
+    <circle cx="50" cy="50" r="24" fill="none" stroke="#243352" stroke-width="1"/>
+    <line x1="50" y1="0" x2="50" y2="100" stroke="#243352" stroke-width="1"/>
+    <line x1="0" y1="50" x2="100" y2="50" stroke="#243352" stroke-width="1"/>
+  </svg>
+  <div class="cable">
+    <div class="c-head"><span>EYES ONLY // DIRECTORATE</span><span>CABLE 0114-A</span></div>
+    <div class="c-line">
+      SUBJECT: <span class="redact">████████████████████</span> — MINSK STATION<br>
+      1. THE PRINCIPAL WAS TAKEN AT <span class="redact">██████</span> LOCAL BY A
+      <span class="redact">████████████</span> ELEMENT. NO FLAG. NO CLAIM.<br>
+      2. A CAPTURED PRESIDENT SIMPLY GOES <span class="redact">███████</span> UNTIL
+      YOU DECIDE WHAT THE WORLD <span class="redact">██████</span>.<br>
+      3. DENIABILITY HOLDS THROUGH <span class="redact">████████████████</span>.
+      IF IT BLOWS, IT BLOWS <span class="redact">████</span>.
+    </div>
+    <div class="c-foot">ORIGIN: <span class="redact">██████████</span> · DISTRIBUTION: PRINCIPAL ONLY · DESTROY AFTER READING</div>
+  </div>
+  <div class="annot">AUTHORIZED · NOT SIGNED</div>
+  <div class="disclaimer">MOTION GFX · REDACTION BARS STRIKE THROUGH THE WORDS LIVE AS THEY TYPE</div>
+  <div class="timecode">TEASER 01 · 0:23</div>
+  <div class="grade"></div>
+</div>

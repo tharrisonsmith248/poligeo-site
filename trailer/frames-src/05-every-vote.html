@@ -1,0 +1,85 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:08 — H2 · Every vote</title>
+<style>
+  .hemi{position:absolute; left:300px; top:110px}
+  .whip{position:absolute; right:70px; top:200px; width:340px; font-family:var(--mono)}
+  .whip .big{font-size:132px; color:var(--gold-hi); letter-spacing:0.02em; line-height:1;
+    text-shadow:0 0 50px rgba(227,192,106,0.25)}
+  .whip .lab{font-size:19px; letter-spacing:0.32em; color:var(--muted); margin-top:14px}
+  .whip .maj{font-size:17px; letter-spacing:0.14em; color:var(--dim); margin-top:26px; line-height:1.9}
+  .whip .maj b{color:var(--ivory); font-weight:normal}
+  .leg{position:absolute; left:110px; top:300px; font-family:var(--mono); font-size:17px; line-height:2.4;
+    color:var(--muted); letter-spacing:0.06em}
+  .leg .sw{display:inline-block; width:14px; height:14px; border-radius:50%; margin-right:14px; vertical-align:-1px}
+  .chamber-tag{position:absolute; left:0; right:0; top:64px; text-align:center;
+    font-family:var(--mono); font-size:20px; letter-spacing:0.4em; color:var(--dim)}
+</style>
+<div class="stage">
+  <div class="chamber-tag">UNITED STATES HOUSE · 119TH CONGRESS · 220 R / 215 D</div>
+  <div class="hemi"><svg id="seats" width="1220" height="628" viewBox="0 0 460 234"></svg></div>
+  <div class="leg" id="leg"></div>
+  <div class="whip">
+    <div class="big">218</div>
+    <div class="lab">WHIP COUNT</div>
+    <div class="maj">MAJORITY&nbsp;&nbsp;<b>218</b><br>FREEDOM CAUCUS&nbsp;&nbsp;<b>36</b><br>PRICE&nbsp;&nbsp;<b>2 CARROTS · 1 STICK</b></div>
+  </div>
+  <p class="card">EVERY <span class="g">VOTE</span>.</p>
+  <div class="card-rule"></div>
+  <div class="disclaimer">SITE DEMO RE-RENDER · SEATS SNAP IN CAUCUS BY CAUCUS · GAVEL CRACK ON THE HIT</div>
+  <div class="timecode">TEASER 01 · 0:08 · H2</div>
+  <div class="grade"></div>
+</div>
+<script src="data.js"></script>
+<script>
+// Hemicycle laid out with the site's own geometry: rows between R_IN and R_OUT,
+// seats ordered by caucus ideology, D left to R right.
+(function(){
+  var svg = document.getElementById('seats');
+  var NS='http://www.w3.org/2000/svg';
+  var W=460, CX=W/2, R_OUT=214, R_IN=92, PAD=10;
+  var caucuses = CONGRESS.chambers.house.slice().sort(function(a,b){return a.i-b.i});
+  var seats=[];
+  caucuses.forEach(function(c){
+    for(var k=0;k<c.s;k++) seats.push(c);
+  });
+  var total=seats.length; // 435
+  var ROWS=8, rows=[], totalLen=0;
+  for(var r=0;r<ROWS;r++){
+    var rad=R_IN+(R_OUT-R_IN)*(r/(ROWS-1));
+    rows.push(rad); totalLen+=rad;
+  }
+  var counts=rows.map(function(rad){return Math.round(total*rad/totalLen)});
+  var diff=total-counts.reduce(function(a,b){return a+b},0);
+  counts[ROWS-1]+=diff;
+  var idx=0;
+  // assign seats angle-major so parties sweep left-to-right
+  var placed=[];
+  for(var r=0;r<ROWS;r++){
+    for(var s=0;s<counts[r];s++){
+      var frac=counts[r]===1?0.5:s/(counts[r]-1);
+      placed.push({r:r, frac:frac});
+    }
+  }
+  placed.sort(function(a,b){return a.frac-b.frac || a.r-b.r});
+  placed.forEach(function(p,i){
+    var c=seats[i];
+    var ang=Math.PI - p.frac*Math.PI;
+    var rad=rows[p.r];
+    var x=CX+Math.cos(ang)*rad, y=(R_OUT+PAD)-Math.sin(ang)*rad+PAD;
+    var dot=document.createElementNS(NS,'circle');
+    var fc = c.n==='House Freedom Caucus';
+    dot.setAttribute('cx',x); dot.setAttribute('cy',y); dot.setAttribute('r',3.4);
+    dot.setAttribute('fill', fc ? '#c9a54a' : (c.p==='D'?'#3f63a8':'#a04444'));
+    if(fc){dot.setAttribute('stroke','#e3c06a'); dot.setAttribute('stroke-width','0.7')}
+    svg.appendChild(dot);
+  });
+  // legend
+  var leg=document.getElementById('leg');
+  var rowsHtml='';
+  caucuses.forEach(function(c){
+    var col=c.n==='House Freedom Caucus'?'#c9a54a':(c.p==='D'?'#3f63a8':'#a04444');
+    rowsHtml+='<div><span class="sw" style="background:'+col+'"></span>'+c.n.toUpperCase()+' · '+c.s+'</div>';
+  });
+  leg.innerHTML=rowsHtml;
+})();
+</script>

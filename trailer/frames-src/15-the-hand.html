@@ -1,0 +1,74 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:28 — The hand that doesn't pull</title>
+<style>
+  body{background:#04060c}
+  /* lit wall behind the console */
+  .wallglow{position:absolute; left:50%; top:46%; transform:translate(-50%,-50%);
+    width:1500px; height:1000px;
+    background:radial-gradient(ellipse 42% 40% at 50% 50%, rgba(201,165,74,0.20), rgba(201,165,74,0.05) 55%, transparent 72%)}
+  .deskline{position:absolute; left:0; right:0; bottom:250px; height:2px;
+    background:linear-gradient(to right, transparent, #223052 28%, #223052 72%, transparent)}
+  .console{position:absolute; left:50%; bottom:252px; transform:translateX(-50%);
+    width:860px; height:150px; background:linear-gradient(180deg,#101a30,#0a101f);
+    border:1px solid #2c3c60; border-radius:12px 12px 0 0; border-bottom:none;
+    box-shadow:0 -20px 80px rgba(0,0,0,0.5)}
+  .console .lab{position:absolute; left:0; right:0; top:52px; text-align:center;
+    font-family:var(--mono); font-size:22px; letter-spacing:0.3em; color:#aab2c6}
+  .console .stat{position:absolute; left:0; right:0; top:98px; text-align:center;
+    font-family:var(--mono); font-size:14px; letter-spacing:0.26em; color:#7a4646}
+  .lever-slot{position:absolute; left:50%; bottom:402px; transform:translateX(-50%);
+    width:160px; height:28px; background:#060a13; border:1px solid #2c3c60; border-radius:14px}
+  .lever-arm{position:absolute; left:calc(50% - 9px); bottom:414px; width:18px; height:250px;
+    background:linear-gradient(180deg,#3c4e73,#1a2848); border-radius:9px;
+    transform-origin:bottom center; transform:rotate(-6deg);
+    box-shadow:0 0 30px rgba(0,0,0,0.6)}
+  .lever-knob{position:absolute; left:calc(50% - 72px); bottom:640px; width:84px; height:84px;
+    border-radius:50%; background:radial-gradient(circle at 34% 30%, #f0d896, #96742f 74%);
+    box-shadow:0 0 110px rgba(227,192,106,0.55), 0 0 30px rgba(227,192,106,0.8)}
+  /* foreground hand: out-of-focus dark occluder entering from lower-right,
+     fingers open, stopping short of the knob */
+  .hand{position:absolute; right:-60px; bottom:-100px; width:1350px; height:1000px;
+    filter:blur(11px); opacity:0.96}
+  .hand svg{width:100%; height:100%}
+  .hint{position:absolute; left:0; right:0; bottom:132px; text-align:center;
+    font-family:var(--mono); font-size:16px; letter-spacing:0.4em; color:#46536f}
+</style>
+<div class="stage">
+  <div class="wallglow"></div>
+  <div class="deskline"></div>
+  <div class="console">
+    <div class="lab">DECAPITATION STRIKES ON TEHRAN</div>
+    <div class="stat">ARMED · AWAITING PRINCIPAL</div>
+  </div>
+  <div class="lever-slot"></div>
+  <div class="lever-arm"></div>
+  <div class="lever-knob"></div>
+  <div class="hand">
+    <svg viewBox="0 0 1350 1000">
+      <!-- forearm wedge from the corner -->
+      <path fill="#030509" d="M1350 1000 L1350 560 Q1240 520 1080 520 L980 520 L700 690 Q640 730 690 800 L900 1000 Z"/>
+      <!-- palm -->
+      <ellipse cx="780" cy="620" rx="190" ry="150" fill="#030509" transform="rotate(-28 780 620)"/>
+      <!-- four fingers reaching up-left toward the knob, spread, stopping short -->
+      <g fill="#030509">
+        <path d="M700 560 Q620 470 585 415 Q568 388 594 372 Q620 356 640 386 Q676 442 740 520 Z"/>
+        <path d="M760 540 Q706 430 690 372 Q682 340 712 332 Q742 324 754 358 Q778 426 826 520 Z"/>
+        <path d="M830 540 Q800 424 798 368 Q798 336 830 336 Q862 336 864 372 Q870 444 894 540 Z"/>
+        <path d="M900 560 Q892 462 900 412 Q906 382 936 388 Q966 394 960 428 Q950 490 946 570 Z"/>
+        <!-- thumb -->
+        <path d="M680 700 Q560 660 500 630 Q470 614 484 588 Q498 562 530 576 Q600 606 700 640 Z"/>
+      </g>
+      <!-- faint gold rim light along the finger edges facing the lever glow -->
+      <g fill="none" stroke="rgba(227,192,106,0.55)" stroke-width="7" stroke-linecap="round">
+        <path d="M585 415 Q568 388 594 372"/>
+        <path d="M690 372 Q682 340 712 332"/>
+        <path d="M798 368 Q798 336 830 336"/>
+        <path d="M500 630 Q470 614 484 588"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hint">THE WORLD IS WAITING</div>
+  <div class="disclaimer">FAL COMPOSITION REF · THE HAND HOVERS AND STOPS · PRE-TITLE STING · MUSIC CUTS OFF HERE</div>
+  <div class="timecode">TEASER 01 · 0:28</div>
+  <div class="grade"></div>
+</div>

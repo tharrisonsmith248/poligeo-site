@@ -1,0 +1,67 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<title>0:12 — H4 · Every war</title>
+<style>
+  .map{position:absolute; left:330px; top:20px}
+  .map svg{filter:drop-shadow(0 30px 80px rgba(0,0,0,0.6))}
+  .ve-tag{position:absolute; left:360px; top:70px; font-family:var(--mono); font-size:22px;
+    letter-spacing:0.42em; color:var(--muted)}
+  .wk{position:absolute; left:360px; top:112px; font-family:var(--mono); font-size:64px;
+    color:var(--gold-hi); letter-spacing:0.06em}
+  .stats{position:absolute; right:130px; top:150px; width:430px; font-family:var(--mono)}
+  .stat{display:flex; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--line-soft); padding:20px 4px}
+  .stat .l{font-size:17px; letter-spacing:0.22em; color:var(--muted)}
+  .stat .v{font-size:34px; color:var(--ivory)}
+  .stat .v.gold{color:var(--gold-hi)}
+  .arrow-note{position:absolute; left:130px; top:430px; width:180px; font-family:var(--mono);
+    font-size:15px; letter-spacing:0.14em; color:var(--dim); line-height:2}
+  .keyline{position:absolute; left:360px; bottom:210px; font-family:var(--mono); font-size:16px;
+    letter-spacing:0.18em; color:var(--dim)}
+  .keyline .sw{display:inline-block;width:13px;height:13px;margin:0 8px -1px 18px}
+</style>
+<div class="stage">
+  <div class="map"><svg id="ve" width="1000" height="905" viewBox="0 0 640 579"></svg></div>
+  <div class="ve-tag">OPERATION SOUTHERN SHIELD · VENEZUELA · 270 TILES</div>
+  <div class="wk">WEEK 6</div>
+  <div class="keyline">CONTROL:<span class="sw" style="background:#8f3040"></span>US FORCES<span class="sw" style="background:#28406e"></span>GOVERNMENT<span class="sw" style="background:none;border:1.5px solid #c9a961"></span>TAKEN THIS WEEK</div>
+  <div class="stats" id="stats"></div>
+  <p class="card">EVERY <span class="g">WAR</span>.</p>
+  <div class="card-rule"></div>
+  <div class="disclaimer">ENGINE RUN · REAL TILE PLAYBACK AT 10× · AMPHIBIOUS ARROWS SWEEP THE GULF</div>
+  <div class="timecode">TEASER 01 · 0:12 · H4</div>
+  <div class="grade"></div>
+</div>
+<script src="data.js"></script>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('ve');
+  var GOV="#28406e", OCC="#8f3040", FRESH="#c9a961", BGLN="#0a101f";
+  // cumulative occupied sets per engine week
+  var CUMS=[]; var cur=new Set();
+  VE.weeks.forEach(function(w){ w.add.forEach(function(i){cur.add(i)}); w.rm.forEach(function(i){cur.delete(i)}); CUMS.push(new Set(cur)); });
+  var MAP=[2,5,7,10,13,16,18,21,23,26];         // ten-week campaign clock
+  var W=6, ow=MAP[W-1], prevOw=MAP[W-2];
+  var occ=CUMS[ow-1], prev=CUMS[prevOw-1], st=VE.weeks[ow-1];
+  VE_PATHS.forEach(function(d,i){
+    var p=document.createElementNS(NS,'path');
+    p.setAttribute('d',d);
+    var fresh=occ.has(i)&&!prev.has(i);
+    p.setAttribute('fill', occ.has(i)?OCC:GOV);
+    p.setAttribute('stroke', fresh?FRESH:BGLN);
+    p.setAttribute('stroke-width', fresh?1.6:0.5);
+    svg.appendChild(p);
+  });
+  var rows=[
+    ['TILES HELD', occ.size+'/270', true],
+    ['ENEMY CASUALTIES', st.cas.toLocaleString('en-US'), false],
+    ['US KIA', st.kia.toLocaleString('en-US'), false],
+    ['CIVILIANS', st.civ.toLocaleString('en-US'), false],
+    ['REFUGEES', st.ref>=1000?Math.round(st.ref/1000)+'k':st.ref, false],
+    ['COST', '$'+st.cost.toFixed(1)+'B', true]
+  ];
+  document.getElementById('stats').innerHTML=rows.map(function(r){
+    return '<div class="stat"><span class="l">'+r[0]+'</span><span class="v'+(r[2]?' gold':'')+'">'+r[1]+'</span></div>';
+  }).join('');
+})();
+</script>
