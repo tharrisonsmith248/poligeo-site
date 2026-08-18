@@ -397,16 +397,16 @@ def china_data():
     return {"us": us, "cn": cn, "spx": ohlc, "ev_w": ev_w}
 
 
-def company_data():
+def index_data():
     rng = random.Random(7)
-    cos = [
-        ("Vantage Systems", "TECH", "$1.94T", "$212.4B", 214.0, 0.0032, 0.011),
-        ("First Continental", "FINANCE", "$602B", "$171.8B", 187.0, -0.0014, 0.008),
-        ("Meridian Health", "HEALTHCARE", "$418B", "$96.2B", 128.0, 0.0004, 0.007),
-        ("Crestline Group", "SERVICES", "$187B", "$64.5B", 54.0, 0.0011, 0.010),
+    idx = [
+        ("Technology Index", "TECH", 38, "$14.2T", 8412.0, 0.0032, 0.011),
+        ("Financials Index", "FINANCE", 45, "$9.8T", 3187.0, -0.0014, 0.008),
+        ("Healthcare Index", "HEALTHCARE", 31, "$6.1T", 2254.0, 0.0004, 0.007),
+        ("Services Index", "SERVICES", 52, "$4.9T", 1873.0, 0.0011, 0.010),
     ]
     out = []
-    for name, tick, cap, rev, p0, drift, sig in cos:
+    for name, tick, cons, cap, p0, drift, sig in idx:
         closes = walk_series(rng, 22, p0, drift, sig)
         ohlc, prev = [], closes[0]
         for c in closes[1:]:
@@ -415,7 +415,7 @@ def company_data():
             lo = min(o, c) * (1 - abs(rng.gauss(0, 0.003)))
             ohlc.append((o, hi, lo, c))
             prev = c
-        out.append({"name": name, "tick": tick, "cap": cap, "rev": rev,
+        out.append({"name": name, "tick": tick, "cons": cons, "cap": cap,
                     "ohlc": ohlc, "last": ohlc[-1][3],
                     "chg": (ohlc[-1][3] / p0 - 1) * 100})
     return out
@@ -470,7 +470,7 @@ def build_html():
 
     hz = hormuz_data()
     ch = china_data()
-    cos = company_data()
+    idx = index_data()
 
     hormuz_charts = "".join(
         f'<div class="mini"><div class="mini-t">{title}</div>{svg}</div>'
@@ -508,8 +508,8 @@ def build_html():
         note=f'{(ch["spx"][-1][3] / 5996 - 1) * 100:+.1f}%')
 
     co_cards = []
-    for c in cos:
-        chart = candle_chart(200, 118, c["ohlc"], fmt="$", event_i=None, ml=38,
+    for c in idx:
+        chart = candle_chart(200, 118, c["ohlc"], fmt="int", event_i=None, ml=40,
                              xlabels=[(0, "DEC 20"), (20, "JAN 20")])
         chg_col = GREEN if c["chg"] >= 0 else RED
         co_cards.append(f'''
@@ -521,9 +521,9 @@ def build_html():
         <div class="co-sec">{c["tick"]}</div>
         {chart}
         <div class="co-stats">
-          <span><i>Market cap</i><b>{c["cap"]}</b></span>
-          <span><i>Revenue, TTM</i><b>{c["rev"]}</b></span>
-          <span><i>Last</i><b>${c["last"]:.2f}</b></span>
+          <span><i>Constituents</i><b>{c["cons"]}</b></span>
+          <span><i>Combined cap</i><b>{c["cap"]}</b></span>
+          <span><i>Last</i><b>{c["last"]:,.2f}</b></span>
         </div>
       </div>''')
 
@@ -698,27 +698,34 @@ footer .gold {{ color:var(--gold); }}
   </div>
   <div class="facts">
     <div class="fact"><span class="k">S&amp;P 500</span><span class="v dn">&minus;12.2%</span></div>
-    <div class="fact"><span class="k">CPI, imported goods pass-through</span><span class="v">+2.0 pt</span></div>
+    <div class="fact"><span class="k">US trade deficit</span><span class="v">&minus;$97B</span></div>
     <div class="fact"><span class="k">Dollar index</span><span class="v dn">&minus;2.1</span></div>
     <div class="fact"><span class="k">Presidential approval</span><span class="v dn">&minus;4 pt</span></div>
   </div>
 </div>
 
-<!-- III INDUSTRY WHEEL -->
+<!-- III BRIEFING -->
 <div class="panel">
-  <div class="kick"><span class="n">III</span>The Industrial Base</div>
-  <p class="p-title">Sectors of the US Economy</p>
-  <p class="p-sub">Every nation's GDP is composed of sectors, represented by real buildings on the map
-  that can increase or decrease their levels.</p>
-  {wheel}
+  <div class="kick"><span class="n">III</span>The Briefing</div>
+  <p class="p-title">Economic briefing &middot; January 20, 2025</p>
+  <p class="p-sub">The macroeconomic situation facing the incoming administration. This is the start
+  of the simulation.</p>
+  <div class="br">
+    <div class="br-head">
+      <div class="t1">Memorandum for the President</div>
+      <div class="t2">Council of Economic Advisers &middot; Inauguration Day brief &middot; 20 Jan 2025</div>
+    </div>
+    {briefing_rows}
+  </div>
 </div>
 
 <!-- IV CORPORATES -->
 <div class="panel">
   <div class="kick"><span class="n">IV</span>The Corporates</div>
-  <p class="p-title">The four largest firms, trading normally</p>
-  <p class="p-sub">Listed companies are simulated tickers &mdash; one from each sector: tech, finance,
-  healthcare and services. A calm month of daily candles, before you touch anything.</p>
+  <p class="p-title">Four market indices, trading normally</p>
+  <p class="p-sub">Listed companies are simulated tickers, with stock prices updating each simulated
+  hour. Daily fluctuations are often outside of the administration's direct control, but actions
+  affecting industry influence stock prices as the market calculates and reacts.</p>
   <div class="cos">{"".join(co_cards)}</div>
 </div>
 
@@ -731,19 +738,13 @@ footer .gold {{ color:var(--gold); }}
   {budget_pie}
 </div>
 
-<!-- VI BRIEFING -->
+<!-- VI INDUSTRY WHEEL -->
 <div class="panel">
-  <div class="kick"><span class="n">VI</span>The Briefing</div>
-  <p class="p-title">Economic briefing &middot; January 20, 2025</p>
-  <p class="p-sub">The macroeconomic situation facing the incoming administration. This is the start
-  of the simulation.</p>
-  <div class="br">
-    <div class="br-head">
-      <div class="t1">Memorandum for the President</div>
-      <div class="t2">Council of Economic Advisers &middot; Inauguration Day brief &middot; 20 Jan 2025</div>
-    </div>
-    {briefing_rows}
-  </div>
+  <div class="kick"><span class="n">VI</span>The Industrial Base</div>
+  <p class="p-title">Sectors of the US Economy</p>
+  <p class="p-sub">Every nation's GDP is composed of sectors, represented by real buildings on the map
+  that can increase or decrease their levels.</p>
+  {wheel}
 </div>
 
 </div><!-- /grid -->
