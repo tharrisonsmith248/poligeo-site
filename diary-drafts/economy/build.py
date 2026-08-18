@@ -136,7 +136,7 @@ def line_chart(w, h, pts, *, fmt="", event_t=None, event_label="", color=GOLD,
     ex, ey = X(pts[-1][0]), Y(pts[-1][1])
     s.append(f'<circle cx="{ex:.1f}" cy="{ey:.1f}" r="4" fill="{color}" stroke="{PANEL}" stroke-width="2"/>')
     if end_label:
-        s.append(f'<text x="{ex - 2:.1f}" y="{ey + end_dy:.1f}" fill="{TEXT}" font-size="9" font-weight="600" '
+        s.append(f'<text x="{ex - 7:.1f}" y="{ey + end_dy:.1f}" fill="{TEXT}" font-size="9" font-weight="600" '
                  f'text-anchor="end" font-family="{SANS}">{end_label}</text>')
     s.append(x_month_labels(x0, x1, h - 4, months))
     s.append("</svg>")
@@ -163,6 +163,9 @@ def multi_line_chart(w, h, series, *, fmt="%", event_t=None, event_label="", mon
         s.append(f'<text x="{x0 - 5}" y="{y + 2.5:.1f}" fill="{MUTED}" font-size="8" text-anchor="end" '
                  f'font-family="{SANS}" style="font-variant-numeric:tabular-nums">{fmt_tick(tv, fmt)}</text>')
     s.append(f'<line x1="{x0}" y1="{y1}" x2="{x1}" y2="{y1}" stroke="{BASELINE}" stroke-width="1"/>')
+    if lo < 0 < hi:
+        s.append(f'<line x1="{x0}" y1="{Y(0):.1f}" x2="{x1}" y2="{Y(0):.1f}" '
+                 f'stroke="{BASELINE}" stroke-width="1"/>')
     if event_t is not None:
         s.append(event_line(X(event_t), y0, y1, event_label,
                             anchor="start" if event_t < 0.25 else "middle"))
@@ -319,16 +322,29 @@ def hormuz_data():
             base = 83.81 + (target - 83.81) * ramp
             v = base * (1 + rng.gauss(0, 0.008))
         brent.append(v)
-    # pump: lags ~1-2 weeks, x1.30
-    pump = []
-    v = 3.11
-    for d in range(days):
-        if d < ev + 8:
-            v = 3.11 * (1 + rng.gauss(0, 0.0015))
+    # pump: sticky retail pass-through — fast bursts, plateaus, a late easing
+    # ("rockets up, feathers down"), not a smooth curve
+    prng = random.Random(23)
+    rise_days = range(ev + 5, ev + 75)
+    incs = {}
+    for d in rise_days:
+        r = prng.random()
+        if r < 0.42:
+            incs[d] = prng.uniform(0.6, 3.8)   # station repricing burst (cents)
+        elif r < 0.55:
+            incs[d] = prng.uniform(0.1, 0.5)
         else:
-            k = d - ev - 8
-            base = 3.11 + (3.11 * 0.30) * (1 - math.exp(-k / 22.0))
-            v = base * (1 + rng.gauss(0, 0.002))
+            incs[d] = 0.0                       # plateau day
+    scale = 0.965 / (sum(incs.values()) / 100)  # net climb $3.11 -> ~$4.075
+    pump, v = [], 3.11
+    for d in range(days):
+        if d < ev + 5:
+            v += prng.gauss(0, 0.004)
+        elif d in incs:
+            v += incs[d] * scale / 100 + prng.gauss(0, 0.004)
+        else:
+            v += prng.gauss(-0.0016, 0.005)     # slow feathering after the peak
+        v = max(v, 3.05)
         pump.append(v)
     cpi = [2.8, 2.8, 3.1, 3.4, 3.6, 3.6, 3.5]  # monthly prints, +0.8 peak
     appr = []
@@ -355,8 +371,8 @@ def hormuz_data():
 def china_data():
     rng = random.Random(47)
     ev_w = 4.35  # sanctions land one month in
-    us = [2.3, 2.3, 1.9, 1.5, 1.2, 1.0, 0.9]
-    cn = [4.8, 4.8, 4.2, 3.7, 3.4, 3.3, 3.2]
+    us = [2.3, 2.3, 0.4, -0.4, -0.8, -1.0, -1.0]
+    cn = [4.8, 4.8, 1.0, -0.6, -1.5, -1.9, -2.0]
     # S&P weekly candles, 26 weeks, 5996 -> x0.878
     closes, v = [], 5996.0
     for wk in range(26):
@@ -384,10 +400,10 @@ def china_data():
 def company_data():
     rng = random.Random(7)
     cos = [
-        ("Apple", "AAPL", "$3.46T", "$391.0B", 229.0, -0.0009, 0.009),
-        ("NVIDIA", "NVDA", "$3.40T", "$113.3B", 137.0, 0.0016, 0.016),
-        ("Microsoft", "MSFT", "$3.13T", "$254.1B", 420.0, 0.0003, 0.008),
-        ("Alphabet", "GOOGL", "$2.43T", "$339.9B", 197.0, 0.0018, 0.010),
+        ("Vantage Systems", "TECH", "$1.94T", "$212.4B", 214.0, 0.0032, 0.011),
+        ("First Continental", "FINANCE", "$602B", "$171.8B", 187.0, -0.0014, 0.008),
+        ("Meridian Health", "HEALTHCARE", "$418B", "$96.2B", 128.0, 0.0004, 0.007),
+        ("Crestline Group", "SERVICES", "$187B", "$64.5B", 54.0, 0.0011, 0.010),
     ]
     out = []
     for name, tick, cap, rev, p0, drift, sig in cos:
@@ -436,7 +452,7 @@ BRIEFING = [
     ("Markets", "S&amp;P 500 at <b>5,996</b>. Dollar index 109 &mdash; the strongest in two years, squeezing exporters."),
     ("Energy", "Brent <b>$83.81</b>, WTI $77; retail gasoline $3.11/gal. Inventories thin; Gulf transit risk is the swing factor."),
     ("Fiscal", "Debt <b>$36.2T</b>; FY24 deficit $1.83T (6.4% of GDP). Net interest now exceeds the defense budget."),
-    ("Risks", "Tariff escalation, a Strait of Hormuz closure, and debt-service spiral flagged as the three live tail risks."),
+    ("Risks", "Growing interest payments threaten a debt spiral if the budget is not constrained. Voters demand greater wage growth and lower inflation. Geopolitical threats from Russia and Iran could imperil energy prices if not carefully managed."),
 ]
 
 DIARY = [
@@ -460,19 +476,19 @@ def build_html():
         f'<div class="mini"><div class="mini-t">{title}</div>{svg}</div>'
         for title, svg in [
             ("Brent crude &middot; $/bbl",
-             line_chart(232, 148, hz["brent"], fmt="$", event_t=hz["event_t"],
+             line_chart(218, 148, hz["brent"], fmt="$", event_t=hz["event_t"],
                         event_label="STRAIT CLOSED", color=GOLD,
                         end_label=f'${hz["brent"][-1][1]:.0f}')),
             ("Gasoline at the pump &middot; $/gal",
-             line_chart(232, 148, hz["pump"], fmt="$2", event_t=hz["event_t"],
+             line_chart(218, 148, hz["pump"], fmt="$2", event_t=hz["event_t"],
                         event_label="STRAIT CLOSED", color=GOLD,
                         end_label=f'${hz["pump"][-1][1]:.2f}')),
             ("Inflation &middot; CPI, year over year",
-             line_chart(232, 148, hz["cpi"], fmt="%", event_t=hz["event_t"],
+             line_chart(218, 148, hz["cpi"], fmt="%", event_t=hz["event_t"],
                         event_label="STRAIT CLOSED", color=BLUE, markers=True,
                         end_label=f'{hz["cpi"][-1][1]:.1f}%', end_dy=16)),
             ("Presidential approval",
-             line_chart(232, 148, hz["appr"], fmt="%", event_t=hz["event_t"],
+             line_chart(218, 148, hz["appr"], fmt="%", event_t=hz["event_t"],
                         event_label="STRAIT CLOSED", color=BLUE,
                         end_label=f'{hz["appr"][-1][1]:.0f}%')),
         ])
@@ -487,21 +503,22 @@ def build_html():
         fmt="%", event_t=1 / 6, event_label="TIER 4 ENACTED")
 
     spx_chart = candle_chart(
-        556, 208, ch["spx"], fmt="int", event_i=ch["ev_w"], event_label="TIER 4 ENACTED",
+        544, 208, ch["spx"], fmt="int", event_i=ch["ev_w"], event_label="TIER 4 ENACTED",
         xlabels=[(0, "JAN"), (4, "FEB"), (9, "MAR"), (13, "APR"), (17, "MAY"), (22, "JUN"), (25, "JUL")],
         note=f'{(ch["spx"][-1][3] / 5996 - 1) * 100:+.1f}%')
 
     co_cards = []
     for c in cos:
-        chart = candle_chart(212, 118, c["ohlc"], fmt="$", event_i=None, ml=38,
+        chart = candle_chart(200, 118, c["ohlc"], fmt="$", event_i=None, ml=38,
                              xlabels=[(0, "DEC 20"), (20, "JAN 20")])
         chg_col = GREEN if c["chg"] >= 0 else RED
         co_cards.append(f'''
       <div class="co">
         <div class="co-head">
-          <span class="co-name">{c["name"]} <span class="co-tick">{c["tick"]}</span></span>
+          <span class="co-name">{c["name"]}</span>
           <span class="co-chg" style="color:{chg_col}">{c["chg"]:+.1f}%<span class="co-chg-k">1 MO</span></span>
         </div>
+        <div class="co-sec">{c["tick"]}</div>
         {chart}
         <div class="co-stats">
           <span><i>Market cap</i><b>{c["cap"]}</b></span>
@@ -520,8 +537,6 @@ def build_html():
     briefing_rows = "".join(
         f'<div class="br-row"><span class="br-k">{k}</span><span class="br-v">{v}</span></div>'
         for k, v in BRIEFING)
-
-    diary_html = "".join(f"<p>{p}</p>" for p in DIARY)
 
     html = f"""<!doctype html>
 <html lang="en">
@@ -553,8 +568,7 @@ body {{
   font-size:10px; color:var(--gold); text-align:center; margin:0 0 7px; }}
 h1 {{ font-family:var(--display); text-transform:uppercase; letter-spacing:2px;
   font-weight:400; text-align:center; font-size:34px; line-height:1.15; margin:0 0 10px;
-  background:linear-gradient(160deg,var(--gold-hi) 0%,var(--gold) 45%,var(--gold-dk) 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent; }}
+  color:#d9b76d; }} /* solid gold: gradient text-clip strokes a hairline box in print */
 .orn {{ display:flex; align-items:center; gap:8px; margin:2px auto 18px; max-width:620px; }}
 .orn::before,.orn::after {{ content:""; flex:1; height:1px;
   background:linear-gradient(90deg,transparent,var(--border-gilt)); }}
@@ -612,10 +626,10 @@ h1 {{ font-family:var(--display); text-transform:uppercase; letter-spacing:2px;
 
 .cos {{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }}
 .co {{ background:var(--panel-2); border:1px solid var(--border); border-radius:9px; padding:9px 10px 7px; }}
-.co-head {{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:3px; }}
-.co-name {{ font-family:var(--display); font-size:13.5px; letter-spacing:0.4px; }}
-.co-tick {{ font-size:9px; color:var(--muted); letter-spacing:1px; margin-left:4px; }}
-.co-chg {{ font-size:11px; font-weight:600; }}
+.co-head {{ display:flex; justify-content:space-between; align-items:baseline; }}
+.co-name {{ font-family:var(--display); font-size:13.5px; letter-spacing:0.4px; white-space:nowrap; }}
+.co-sec {{ font-size:8.5px; color:var(--muted); letter-spacing:1.5px; margin:0 0 4px; }}
+.co-chg {{ font-size:11px; font-weight:600; white-space:nowrap; }}
 .co-chg-k {{ font-size:8px; color:var(--muted); font-weight:400; letter-spacing:1px; margin-left:4px; }}
 .co-stats {{ display:flex; gap:14px; margin:3px 0 0 4px; }}
 .co-stats span i {{ display:block; font-style:normal; font-size:8px; letter-spacing:1px;
@@ -651,17 +665,7 @@ footer .gold {{ color:var(--gold); }}
   <div class="orn" aria-hidden="true">
     <svg width="46" height="10" viewBox="0 0 46 10"><path d="M23 1 L27 5 L23 9 L19 5 Z" fill="none" stroke="{GOLD}" stroke-width="1"/><circle cx="8" cy="5" r="1.2" fill="{GOLD_DK}"/><circle cx="38" cy="5" r="1.2" fill="{GOLD_DK}"/></svg>
   </div>
-  <div class="chips">
-    <div class="chip"><b>199</b><span>national economies</span></div>
-    <div class="chip"><b>1</b><span>deterministic engine</span></div>
-    <div class="chip"><b>0</b><span>scripted events</span></div>
-  </div>
 </header>
-
-<div class="diary">
-  <span class="dateline">From the development desk &middot; August 2026</span>
-  {diary_html}
-</div>
 
 <div class="grid">
 
@@ -678,10 +682,10 @@ footer .gold {{ color:var(--gold); }}
 <!-- II CHINA -->
 <div class="panel full">
   <div class="kick"><span class="n">II</span>Tier 4 on Beijing</div>
-  <p class="p-title">Maximum sanctions on China: growth and the tape</p>
-  <p class="p-sub">Full Tier&nbsp;4 sanctions enacted one month in. Both economies bleed &mdash; the target
-  more, the sender not nothing &mdash; and the S&amp;P&nbsp;500 gives back <b>12.2%</b> before finding a floor.
-  Hollow candles close up, filled candles close down.</p>
+  <p class="p-title">Impose maximum sanctions on China and face the consequences</p>
+  <p class="p-sub">Imposing full sanctions restricts trade with the recipient country. Democratic
+  administrations must answer to their voters, while authoritarian countries have more tolerance
+  for pain. Hollow candles close up, filled candles close down.</p>
   <div class="duo">
     <div class="mini"><div class="mini-t">Real GDP growth &middot; annualized</div>{gdp_chart}
       <div class="legend"><span><span class="sw" style="background:{BLUE}"></span>United States</span>
@@ -703,9 +707,9 @@ footer .gold {{ color:var(--gold); }}
 <!-- III INDUSTRY WHEEL -->
 <div class="panel">
   <div class="kick"><span class="n">III</span>The Industrial Base</div>
-  <p class="p-title">What the American economy is made of</p>
-  <p class="p-sub">Every nation carries a sector wheel &mdash; share of GDP by industry. It decides what a
-  blockade starves, what a tariff protects, and what your war can actually consume.</p>
+  <p class="p-title">Sectors of the US Economy</p>
+  <p class="p-sub">Every nation's GDP is composed of sectors, represented by real buildings on the map
+  that can increase or decrease their levels.</p>
   {wheel}
 </div>
 
@@ -713,17 +717,17 @@ footer .gold {{ color:var(--gold); }}
 <div class="panel">
   <div class="kick"><span class="n">IV</span>The Corporates</div>
   <p class="p-title">The four largest firms, trading normally</p>
-  <p class="p-sub">Listed companies are simulated tickers. One calm month of daily candles &mdash; before
-  you touch anything.</p>
+  <p class="p-sub">Listed companies are simulated tickers &mdash; one from each sector: tech, finance,
+  healthcare and services. A calm month of daily candles, before you touch anything.</p>
   <div class="cos">{"".join(co_cards)}</div>
 </div>
 
 <!-- V BUDGET -->
 <div class="panel">
   <div class="kick"><span class="n">V</span>The Budget</div>
-  <p class="p-title">Federal outlays, FY 2024</p>
-  <p class="p-sub">The ledger you inherit: $6.75 trillion out the door, and net interest now larger than
-  the defense budget. Every slice is a lever &mdash; and a constituency.</p>
+  <p class="p-title">Federal Budget, FY 2024</p>
+  <p class="p-sub">The budget the new US Administration inherits. Growing interest payments as a portion
+  of the budget threaten long term financial stability.</p>
   {budget_pie}
 </div>
 
@@ -731,8 +735,8 @@ footer .gold {{ color:var(--gold); }}
 <div class="panel">
   <div class="kick"><span class="n">VI</span>The Briefing</div>
   <p class="p-title">Economic briefing &middot; January 20, 2025</p>
-  <p class="p-sub">Day one. The macro picture handed to every new administration &mdash; this is the
-  starting state of the simulation.</p>
+  <p class="p-sub">The macroeconomic situation facing the incoming administration. This is the start
+  of the simulation.</p>
   <div class="br">
     <div class="br-head">
       <div class="t1">Memorandum for the President</div>
@@ -745,18 +749,24 @@ footer .gold {{ color:var(--gold); }}
 </div><!-- /grid -->
 
 <footer>
-  <span class="gold">poligeo.org</span> &nbsp;&middot;&nbsp; r/PoliGeo &nbsp;&middot;&nbsp; Steam &middot; November 2026
-  <div class="note">Illustrative magnitudes from engine test runs &middot; simulations occur in isolation</div>
+  <span class="gold">poligeo.org</span>
 </footer>
 
 </div>
 <script>
-addEventListener('load', () => {{
-  const h = Math.ceil(document.documentElement.scrollHeight);
-  const st = document.createElement('style');
+/* Size the single PDF page to the document. Measure only after webfonts have
+   swapped in — Marcellus reflows the serif titles, so a load-time measurement
+   under-counts and the print clips the bottom of the page. */
+const st = document.createElement('style');
+document.head.appendChild(st);
+const fit = () => {{
+  const h = Math.ceil(Math.max(document.documentElement.scrollHeight,
+                               document.body.scrollHeight)) + 2;
   st.textContent = `@page {{ size: 1060px ${{h}}px; margin: 0; }}`;
-  document.head.appendChild(st);
-}});
+}};
+addEventListener('load', fit);
+if (document.fonts && document.fonts.ready)
+  document.fonts.ready.then(() => requestAnimationFrame(() => requestAnimationFrame(fit)));
 </script>
 </body>
 </html>
