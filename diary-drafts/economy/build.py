@@ -704,9 +704,27 @@ footer .gold {{ color:var(--gold); }}
   </div>
 </div>
 
-<!-- III BRIEFING -->
+<!-- III BUDGET -->
 <div class="panel">
-  <div class="kick"><span class="n">III</span>The Briefing</div>
+  <div class="kick"><span class="n">III</span>The Budget</div>
+  <p class="p-title">Federal Budget, FY 2024</p>
+  <p class="p-sub">The budget the new US Administration inherits. Growing interest payments as a portion
+  of the budget threaten long term financial stability.</p>
+  {budget_pie}
+</div>
+
+<!-- IV INDUSTRY WHEEL -->
+<div class="panel">
+  <div class="kick"><span class="n">IV</span>The Industrial Base</div>
+  <p class="p-title">Sectors of the US Economy</p>
+  <p class="p-sub">Every nation's GDP is composed of sectors, represented by real buildings on the map
+  that can increase or decrease their levels.</p>
+  {wheel}
+</div>
+
+<!-- V BRIEFING -->
+<div class="panel">
+  <div class="kick"><span class="n">V</span>The Briefing</div>
   <p class="p-title">Economic briefing &middot; January 20, 2025</p>
   <p class="p-sub">The macroeconomic situation facing the incoming administration. This is the start
   of the simulation.</p>
@@ -719,32 +737,14 @@ footer .gold {{ color:var(--gold); }}
   </div>
 </div>
 
-<!-- IV CORPORATES -->
+<!-- VI THE MARKET -->
 <div class="panel">
-  <div class="kick"><span class="n">IV</span>The Corporates</div>
+  <div class="kick"><span class="n">VI</span>The Market</div>
   <p class="p-title">Four market indices, trading normally</p>
   <p class="p-sub">Listed companies are simulated tickers, with stock prices updating each simulated
   hour. Daily fluctuations are often outside of the administration's direct control, but actions
   affecting industry influence stock prices as the market calculates and reacts.</p>
   <div class="cos">{"".join(co_cards)}</div>
-</div>
-
-<!-- V BUDGET -->
-<div class="panel">
-  <div class="kick"><span class="n">V</span>The Budget</div>
-  <p class="p-title">Federal Budget, FY 2024</p>
-  <p class="p-sub">The budget the new US Administration inherits. Growing interest payments as a portion
-  of the budget threaten long term financial stability.</p>
-  {budget_pie}
-</div>
-
-<!-- VI INDUSTRY WHEEL -->
-<div class="panel">
-  <div class="kick"><span class="n">VI</span>The Industrial Base</div>
-  <p class="p-title">Sectors of the US Economy</p>
-  <p class="p-sub">Every nation's GDP is composed of sectors, represented by real buildings on the map
-  that can increase or decrease their levels.</p>
-  {wheel}
 </div>
 
 </div><!-- /grid -->
