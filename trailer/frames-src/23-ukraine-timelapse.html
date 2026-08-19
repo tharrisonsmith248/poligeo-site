@@ -1,4 +1,4 @@
-<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
 <title>0:12 — The war you inherit · 2022 → 2025</title>
 <style>
   body{background:#070c16}
@@ -63,9 +63,50 @@
       });
     }
   }
-  draw('ua', occ2025, false);
+  // small chips: static snapshots
   draw('m1', occ2022, true);
   draw('m2', occNov22, true);
   draw('m3', occ2025, true);
+  // BIG map: a live territory timelapse driven by __seek(t).
+  var s=document.getElementById('ua');
+  s.setAttribute('viewBox', UAV.x+' '+UAV.y+' '+UAV.w+' '+UAV.h);
+  function el(n,a,par){var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); (par||s).appendChild(e); return e}
+  UA_NEI.forEach(function(d){ el('path',{d:d, fill:'#141d33', stroke:'#141d33','stroke-width':7,'stroke-linejoin':'round'}) });
+  var HELD='#46598c', OCC='#a84e56', FLASH='#e3c06a';
+  var tiles=UA_TILES.map(function(t){
+    var p=el('path',{d:t.d, fill:HELD, stroke:'#111a2e','stroke-width':0.5});
+    return {p:p, x:firstXY(t.d)[0], a:occ2022(t), b:occNov22(t), c:occ2025(t)};
+  });
+  UA_CITIES.forEach(function(c){
+    el('circle',{cx:c.x, cy:c.y, r:c.c?2.6:1.5, fill:c.c?'#0a0e1a':'#cfd4e0', opacity:c.c?1:0.7,
+      stroke:c.c?'#e8cf8e':'none','stroke-width':c.c?1.3:0});
+    if(c.c){var tx=el('text',{x:c.x+8,y:c.y+5,'font-size':14,'font-family':'Marcellus, Georgia, serif',
+      fill:'#f2e7c8','paint-order':'stroke',stroke:'rgba(7,12,22,0.85)','stroke-width':3}); tx.textContent=c.n}
+  });
+  var chips=document.querySelectorAll('.stage-chip');
+  // phases: [start,end,targetKey]; tiles flip west->east across each phase window
+  var PH=[[0.25,1.35,'a'],[1.35,2.45,'b'],[2.45,3.55,'c']];
+  var xs=tiles.map(function(t){return t.x}), xmin=Math.min.apply(null,xs), xmax=Math.max.apply(null,xs);
+  window.__render=function(t){
+    // which phase and progress
+    var phi=0; for(var i=0;i<PH.length;i++){ if(t>=PH[i][0]) phi=i; }
+    var ph=PH[phi], prog=Math.max(0,Math.min(1,(t-ph[0])/(ph[1]-ph[0])));
+    var prevKey = phi===0?'held':PH[phi-1][2];
+    var key=ph[2];
+    tiles.forEach(function(tl){
+      var frac=(tl.x-xmin)/(xmax-xmin);          // 0 west .. 1 east
+      var reveal=Math.max(0,Math.min(1,(prog-frac*0.8)/0.2)); // moving front W->E
+      var from = prevKey==='held'?false:tl[prevKey];
+      var to = tl[key];
+      var occNow = reveal>=0.5 ? to : from;
+      tl.p.setAttribute('fill', occNow?OCC:HELD);
+      // flash the tiles currently flipping
+      if(reveal>0.05 && reveal<0.95 && from!==to){
+        tl.p.setAttribute('stroke',FLASH); tl.p.setAttribute('stroke-width','1.4');
+      } else { tl.p.setAttribute('stroke','#111a2e'); tl.p.setAttribute('stroke-width','0.5'); }
+    });
+    chips.forEach(function(c,i){ c.classList.toggle('cur', i===phi); });
+  };
+  window.__render(0);
 })();
 </script>

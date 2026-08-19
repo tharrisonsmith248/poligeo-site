@@ -1,4 +1,4 @@
-<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
 <title>0:29.5 — The held breath</title>
 <style>
   body{background:#06080f}
@@ -11,3 +11,19 @@
   <div class="disclaimer">CAESURA · TOTAL SILENCE · 0.5 SECONDS · TYPE-ON IS INSTANT</div>
   <div class="timecode">TEASER 02 · 0:49.5</div>
 </div>
+<script>
+(function(){
+  var line=document.querySelector('.line'), cur=document.querySelector('.cursor');
+  var pre='Define the Nation\u2019s ', gold='Future', post='.';
+  var total=pre.length+gold.length+post.length;
+  window.__render=function(t){
+    var p=Math.max(0,Math.min(1,(t-0.1)/0.7)); var k=Math.round(p*total);
+    var html;
+    if(k<=pre.length) html=pre.slice(0,k);
+    else if(k<=pre.length+gold.length) html=pre+'<span class="g">'+gold.slice(0,k-pre.length)+'</span>';
+    else html=pre+'<span class="g">'+gold+'</span>'+post.slice(0,k-pre.length-gold.length);
+    line.innerHTML=html+'<span class="cursor" style="width:0.5em;height:0.95em;opacity:'+((t*2%1<0.55)?1:0.1)+'"></span>';
+  };
+  window.__render(0);
+})();
+</script>

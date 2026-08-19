@@ -1,0 +1,34 @@
+/* Shared motion for the animated capture pass.
+   All animations run on load; the capture rig drives the browser's virtual
+   clock so they record frame-perfect. Body gets a data-anim attribute to
+   enable; ?clean=1 hides dev burn-ins (timecode/disclaimer). */
+
+/* dev burn-ins off in clean mode */
+body.clean .timecode, body.clean .disclaimer { display:none !important; }
+
+/* ---- reveal primitives (var --d = delay, --dur = duration) ---- */
+@keyframes fadeUp { from{opacity:0; transform:translateY(24px)} to{opacity:1; transform:none} }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+@keyframes popIn  { from{opacity:0; transform:scale(0.86)} 60%{opacity:1} to{opacity:1; transform:scale(1)} }
+@keyframes slideL { from{opacity:0; transform:translateX(-40px)} to{opacity:1; transform:none} }
+@keyframes slideR { from{opacity:0; transform:translateX(40px)} to{opacity:1; transform:none} }
+@keyframes barGrow{ from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@keyframes stampIn{ 0%{opacity:0; transform:scale(1.6) rotate(var(--rot,-7deg))}
+                    70%{opacity:1; transform:scale(0.92) rotate(var(--rot,-7deg))}
+                    100%{opacity:1; transform:scale(1) rotate(var(--rot,-7deg))} }
+@keyframes blink  { 50%{opacity:0} }
+
+.a-fadeup{opacity:0; animation:fadeUp var(--dur,.6s) cubic-bezier(.2,.7,.2,1) var(--d,0s) forwards}
+.a-fade  {opacity:0; animation:fadeIn var(--dur,.6s) ease var(--d,0s) forwards}
+.a-pop   {opacity:0; animation:popIn  var(--dur,.5s) cubic-bezier(.2,.8,.2,1) var(--d,0s) forwards}
+.a-left  {opacity:0; animation:slideL var(--dur,.5s) cubic-bezier(.2,.7,.2,1) var(--d,0s) forwards}
+.a-right {opacity:0; animation:slideR var(--dur,.5s) cubic-bezier(.2,.7,.2,1) var(--d,0s) forwards}
+.a-stamp {opacity:0; animation:stampIn var(--dur,.5s) cubic-bezier(.3,1.4,.4,1) var(--d,0s) forwards}
+
+/* type-on: a JS-free width reveal for a single line; anim.js also provides a
+   character typer for multi-line. */
+.type-line{display:inline-block; overflow:hidden; white-space:nowrap;
+  border-right:.06em solid var(--gold-hi); vertical-align:bottom;
+  width:0; animation:typew var(--dur,1s) steps(var(--steps,24)) var(--d,0s) forwards,
+                      blink .9s steps(1) infinite;}
+@keyframes typew{ to{width:var(--w,100%)} }

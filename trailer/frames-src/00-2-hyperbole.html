@@ -1,4 +1,4 @@
-<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
 <title>0:03 — The claim</title>
 <style>
   body{background:#080d18}
@@ -43,5 +43,19 @@
       'left:'+x+'px;top:'+y+'px;background:rgba(143,151,171,'+(0.10+0.28*r()).toFixed(2)+')';
     host.appendChild(e);
   }
+})();
+</script>
+<script>
+(function(){
+  var span=document.querySelector('.typed'), cur=document.querySelector('.cursor');
+  var pre='or with an ', silver='Iron\u00a0Fist', total=pre.length+silver.length;
+  window.__render=function(t){
+    var p=Math.max(0,Math.min(1,(t-0.15)/1.35)); var k=Math.round(p*total);
+    var html; if(k<=pre.length){ html=pre.slice(0,k); }
+    else { html=pre+'<span class="silver">'+silver.slice(0,k-pre.length)+'</span>'; }
+    span.innerHTML=html;
+    if(cur) cur.style.opacity=(t*2%1<0.55)?1:0.1;
+  };
+  window.__render(0);
 })();
 </script>
