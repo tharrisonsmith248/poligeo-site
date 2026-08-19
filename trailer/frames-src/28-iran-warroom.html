@@ -46,32 +46,42 @@
       <div class="kv"><span>NEXT PACKAGE</span><b>TEHRAN · COMMAND NODES</b></div>
     </div>
   </div>
-  <svg class="mapbox" viewBox="0 0 760 660">
-    <!-- rough Iran silhouette -->
-    <path d="M120 180 L200 120 L300 100 L370 130 L470 120 L560 170 L640 240 L660 330 L620 380
-             L640 440 L560 500 L470 520 L400 560 L300 540 L240 480 L150 440 L110 350 L90 260 Z"
-          fill="#101a2f" stroke="#243352" stroke-width="2"/>
-    <text x="330" y="330" font-family="DejaVu Sans Mono" font-size="26" letter-spacing="8" fill="#3d4a6b">IRAN</text>
-    <!-- strike markers -->
-    <g font-family="DejaVu Sans Mono" font-size="14" fill="#8f97ab">
-      <g><circle cx="330" cy="180" r="12" fill="none" stroke="#e3c06a" stroke-width="2.5"/><circle cx="330" cy="180" r="4" fill="#e3c06a"/><text x="348" y="176">TEHRAN · PENDING</text></g>
-      <g><circle cx="200" cy="150" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="200" cy="150" r="3.5" fill="#b04a4a"/><text x="216" y="142">TABRIZ ✓</text></g>
-      <g><circle cx="330" cy="280" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="330" cy="280" r="3.5" fill="#b04a4a"/><text x="348" y="286">NATANZ ✓</text></g>
-      <g><circle cx="360" cy="360" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="360" cy="360" r="3.5" fill="#b04a4a"/><text x="378" y="366">ISFAHAN ✓</text></g>
-      <g><circle cx="260" cy="470" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="260" cy="470" r="3.5" fill="#b04a4a"/><text x="150" y="504">BUSHEHR ✓</text></g>
-      <g><circle cx="440" cy="520" r="9" fill="none" stroke="#b04a4a" stroke-width="2.5"/><circle cx="440" cy="520" r="3.5" fill="#b04a4a"/><text x="458" y="528">BANDAR ABBAS ✓</text></g>
-    </g>
-    <!-- unrest markers -->
-    <g fill="#c9a54a" opacity="0.9">
-      <circle cx="290" cy="200" r="5"/><circle cx="420" cy="240" r="5"/><circle cx="250" cy="330" r="5"/>
-      <circle cx="480" cy="400" r="5"/><circle cx="200" cy="250" r="5"/><circle cx="530" cy="300" r="5"/>
-    </g>
-    <text x="500" y="590" font-family="DejaVu Sans Mono" font-size="13" fill="#5b647c" letter-spacing="2">● UNREST FLARE · ○ STRIKE</text>
+  <svg class="mapbox" id="iranmap" viewBox="0 0 760 660">
+    <text x="380" y="640" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="13" fill="#5b647c" letter-spacing="2">● UNREST FLARE · ○ STRIKE · REAL BORDERS (NATURAL EARTH 50M)</text>
   </svg>
   <div class="chyron">
     <span class="plate">● THE WIRE</span>
     <h2>US incites unrest inside Iran as airstrikes pound military assets</h2>
   </div>
-  <div class="timecode" style="bottom:130px">TEASER 02 · 0:31 · H5</div>
+  <div class="timecode" style="bottom:130px">TEASER 02 · 0:33 · H5</div>
   <div class="grade"></div>
 </div>
+<script src="world.js"></script>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('iranmap');
+  function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
+    if(txt)e.textContent=txt; svg.appendChild(e); return e}
+  el('path',{d:IRAN_D, fill:'#101a2f', stroke:'#243352','stroke-width':2});
+  el('text',{x:430,y:250,'font-family':'DejaVu Sans Mono','font-size':26,'letter-spacing':8,fill:'#3d4a6b'},'IRAN');
+  // strikes at real city coordinates
+  var struck=['TABRIZ','NATANZ','ISFAHAN','BUSHEHR','BANDAR ABBAS'];
+  struck.forEach(function(n){
+    var c=IRAN_CITIES[n];
+    el('circle',{cx:c[0],cy:c[1],r:9,fill:'none',stroke:'#b04a4a','stroke-width':2.5});
+    el('circle',{cx:c[0],cy:c[1],r:3.5,fill:'#b04a4a'});
+    var tx=c[0]+16, anchor='start';
+    if(n==='BUSHEHR'){tx=c[0]-16;anchor='end'}
+    el('text',{x:tx,y:c[1]+5,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#8f97ab','text-anchor':anchor},n+' \u2713');
+  });
+  var t=IRAN_CITIES['TEHRAN'];
+  el('circle',{cx:t[0],cy:t[1],r:12,fill:'none',stroke:'#e3c06a','stroke-width':2.5});
+  el('circle',{cx:t[0],cy:t[1],r:4,fill:'#e3c06a'});
+  el('text',{x:t[0]+18,y:t[1]-8,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#e3c06a'},'TEHRAN \u00b7 PENDING');
+  // unrest flares near real population centers (Qom, Mashhad-side, Ahvaz, Shiraz, Kermanshah, Karaj)
+  [[285,235],[520,180],[205,345],[355,430],[165,230],[280,195]].forEach(function(c){
+    el('circle',{cx:c[0],cy:c[1],r:5,fill:'#c9a54a',opacity:0.9});
+  });
+})();
+</script>

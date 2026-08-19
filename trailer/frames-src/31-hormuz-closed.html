@@ -19,36 +19,7 @@
   .chyron h2{font-family:var(--display); font-weight:400; font-size:40px; color:var(--ivory); margin:0}
 </style>
 <div class="stage">
-  <svg class="mapbox" viewBox="0 0 1000 640">
-    <rect width="1000" height="640" fill="#0a1120" rx="8"/>
-    <!-- gulf coastlines: Iran north, Arabian peninsula south, strait pinch at right -->
-    <path d="M0 60 L220 90 L400 70 L560 120 L700 160 L800 230 L860 210 L960 140 L1000 120 L1000 0 L0 0 Z" fill="#131d33"/>
-    <path d="M0 640 L0 400 L180 420 L360 460 L560 440 L700 470 L780 430 L820 470 L900 500 L1000 460 L1000 640 Z" fill="#131d33"/>
-    <text x="430" y="150" font-family="DejaVu Sans Mono" font-size="20" letter-spacing="6" fill="#3d4a6b">IRAN</text>
-    <text x="230" y="560" font-family="DejaVu Sans Mono" font-size="18" letter-spacing="5" fill="#3d4a6b">ARABIAN PENINSULA</text>
-    <text x="330" y="300" font-family="DejaVu Sans Mono" font-size="16" letter-spacing="4" fill="#2c3c60">PERSIAN GULF</text>
-    <!-- shipping lane, severed -->
-    <path d="M80 330 L520 320 L760 320" stroke="#3d5a94" stroke-width="4" stroke-dasharray="14 10" fill="none" opacity="0.8"/>
-    <path d="M840 330 Q900 360 960 420" stroke="#243352" stroke-width="4" stroke-dasharray="14 10" fill="none"/>
-    <!-- closure X at the strait pinch -->
-    <g stroke="#b04a4a" stroke-width="9" stroke-linecap="round">
-      <line x1="778" y1="288" x2="842" y2="368"/>
-      <line x1="842" y1="288" x2="778" y2="368"/>
-    </g>
-    <circle cx="810" cy="328" r="52" fill="none" stroke="#b04a4a" stroke-width="3"/>
-    <text x="810" y="430" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="17" letter-spacing="3" fill="#d98a8a">STRAIT OF HORMUZ</text>
-    <text x="810" y="456" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="17" letter-spacing="3" fill="#d98a8a">CLOSED</text>
-    <!-- mines -->
-    <g fill="#b04a4a"><circle cx="760" cy="300" r="5"/><circle cx="795" cy="350" r="5"/><circle cx="835" cy="300" r="5"/><circle cx="860" cy="345" r="5"/></g>
-    <!-- tanker queue -->
-    <g fill="#8f97ab">
-      <rect x="120" y="322" width="34" height="10" rx="3"/><rect x="180" y="326" width="34" height="10" rx="3"/>
-      <rect x="240" y="320" width="34" height="10" rx="3"/><rect x="300" y="327" width="34" height="10" rx="3"/>
-      <rect x="360" y="322" width="34" height="10" rx="3"/><rect x="420" y="326" width="34" height="10" rx="3"/>
-      <rect x="480" y="321" width="34" height="10" rx="3"/><rect x="540" y="326" width="34" height="10" rx="3"/>
-    </g>
-    <text x="120" y="270" font-family="DejaVu Sans Mono" font-size="14" letter-spacing="2" fill="#5b647c">TANKERS HOLDING · 63</text>
-  </svg>
+  <svg class="mapbox" id="gulfmap" viewBox="0 0 1000 640"></svg>
   <div class="markets">
     <div class="m-panel">
       <div class="cl"><span>BRENT CRUDE · $/BBL</span><span class="up">118.60 ▲ 41%</span></div>
@@ -65,9 +36,47 @@
     <span class="plate">● BREAKING</span>
     <h2>Iran closes the Strait of Hormuz to all shipping</h2>
   </div>
-  <div class="timecode" style="bottom:110px">TEASER 02 · 0:39</div>
+  <div class="timecode" style="bottom:110px">TEASER 02 · 0:41</div>
   <div class="grade"></div>
 </div>
+<script src="world.js"></script>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('gulfmap');
+  function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
+    if(txt)e.textContent=txt; svg.appendChild(e); return e}
+  el('rect',{width:1000,height:640,fill:'#0a1120',rx:8});
+  GULF.forEach(function(c){
+    el('path',{d:c.d, fill:c.i==='IRN'?'#16233c':'#131d33', stroke:'#243352','stroke-width':1});
+  });
+  el('text',{x:560,y:150,'font-family':'DejaVu Sans Mono','font-size':20,'letter-spacing':6,fill:'#3d4a6b'},'IRAN');
+  el('text',{x:200,y:520,'font-family':'DejaVu Sans Mono','font-size':17,'letter-spacing':5,fill:'#3d4a6b'},'SAUDI ARABIA');
+  el('text',{x:760,y:560,'font-family':'DejaVu Sans Mono','font-size':15,'letter-spacing':4,fill:'#3d4a6b'},'OMAN');
+  el('text',{x:330,y:330,'font-family':'DejaVu Sans Mono','font-size':15,'letter-spacing':4,fill:'#2c3c60'},'PERSIAN GULF');
+  el('text',{x:780,y:470,'font-family':'DejaVu Sans Mono','font-size':14,'letter-spacing':3,fill:'#2c3c60'},'GULF OF OMAN');
+  // shipping lane along the real gulf axis, severed at the real strait
+  el('path',{d:'M180 290 L300 320 L420 345 L540 355 L620 358 L648 362', stroke:'#3d5a94',
+    'stroke-width':4,'stroke-dasharray':'14 10',fill:'none',opacity:0.85});
+  el('path',{d:'M703 380 Q760 420 830 455', stroke:'#243352','stroke-width':4,'stroke-dasharray':'14 10',fill:'none'});
+  var hx=HORMUZ[0], hy=HORMUZ[1];
+  el('circle',{cx:hx,cy:hy,r:46,fill:'none',stroke:'#b04a4a','stroke-width':3});
+  el('line',{x1:hx-28,y1:hy-28,x2:hx+28,y2:hy+28,stroke:'#b04a4a','stroke-width':9,'stroke-linecap':'round'});
+  el('line',{x1:hx+28,y1:hy-28,x2:hx-28,y2:hy+28,stroke:'#b04a4a','stroke-width':9,'stroke-linecap':'round'});
+  el('text',{x:hx,y:hy+82,'text-anchor':'middle','font-family':'DejaVu Sans Mono','font-size':16,'letter-spacing':3,fill:'#d98a8a'},'STRAIT OF HORMUZ');
+  el('text',{x:hx,y:hy+106,'text-anchor':'middle','font-family':'DejaVu Sans Mono','font-size':16,'letter-spacing':3,fill:'#d98a8a'},'CLOSED');
+  // mines around the strait mouth
+  [[hx-32,hy-14],[hx-8,hy+26],[hx+24,hy-20],[hx+38,hy+16]].forEach(function(c){
+    el('circle',{cx:c[0],cy:c[1],r:5,fill:'#b04a4a'});
+  });
+  // tanker queue holding in the gulf, along the lane
+  [[210,296],[260,308],[310,322],[360,334],[410,343],[460,350],[510,353],[560,356]].forEach(function(c){
+    el('rect',{x:c[0],y:c[1]-5,width:32,height:10,rx:3,fill:'#8f97ab'});
+  });
+  el('text',{x:180,y:262,'font-family':'DejaVu Sans Mono','font-size':14,'letter-spacing':2,fill:'#5b647c'},'TANKERS HOLDING \u00b7 63');
+  el('text',{x:20,y:626,'font-family':'DejaVu Sans Mono','font-size':12,'letter-spacing':2,fill:'#3d4a6b'},'REAL COASTLINES \u00b7 NATURAL EARTH 50M');
+})();
+</script>
 <script>
 (function(){
   var NS='http://www.w3.org/2000/svg', svg=document.getElementById('oil');
