@@ -23,6 +23,31 @@
   .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
     font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:12px}
   .chyron h2{font-family:var(--display); font-weight:400; font-size:40px; color:var(--ivory); margin:0}
+
+  .bcast{position:absolute; left:56px; right:56px; bottom:16px; z-index:50;
+    font-family:'Liberation Sans','DejaVu Sans',sans-serif}
+  .tabs{display:flex; padding-left:8px}
+  .btab{font-weight:bold; font-size:20px; letter-spacing:0.03em; padding:9px 20px 7px;
+    border-radius:7px 7px 0 0; color:#fff; text-transform:uppercase}
+  .btab.red{background:#c0322e}
+  .btab.dark{background:#23262e; color:#e9e9e9}
+  .band{background:#f4f2ec; border-radius:5px; display:flex; align-items:center; height:74px;
+    padding:0 20px; box-shadow:0 8px 30px rgba(0,0,0,0.55)}
+  .bhl{flex:1; color:#101010; font-weight:bold; white-space:nowrap; letter-spacing:-0.01em;
+    transform:scaleX(0.94); transform-origin:left center}
+  .bmark{text-align:center; padding-left:16px}
+  .bmark b{display:block; color:#c0322e; font-size:33px; font-weight:900; font-style:italic;
+    letter-spacing:-0.02em; line-height:1}
+  .bmark i{display:block; color:#c0322e; font-size:12px; letter-spacing:0.4em; font-style:normal;
+    font-weight:bold; margin-top:2px; border-top:2.5px solid #c0322e; padding-top:2px}
+  .bstrip{display:flex; align-items:center; background:#14161c; border-radius:0 0 5px 5px;
+    height:42px; margin-top:3px}
+  .bts{color:#fff; font-weight:bold; font-size:19px; padding:0 18px; white-space:nowrap}
+  .bchev{color:#9aa0ab; padding-right:12px; font-size:21px; font-weight:bold}
+  .bwin{flex:1; overflow:hidden; white-space:nowrap; margin-right:18px}
+  .btk{display:inline-block; font-family:'Liberation Sans','DejaVu Sans',sans-serif; font-size:20px;
+    color:#d6dae2; white-space:nowrap; will-change:transform}
+  .btk b{color:#fff}
 </style>
 <div class="stage">
   <svg class="mapbox" id="gulfmap" viewBox="0 0 1000 640"></svg>
@@ -38,10 +63,12 @@
       <div class="rw"><span>STRATEGIC RESERVE</span><b>RELEASE ORDERED</b></div>
     </div>
   </div>
-  <div class="chyron">
-    <span class="plate">● BREAKING</span>
-    <h2>Iran closes the Strait of Hormuz to all shipping</h2>
-    <div class="tickerbar"><div class="tk" id="tk"></div></div>
+  <div class="bcast">
+    <div class="tabs"><span class="btab red" >Breaking</span><span class="btab dark" >Wire Markets</span></div>
+    <div class="band"><span class="bhl" id="hl31" style="font-size:36px">IRAN CLOSES THE STRAIT OF HORMUZ TO ALL SHIPPING</span>
+      <span class="bmark"><b>WIRE</b><i>LIVE</i></span></div>
+    <div class="bstrip"><span class="bts" id="bts31">6:20 AM GST</span><span class="bchev">›</span>
+      <div class="bwin"><div class="btk" id="tk"></div></div></div>
   </div>
   <div class="timecode" style="bottom:110px">TEASER 02 · 0:41</div>
   <div class="grade"></div>
@@ -158,8 +185,9 @@
   });
   var oilp=document.getElementById('oilp'), oilpc=document.getElementById('oilpc');
   var tk=document.getElementById('tk');
-  var TKTEXT='BRENT CRUDE SPIKES 41% \u2022 63 TANKERS HOLDING IN THE GULF \u2022 FREIGHT RATES UP 227% \u2022 '+
-    'STRATEGIC RESERVE RELEASE ORDERED \u2022 CIRCUIT BREAKER TRIPS ON THE S&P \u2022 GAS $4.61 NATIONAL AVG \u2022 ';
+  var SEP='  \u203a  ';
+  var TKTEXT=['Brent crude spikes 41%','63 tankers holding in the Gulf','Freight rates up 227%',
+    'Strategic reserve release ordered','Circuit breaker trips on the S&P','Gas $4.61 national avg'].join(SEP)+SEP;
   tk.textContent=TKTEXT+TKTEXT+TKTEXT;
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
@@ -170,7 +198,7 @@
     var pp=E((t-0.9)/1.4);
     oilp.textContent=(84+34.6*pp).toFixed(2);
     oilpc.textContent=Math.round(41*pp);
-    tk.style.transform='translateX('+(-t*230)+'px)';
+    tk.style.transform='translateX('+(-t*210)+'px)';
   };
   window.__render(0);
 })();

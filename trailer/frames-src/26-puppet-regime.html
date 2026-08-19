@@ -24,16 +24,43 @@
   .tk{display:inline-block; font-family:var(--mono); font-size:17px; letter-spacing:0.14em;
     color:#c8933f; white-space:nowrap; will-change:transform}
   .tk b{color:var(--ivory); font-weight:normal}
+
+  .bcast{position:absolute; left:56px; right:56px; bottom:16px; z-index:50;
+    font-family:'Liberation Sans','DejaVu Sans',sans-serif}
+  .tabs{display:flex; padding-left:8px}
+  .btab{font-weight:bold; font-size:20px; letter-spacing:0.03em; padding:9px 20px 7px;
+    border-radius:7px 7px 0 0; color:#fff; text-transform:uppercase}
+  .btab.red{background:#c0322e}
+  .btab.dark{background:#23262e; color:#e9e9e9}
+  .band{background:#f4f2ec; border-radius:5px; display:flex; align-items:center; height:74px;
+    padding:0 20px; box-shadow:0 8px 30px rgba(0,0,0,0.55)}
+  .bhl{flex:1; color:#101010; font-weight:bold; white-space:nowrap; letter-spacing:-0.01em;
+    transform:scaleX(0.94); transform-origin:left center}
+  .bmark{text-align:center; padding-left:16px}
+  .bmark b{display:block; color:#c0322e; font-size:33px; font-weight:900; font-style:italic;
+    letter-spacing:-0.02em; line-height:1}
+  .bmark i{display:block; color:#c0322e; font-size:12px; letter-spacing:0.4em; font-style:normal;
+    font-weight:bold; margin-top:2px; border-top:2.5px solid #c0322e; padding-top:2px}
+  .bstrip{display:flex; align-items:center; background:#14161c; border-radius:0 0 5px 5px;
+    height:42px; margin-top:3px}
+  .bts{color:#fff; font-weight:bold; font-size:19px; padding:0 18px; white-space:nowrap}
+  .bchev{color:#9aa0ab; padding-right:12px; font-size:21px; font-weight:bold}
+  .bwin{flex:1; overflow:hidden; white-space:nowrap; margin-right:18px}
+  .btk{display:inline-block; font-family:'Liberation Sans','DejaVu Sans',sans-serif; font-size:20px;
+    color:#d6dae2; white-space:nowrap; will-change:transform}
+  .btk b{color:#fff}
 </style>
 <div class="stage">
   <div class="map"><svg id="ve" width="900" height="815" viewBox="0 0 640 579"></svg></div>
   <div class="ve-tag">OPERATION SOUTHERN SHIELD · TIMELAPSE</div>
   <div class="wk"><span id="wkn">WEEK 1</span><small id="dayn">DAY 1</small></div>
   <div class="stats" id="stats"></div>
-  <div class="chyron">
-    <span class="plate" id="plate">● THE WIRE · CARACAS</span>
-    <h2 id="headline">US forces advance across Venezuela</h2>
-    <div class="tickerbar"><div class="tk" id="tk"></div></div>
+  <div class="bcast">
+    <div class="tabs"><span class="btab red" >Live</span><span class="btab dark" id=id2>Wire · Caracas</span></div>
+    <div class="band"><span class="bhl" id="headline" style="font-size:36px">US FORCES ADVANCE ACROSS VENEZUELA</span>
+      <span class="bmark"><b>WIRE</b><i>LIVE</i></span></div>
+    <div class="bstrip"><span class="bts" id="bts">DAY 1</span><span class="bchev">›</span>
+      <div class="bwin"><div class="btk" id="tk"></div></div></div>
   </div>
   <div class="timecode" style="bottom:170px">TEASER 02 · WEEK 1 → WEEK 10</div>
   <div class="grade"></div>
@@ -61,11 +88,12 @@
   function lerp(a,b,f){return a+(b-a)*f}
   var wkn=document.getElementById('wkn'), dayn=document.getElementById('dayn'),
       stats=document.getElementById('stats'),
-      plate=document.getElementById('plate'), headline=document.getElementById('headline'),
+      headline=document.getElementById('headline'),
       tk=document.getElementById('tk');
-  var TKTEXT='ARMED GROUPS CHALLENGE DEMOCRATIC ADMINISTRATION • IED ATTACKS IN THREE PROVINCES • '+
-    'CONVOY AMBUSHED OUTSIDE MARACAY • REGIME ELEMENTS IN DISARRAY • CURFEW DECLARED IN CARACAS • '+
-    'US KIA RISES • OIL EXPORTS SUSPENDED • ';
+  var SEP='  \u203a  ';
+  var TKTEXT=['Armed groups challenge democratic administration','IED attacks in three provinces',
+    'Convoy ambushed outside Maracay','Regime elements in disarray','Curfew declared in Caracas',
+    'Oil exports suspended'].join(SEP)+SEP;
   tk.textContent=TKTEXT+TKTEXT+TKTEXT;
   var TDUR=4.5, D0=0.25, D1=3.75;    // day 1 at D0, day 70 at D1, hold after
   window.__render=function(t){
@@ -99,16 +127,11 @@
       return '<div class="stat"><span class="l">'+r[0]+'</span><span class="v '+r[2]+'">'+r[1]+'</span></div>';
     }).join('');
     // chyron phases: advance -> puppet regime installed (wk4) -> insurgency (wk9-10)
-    if(day<26){ plate.textContent='● THE WIRE · CARACAS';
-      headline.textContent='US forces advance across Venezuela'; }
-    else if(day<58){ plate.textContent='● THE WIRE · CARACAS';
-      headline.textContent='US-backed government installed; opposition calls it a puppet regime'; }
-    else { plate.textContent='● THE WIRE · WEEK 10';
-      headline.textContent='Insurgency erupts against the new government'; }
-    // insurgency ticker scrolls once the insurgency begins
-    var ton=day>=58;
-    tk.parentNode.style.opacity=ton?1:0;
-    if(ton) tk.style.transform='translateX('+(-(t-3.0)*230)+'px)';
+    document.getElementById('bts').textContent='DAY '+Math.round(day);
+    if(day<26){ headline.textContent='US FORCES ADVANCE ACROSS VENEZUELA'; headline.style.fontSize='36px'; }
+    else if(day<58){ headline.textContent='US-BACKED GOVERNMENT INSTALLED IN CARACAS'; headline.style.fontSize='36px'; }
+    else { headline.textContent='INSURGENCY ERUPTS AGAINST THE NEW GOVERNMENT'; headline.style.fontSize='36px'; }
+    tk.style.transform='translateX('+(-t*210)+'px)';
   };
   window.__render(0);
 })();
