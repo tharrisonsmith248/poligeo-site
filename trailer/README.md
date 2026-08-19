@@ -1,6 +1,6 @@
 # Teaser 02 "One Term" — visual assets
 
-Styleframes for every beat of the 56-second narrative teaser: one presidency's
+Styleframes for every beat of the 57-second narrative teaser: one presidency's
 arc from a 2024 landslide to martial law. Full beat sheet:
 `../docs/teaser-02-storyline.md`. Clip-by-clip production manifest (what to
 animate vs. what to generate with fal, with prompts): `FAL-NOTES.md`.
@@ -13,37 +13,38 @@ animate vs. what to generate with fal, with prompts): `FAL-NOTES.md`.
   `data.js` carries real data extracted from the site: `VE_PATHS`/`VE`
   (270-tile Venezuela campaign, weekly control sets), `UA_TILES`/`UA_NEI`/
   `UA_CITIES`/`UAV` (Ukraine's 421 tiles at the 20 Jan 2025 seed), `CONGRESS`
-  (119th Congress caucuses). `hero-map.jpg` is the engine screenshot from
+  (119th Congress caucuses). `hero-map.jpg` is the in-game screenshot from
   index.html. Frame 20 hardcodes the real 2024 electoral result
   (312–226, state by state, ME-02/NE-02 splits).
 
-## The cut (0:56)
+## The cut (0:57)
 
 | TC | Frame | Beat |
 |---|---|---|
-| 0:00 | 01-wire-headline | Cold open — the engine calls the election |
-| 0:02 | 20-electoral-map | Real 2024 map, 312–226 · "A LANDSLIDE." |
-| 0:05 | 21-approval | Polling & approval, honeymoon +9 |
-| 0:07.5 | 22-markets-wall | Candlestick + economy wall · "COMPUTED IN REAL TIME." |
-| 0:10 · H1 | 04-one-engine | Brass slam — engine globe · "ONE ENGINE." |
-| 0:12 · H2 | 23-ukraine-timelapse | Invasion timelapse 2022 → 2025 seed |
-| 0:16 · H3 | 06-every-word | Kremlin channel — most hostile reply sent |
-| 0:18.5 | 12-redacted-cable | Covert order: capture the President of Belarus |
-| 0:20.5 | 24-minsk-raid | fal: the Minsk raid |
-| 0:22.5 · H4 | 25-invasion-headline | "US launches full-scale invasion of Venezuela" |
-| 0:24–0:28 | 26-puppet-regime · 27-insurgency | Control timelapse · wk 4 puppet-regime headline · wk 10 insurgency headline |
-| 0:30 · H5 | 28-iran-warroom | Iran war interface: covert unrest + air campaign |
-| 0:32.5 | 08-every-consequence | Decapitation strikes lever flips ON |
-| 0:34 | 29-tehran-strike | fal: night strikes over Tehran |
-| 0:36 | 30-iran-crackdown | fal: regime crackdown newsreel, thousands dead |
-| 0:38 | 31-hormuz-closed | Iran closes the Strait of Hormuz |
-| 0:40 | 32-home-unrest | Leftist unrest · ORDER: FEDERAL CRACKDOWN (fal clips) |
-| 0:42.5 | 33-martial-law | Courts defied, martial law · "The only bounds on power are the ones you can overcome." |
-| 0:45 | 15-the-hand | Sting: the hand stops at STRATEGIC RELEASE |
-| 0:46.5 | 16-caesura | Silence · "The Ultimate Geopolitical Simulator." |
-| 0:47.5 | 17-title | PG cube + wordmark (85% of runtime) |
-| 0:49.5 | 18-tagline | "History is in session." |
-| 0:51.5 | 19-endslate | COMING TO STEAM · OCTOBER 2026 · WISHLIST NOW |
+| 0:00 | 00-title-intro | Title intro — PoliGeo · The Ultimate Geopolitical Simulator |
+| 0:03 | 01-wire-headline | Cold open — the Decision Desk calls the election |
+| 0:04.5 | 20-electoral-map | Real 2024 map, 312–226 · "A LANDSLIDE." |
+| 0:07 | 21-approval | Polling & approval, honeymoon +9 |
+| 0:09 | 22-markets-wall | Candlestick + economy wall · "COMPUTED IN REAL TIME." |
+| 0:11 · H1 | 04-one-world | Brass slam — the world map · "ONE LIVING WORLD." |
+| 0:13 · H2 | 23-ukraine-timelapse | Invasion timelapse 2022 → 2025 seed |
+| 0:17 · H3 | 06-every-word | Kremlin channel — most hostile reply sent |
+| 0:19.5 | 12-redacted-cable | Covert order: capture the President of Belarus |
+| 0:21.5 | 24-minsk-raid | fal: the Minsk raid |
+| 0:23.5 · H4 | 25-invasion-headline | "US launches full-scale invasion of Venezuela" |
+| 0:25–0:29 | 26-puppet-regime · 27-insurgency | Control timelapse · wk 4 puppet-regime headline · wk 10 insurgency headline |
+| 0:31 · H5 | 28-iran-warroom | Iran war interface: covert unrest + air campaign |
+| 0:33.5 | 08-every-consequence | Decapitation strikes lever flips ON |
+| 0:35 | 29-tehran-strike | fal: night strikes over Tehran |
+| 0:37 | 30-iran-crackdown | fal: regime crackdown newsreel, thousands dead |
+| 0:39 | 31-hormuz-closed | Iran closes the Strait of Hormuz |
+| 0:41 | 32-home-unrest | Leftist unrest · ORDER: FEDERAL CRACKDOWN (fal clips) |
+| 0:43.5 | 33-martial-law | Courts defied, martial law · "The only bounds on power are the ones you can overcome." |
+| 0:46 | 15-the-hand | Sting: the hand stops at STRATEGIC RELEASE |
+| 0:47.5 | 16-caesura | Silence · "History is in session." |
+| 0:48.5 | 17-title | PG cube + wordmark (85% of runtime) |
+| 0:50.5 | 18-tagline | "The Ultimate Geopolitical Simulator, in real time." |
+| 0:52.5 | 19-endslate | COMING TO STEAM · OCTOBER 2026 · WISHLIST NOW |
 
 **Alternates** (rendered, not in this cut — for cutdowns/gameplay trailer):
 02-newsreels, 03-oval-office, 05-every-vote, 07-every-war, 09-existential,
