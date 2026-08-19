@@ -38,8 +38,8 @@ title, tagline and slate. Conform to the chosen recording before animating.
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:05.5 | 1.0 | 01-wire-headline | **"Election 2024… A Landslide Victory"** — second half types in, bold dark red. NOVEMBER 5, 2024. |
-| 0:06.5 | 2.5 | 20-electoral-map | **Real 2024 electoral map**: every state starts grey and populates on the real call timeline while the tallies count up with each call, finishing 312–226 (ME-02/NE-02 splits on their calls). |
+| 0:05.5 | 2.5 | 20-electoral-map | **Real 2024 electoral map**: every state starts grey and populates on the real call timeline while the tallies count up with each call, finishing 312–226 (ME-02/NE-02 splits on their calls). |
+| 0:08 | 1.0 | 01-wire-headline | **"Election 2024… A Landslide Victory"** — second half types in, letters alternating red / blue. NOVEMBER 5, 2024. |
 | 0:09 | 2.0 | 21-approval | Polling & approval, cleaned: 57% (+9) headline stat, honeymoon line, three stat tiles (approval / economic confidence / right track). |
 | 0:11 | 2.0 | 22-markets-wall | Economy wall — "A STRONG ECONOMY · STABLE POLITICS": candlestick charts printing live, sector heatmap, macro panel, domestic-stability panel. Card: **COMPUTED IN REAL TIME.** |
 
@@ -47,9 +47,9 @@ title, tagline and slate. Conform to the chosen recording before animating.
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:13 · H1 | 2.0 | 04-one-world | Brass slam. Accurate world map (Natural Earth, Mercator) drawn in the game's relations theme — player blue, rivals crimson — not a screenshot. 199 NATIONS · 4,454 PROVINCES. Card: **ONE SIMULATION.** |
+| 0:13 · H1 | 2.0 | 04-one-world | Brass slam. Accurate world map (Natural Earth, Mercator) drawn in the game's relations theme — player blue, rivals crimson — not a screenshot. 200+ NATIONS · 4,454 PROVINCES. Card: **ONE SIMULATION.** |
 | 0:15 · H2 | 4.0 | 23-ukraine-timelapse | The ongoing war, territory only: tiles surge (2022), pull back (late 2022), settle on the Jan 2025 line. Three date chips, no other text. |
-| 0:19 · H3 | 2.5 | 06-every-word | Kremlin channel, real site-demo dialogue, hardline path: Putin's terms → YOU (THREATEN): *"You don't dictate to me, Vladimir…"* → Putin's gas-price jab → YOU (HARDLINE): *"…what happens to the ruble. Watch it."* fal animates the Putin portrait. |
+| 0:19 · H3 | 2.5 | 06-every-word | Kremlin channel as a **Signal interface** (the site demo's shape): verified header, end-to-end-encrypted notice, blue sent bubbles. Real demo dialogue, hardline path — Putin's terms → YOU (THREATEN) → his gas-price jab → YOU (HARDLINE). fal animates the Putin portrait in the avatar. |
 | 0:21.5 | 2.0 | 12-redacted-cable | **CLASSIFIED // CIA DIRECTORATE · OPERATION STEEL CLAW** — capture of the President of Belarus, redactions striking through live. AUTHORIZED · NOT SIGNED · EXECUTE. |
 | 0:23.5 | 2.0 | 24-minsk-raid | fal raid clip + **BRIEFING // CIA DIRECTORATE · OPERATION SUCCESS**: President of Belarus captured, held in secure facility, awaits interrogation. |
 
@@ -57,7 +57,7 @@ title, tagline and slate. Conform to the chosen recording before animating.
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:25.5 · H4 | 1.5 | 25-invasion-headline | Full-screen breaking banner over the dark tile map, landing arrows sweeping in: **US LAUNCHES FULL-SCALE INVASION OF VENEZUELA.** |
+| 0:25.5 · H4 | 1.5 | 25-invasion-headline | **fal invasion footage**: dawn coastal landing — helicopters inbound over the water, US troops wading ashore (silhouettes). Breaking banner: **US LAUNCHES FULL-SCALE INVASION OF VENEZUELA.** |
 | 0:27 | 2.0 | (26 logic, weeks 1→4) | Timelapse of control: 270 real tiles flood red from the coast, stat column spinning. |
 | 0:29 | 2.0 | 26-puppet-regime | Week 4 chyron: **"US-backed government installed in Caracas; opposition calls it a puppet regime"** · REGIME ELEMENTS IN DISARRAY • ARMED GROUPS CHALLENGE DEMOCRATIC ADMINISTRATION. |
 | 0:31 | 2.0 | 27-insurgency | Week 10 · FALL: state capitulated — and gold-rimmed tiles flare: **"Venezuelan resistance launches insurgency from the southern jungles."** 12 cells active. |
@@ -85,9 +85,9 @@ title, tagline and slate. Conform to the chosen recording before animating.
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:50.5 | 2.0 | 17-title | Chord 1 — tiles lock into the PG cube; POLIGEO wordmark. (86% of runtime.) |
-| 0:52.5 | 2.0 | 18-tagline | Chord 2 — *The Ultimate Geopolitical Simulator, in real time.* (bookends the intro). |
-| 0:54.5 | 4.5 | 19-endslate | Chord 3, held — **COMING TO STEAM · OCTOBER 2026** · boxed **WISHLIST NOW ON STEAM** · poligeo.org · r/PoliGeo. Cut to black on the release; Wire cursor blinks for the loop. No stinger. |
+| 0:50.5 | 2.0 | 17-title | **The outro 0:50.5→0:59 is one continuous move.** Chord 1 — the PG cube spins in (a real 3D cube, map-textured faces), wordmark below. |
+| 0:52.5 | 2.0 | 18-tagline | Chord 2 — the cube settles above the wordmark; tagline fades up: *The Ultimate Geopolitical Simulator, in real time.* |
+| 0:54.5 | 4.5 | 19-endslate | Chord 3 — the cube **lands locked** (end of the continuous move); held — **COMING TO STEAM · OCTOBER 2026** · boxed **WISHLIST NOW ON STEAM** · poligeo.org · r/PoliGeo. Cut to black on the release; Wire cursor blinks for the loop. No stinger. |
 
 Alternate beats (rendered, not in this cut): 02-newsreels, 03-oval-office,
 05-every-vote (Congress whip count), 07-every-war (week 6), 09-existential,

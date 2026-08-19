@@ -15,17 +15,16 @@ licensed track — see trailer/FAL-NOTES.md).
 **S2 · 0:03 · 00-2-hyperbole** — claim card
 - **Rule Democratically…** *(holds)* **or with an Iron Fist** *(types in; "Iron Fist" bold silver)*
 
-**S3 · 0:05.5 · 01-wire-headline** — the result
-- **Election 2024…** *(holds)* **A Landslide Victory** *(types in; bold dark red)*
-- `NOVEMBER 5, 2024`
-- `PRE-ALPHA IN-GAME FOOTAGE` *(corner disclaimer)*
-
-**S4 · 0:06.5 · 20-electoral-map** — the map fills
+**S3 · 0:05.5 · 20-electoral-map** — the map fills
 - `UNITED STATES · PRESIDENTIAL ELECTION · NOVEMBER 5, 2024 · 538 ELECTORAL VOTES`
 - Left tally counts up · right tally counts up (ends **312 / 226**) · `CALLED SO FAR · COUNT LIVE`
 - `COUNTING · 270 TO WIN`
 - `7 STATES OUTSTANDING · FINAL: 312 – 226`
 - [51 state tiles: all start **grey**, each populates red/blue on the real 2024 call timeline, tallies rising with each call; ME-02/NE-02 notches appear on their calls]
+
+**S4 · 0:08 · 01-wire-headline** — the verdict card
+- **Election 2024…** *(holds)* **A Landslide Victory** *(types in; letters alternate **red / blue**)*
+- `NOVEMBER 5, 2024`
 
 **S5 · 0:09 · 21-approval** — polling & approval (cleaned)
 - `APPROVAL & POLLING · CONTINUOUS · DAY 9 OF THE TERM`
@@ -39,15 +38,15 @@ licensed track — see trailer/FAL-NOTES.md).
 - **COMPUTED IN REAL TIME.**
 
 **S7 · 0:13 (H1) · 04-one-world** — the world map
-- `199 NATIONS · 4,454 PROVINCES · 14,262 TILES` *(counters race)*
+- `200+ NATIONS · 4,454 PROVINCES · 14,262 TILES` *(counters race)*
 - **ONE SIMULATION.**
 
 **S8 · 0:15 (H2) · 23-ukraine-timelapse** — the ongoing war
 - `RUSSO-UKRAINIAN WAR · 2022 → 2025`
 - Date chips only: `FEB 2022` · `NOV 2022` · `JAN 2025` (territory timelapse, no other text)
 
-**S9 · 0:19 (H3) · 06-every-word** — the Kremlin channel *(real site-demo dialogue, hardline path)*
-- `Vladimir Putin · KREMLIN · SECURE CHANNEL · 20 JANUARY 2025 · ENCRYPTED`
+**S9 · 0:19 (H3) · 06-every-word** — the Kremlin channel *(Signal interface; real site-demo dialogue, hardline path)*
+- `Vladimir Putin ✓ · Signal · end-to-end encrypted` · "Messages are end-to-end encrypted. Kremlin secure channel." · `Today · 20 January 2025`
 - Putin: *"I hope we can reach an end to this conflict, but Ukraine must accept our terms: Ukraine never joins NATO. Permanent neutrality, written into its constitution. Recognition of Crimea and Donbass as Russian territories."* `PUTIN · 14:02 MSK`
 - **YOU** (`THREATEN`): *"You don't dictate to me, Vladimir. Nobody dictates to me. Your economy is a disaster and everybody knows it."* `YOU · PRESIDENT OF THE UNITED STATES · SENT ✓`
 - Putin: *"Threats, from a man whose voters count the price of gas every morning. Push again, and we will learn together how much pain your Congress can vote for."* `PUTIN · 14:07 MSK`
@@ -66,7 +65,7 @@ licensed track — see trailer/FAL-NOTES.md).
 - `BRIEFING // CIA DIRECTORATE · OPERATION SUCCESS`
 - `PRESIDENT OF BELARUS · CAPTURED` · `PRINCIPAL · HELD IN SECURE FACILITY` · `STATUS · AWAITS INTERROGATION`
 
-**S12 · 0:25.5 (H4) · 25-invasion-headline** — breaking
+**S12 · 0:25.5 (H4) · 25-invasion-headline** — breaking *(fal invasion footage: helicopters + troops landing on the Venezuelan coast)*
 - `● BREAKING`
 - **US launches full-scale invasion of Venezuela**
 - `AMPHIBIOUS LANDINGS IN THE GULF AND ALONG THE CARIBBEAN COAST`
@@ -127,14 +126,7 @@ licensed track — see trailer/FAL-NOTES.md).
 **S23 · 0:49.5 · 16-caesura** — the held breath
 - **Define the Nation's Future.**
 
-**S24 · 0:50.5 · 17-title** — title card
-- [PG cube lockup + POLIGEO wordmark]
-
-**S25 · 0:52.5 · 18-tagline**
-- **The Ultimate Geopolitical Simulator, in real time.**
-
-**S26 · 0:54.5–0:59 · 19-endslate**
-- [PG cube lockup + POLIGEO wordmark]
-- **COMING TO STEAM · OCTOBER 2026**
-- Boxed CTA: **WISHLIST NOW ON STEAM** [Steam mark]
-- `POLIGEO.ORG · r/POLIGEO`
+**S24–S26 · 0:50.5–0:59 · 17-title → 18-tagline → 19-endslate** — one continuous cube-spin move
+- **0:50.5** — the 3D PG cube spins in (map-textured faces), POLIGEO wordmark below
+- **0:52.5** — the cube settles above the wordmark; tagline fades up: **The Ultimate Geopolitical Simulator, in real time.**
+- **0:54.5–0:59** — the cube lands locked; end slate assembles: **COMING TO STEAM · OCTOBER 2026** · boxed **WISHLIST NOW ON STEAM** [Steam mark] · `POLIGEO.ORG · r/POLIGEO`

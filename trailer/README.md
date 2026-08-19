@@ -26,16 +26,16 @@ animate vs. what to generate with fal, with prompts): `FAL-NOTES.md`.
 |---|---|---|
 | 0:00 | 00-title-intro | Title intro — PoliGeo · The Ultimate Geopolitical Simulator |
 | 0:03 | 00-2-hyperbole | "Rule Democratically… or with an Iron Fist" |
-| 0:05.5 | 01-wire-headline | "Election 2024… A Landslide Victory" |
-| 0:06.5 | 20-electoral-map | Real 2024 map — grey states populate on the call timeline |
+| 0:05.5 | 20-electoral-map | Real 2024 map — grey states populate on the call timeline |
+| 0:08 | 01-wire-headline | "Election 2024… A Landslide Victory" (letters alternate red/blue) |
 | 0:09 | 21-approval | Polling & approval, honeymoon +9 |
 | 0:11 | 22-markets-wall | Candlestick + economy wall · "COMPUTED IN REAL TIME." |
-| 0:13 · H1 | 04-one-world | Real-geography world map · "ONE SIMULATION." |
+| 0:13 · H1 | 04-one-world | Real-geography world map · 200+ NATIONS · "ONE SIMULATION." |
 | 0:15 · H2 | 23-ukraine-timelapse | Invasion timelapse 2022 → 2025 seed |
-| 0:19 · H3 | 06-every-word | Kremlin channel — real demo dialogue, hardline path |
+| 0:19 · H3 | 06-every-word | Kremlin channel as a Signal interface — real demo dialogue |
 | 0:21.5 | 12-redacted-cable | CIA // OPERATION STEEL CLAW — capture order |
 | 0:23.5 | 24-minsk-raid | fal raid + CIA briefing: OPERATION SUCCESS |
-| 0:25.5 · H4 | 25-invasion-headline | "US launches full-scale invasion of Venezuela" |
+| 0:25.5 · H4 | 25-invasion-headline | fal: coastal landing (helis + troops) + breaking banner |
 | 0:27–0:31 | 26-puppet-regime · 27-insurgency | Control timelapse · wk 4 puppet-regime headline · wk 10 insurgency headline |
 | 0:33 · H5 | 28-iran-warroom | CIA OPERATION EMBER + Joint Staff air-campaign briefing |
 | 0:35.5 | 34-war-with-iran | WAR WITH IRAN — decapitation strikes ordered (fal) |
@@ -46,9 +46,7 @@ animate vs. what to generate with fal, with prompts): `FAL-NOTES.md`.
 | 0:45.5 | 33-martial-law | Courts defied, martial law · "The only bounds on power are the ones you can overcome." |
 | 0:48 | 15-the-hand | Sting: the hand stops at STRATEGIC RELEASE |
 | 0:49.5 | 16-caesura | Silence · "Define the Nation's Future." |
-| 0:50.5 | 17-title | PG cube + wordmark (86% of runtime) |
-| 0:52.5 | 18-tagline | "The Ultimate Geopolitical Simulator, in real time." |
-| 0:54.5 | 19-endslate | COMING TO STEAM · OCTOBER 2026 · WISHLIST NOW |
+| 0:50.5–0:59 | 17-title → 18-tagline → 19-endslate | **One continuous move**: the 3D PG cube spins in, settles, and lands locked over the end slate (COMING TO STEAM · OCTOBER 2026 · WISHLIST NOW) |
 
 **Alternates** (rendered, not in this cut — for cutdowns/gameplay trailer):
 02-newsreels, 03-oval-office, 05-every-vote, 07-every-war, 08-every-consequence,
