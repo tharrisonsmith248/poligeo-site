@@ -1,0 +1,32 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
+<title>Info card — the home front</title>
+<style>
+  body{background:#06080f}
+  h1{position:absolute; left:0; right:0; top:44%; transform:translateY(-50%); margin:0;
+    text-align:center; font-family:var(--display); font-weight:400; font-size:74px;
+    letter-spacing:0.04em; color:var(--ivory); line-height:1.5;
+    text-shadow:0 2px 30px rgba(4,7,14,0.9)}
+  h1 .g{color:var(--gold-hi); text-shadow:0 0 40px rgba(201,165,74,0.3)}
+  .sub{position:absolute; left:0; right:0; top:64%; text-align:center; opacity:0;
+    font-family:var(--mono); font-size:17px; letter-spacing:0.4em; color:var(--muted)}
+</style>
+<div class="stage">
+  <h1><span id="l1" style="opacity:0">Face unrest at home.</span><br><span class="g" id="l2" style="opacity:0">Master domestic politics.</span></h1>
+  <div class="sub" id="sub">PROTESTS · COURTS · CONGRESS · THE STREETS</div>
+  <div class="disclaimer">INFO CARD · LINE ONE, THEN THE GOLD LINE, THEN THE SUBLINE</div>
+  <div class="timecode">TEASER 02 · HOME FRONT CARD</div>
+  <div class="grade"></div>
+</div>
+<script>
+(function(){
+  var l1=document.getElementById('l1'), l2=document.getElementById('l2'), sub=document.getElementById('sub');
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  window.__render=function(t){
+    var p1=E((t-0.15)/0.5); l1.style.opacity=p1;
+    var p2=E((t-0.85)/0.5); l2.style.opacity=p2;
+    var p3=E((t-1.5)/0.45); sub.style.opacity=p3;
+    sub.style.letterSpacing=(0.55-0.15*p3)+'em';
+  };
+  window.__render(0);
+})();
+</script>

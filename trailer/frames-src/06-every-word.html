@@ -34,6 +34,8 @@
   .you{background:#2f56a8; color:#f1f4fc; align-self:flex-end; border-bottom-right-radius:6px}
   .them + .them{border-top-left-radius:6px}
   .you + .you{border-top-right-radius:6px}
+  .moscow{position:absolute; left:0; right:0; bottom:0; height:560px; opacity:0.9; z-index:0}
+  .phone{z-index:5}
   .logwrap{position:absolute; left:0; right:0; top:196px; bottom:96px; overflow:hidden;
     display:flex; flex-direction:column; justify-content:flex-end}
   .typing .dots{display:inline-flex; gap:7px; padding:6px 2px 2px}
@@ -51,8 +53,40 @@
   .composer .send{width:44px; height:44px; border-radius:50%; background:#2f56a8; flex:none;
     display:flex; align-items:center; justify-content:center}
   .composer .send svg{width:22px; height:22px; fill:#f1f4fc}
+  body.scope .phone{top:18px; height:900px}
 </style>
 <div class="stage">
+  <div class="moscow" id="moscow">
+    <svg width="1920" height="560" viewBox="0 0 1920 560" preserveAspectRatio="none">
+      <defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#0d1526"/><stop offset="1" stop-color="#1a2745"/></linearGradient></defs>
+      <rect x="0" y="0" width="1920" height="560" fill="url(#skyg)" opacity="0.7"/>
+      <ellipse id="cloud1" cx="500" cy="120" rx="380" ry="60" fill="#16223c" opacity="0.6"/>
+      <ellipse id="cloud2" cx="1500" cy="90" rx="420" ry="55" fill="#16223c" opacity="0.5"/>
+      <!-- kremlin wall + towers, screen-left -->
+      <g fill="#152037" stroke="#38497a" stroke-width="2">
+        <rect x="60" y="430" width="540" height="130"/>
+        <path d="M60 430 h540 v-16 h-18 v-14 h-24 v14 h-30 v-14 h-24 v14 h-30 v-14 h-24 v14 h-30 v-14 h-24 v14 h-30 v-14 h-24 v14 h-30 v-14 h-24 v14 h-30 v-14 h-24 v14 h-30 v-14 h-24 v14 h-30 v-14 h-24 v14 h-18 z"/>
+        <path d="M150 430 v-160 l14 -22 14 22 v160 z"/>
+        <path d="M144 270 h40 l-20 -70 z"/>
+        <path d="M330 430 v-230 l22 -30 22 30 v230 z"/>
+        <path d="M320 200 h64 l-32 -84 z"/>
+        <path d="M500 430 v-140 l12 -18 12 18 v140 z"/>
+        <path d="M494 272 h36 l-18 -58 z"/>
+      </g>
+      <circle id="star" cx="352" cy="100" r="7" fill="#b0453f"/>
+      <!-- st basil onion domes, right of towers -->
+      <g fill="#152037" stroke="#38497a" stroke-width="2">
+        <path d="M700 560 v-120 q0 -40 30 -52 q30 12 30 52 v120 z"/>
+        <path d="M715 388 q15 -46 15 -60 q0 14 15 60 q-15 -12 -30 0 z"/>
+        <path d="M790 560 v-170 q0 -52 40 -66 q40 14 40 66 v170 z"/>
+        <path d="M812 324 q18 -58 18 -76 q0 18 18 76 q-18 -16 -36 0 z"/>
+        <path d="M900 560 v-110 q0 -36 26 -46 q26 10 26 46 v110 z"/>
+        <path d="M912 404 q14 -40 14 -54 q0 14 14 54 q-14 -10 -28 0 z"/>
+      </g>
+      <rect x="0" y="548" width="1920" height="12" fill="#0a0f1c"/>
+    </svg>
+  </div>
   <div class="phone">
     <div class="chat-top">
       <div class="avatar">VP</div>
@@ -99,8 +133,8 @@
   var log=document.querySelector('.log');
   // schedule (seconds): element -> [appear, disappear]
   var SCHED={
-    ty1:[0.15,0.85], m1:[0.85,99], ch1:[1.45,2.45], m2:[2.45,99],
-    ty2:[2.90,3.60], m3:[3.60,99], ch2:[4.05,4.90], m4:[4.90,99]
+    ty1:[0.12,0.70], m1:[0.70,99], ch1:[1.19,2.01], m2:[2.01,99],
+    ty2:[2.38,2.95], m3:[2.95,99], ch2:[3.32,4.02], m4:[4.02,99]
   };
   // chooser highlight walks the options, lands on the last, flashes
   function chooser(el,t,t0,tEnd){
@@ -139,7 +173,12 @@
     // delivery ticks fade in shortly after send
     var tk1=$('tk1'), tk2=$('tk2');
     tk1.style.opacity=t>SCHED.m2[0]+0.5?1:0.15;
-    tk2.style.opacity=t>SCHED.m4[0]+0.4?1:0.15;
+    tk2.style.opacity=t>SCHED.m4[0]+0.35?1:0.15;
+    // moscow backdrop: clouds drift, the tower star glows
+    var c1=document.getElementById('cloud1'), c2=document.getElementById('cloud2'), st=document.getElementById('star');
+    if(c1){ c1.setAttribute('cx', 500+t*26); c2.setAttribute('cx', 1500-t*20);
+      st.setAttribute('fill', 'rgb('+Math.round(176+40*Math.abs(Math.sin(t*2.2)))+',69,63)');
+      var g=6+3*Math.abs(Math.sin(t*2.2)); st.setAttribute('r',g); }
   };
   window.__render(0);
 })();

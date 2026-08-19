@@ -21,6 +21,8 @@ body{font-family:var(--serif); color:var(--ivory); position:relative}
 
 /* full-bleed stage */
 .stage{position:absolute; inset:0; overflow:hidden}
+/* 2.0:1 scope: content reflows into the safe area; the bars are drawn in post */
+body.scope .stage{top:60px; bottom:60px}
 
 /* cinematic grade: vignette + top/bottom shading */
 .grade{position:absolute; inset:0; pointer-events:none; z-index:40;

@@ -73,7 +73,13 @@
   var s=document.getElementById('ua');
   s.setAttribute('viewBox', UAV.x+' '+UAV.y+' '+UAV.w+' '+UAV.h);
   function el(n,a){var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); s.appendChild(e); return e}
-  UA_NEI.forEach(function(d){ el('path',{d:d, fill:'#141d33', stroke:'#141d33','stroke-width':7,'stroke-linejoin':'round'}) });
+  UA_NEI.forEach(function(d){ el('path',{d:d, fill:'#161f36', stroke:'#2c3c60','stroke-width':1.4,'stroke-linejoin':'round'}) });
+  // neighbor labels: context, kept quiet
+  [['RUSSIA',430,20],['BELARUS',150,-28],['POLAND',-32,40],['ROMANIA',30,286],['BLACK SEA',210,318]]
+    .forEach(function(L){
+      var tx=el('text',{x:L[1],y:L[2],'font-size':15,'font-family':'DejaVu Sans Mono','letter-spacing':4,
+        fill:'#4a5878'}); tx.textContent=L[0];
+    });
   var HELD='#46598c', OCC='#a84e56', FLASH='#e3c06a';
   var tiles=UA_TILES.map(function(t){
     var p=el('path',{d:t.d, fill:HELD, stroke:'#111a2e','stroke-width':0.5});
@@ -97,7 +103,7 @@
   var dateEl=document.getElementById('date'), evtEl=document.getElementById('evt');
 
   // ---- the real timeline, seek-driven (shot = 5.0s) ----
-  var INV=[0.35,1.45], HOLD1=1.75, KYIV=[1.75,2.30], KHARK=[2.75,3.25], KHER=[3.25,3.80], GRIND=[3.80,5.0];
+  var INV=[0.32,1.31], HOLD1=1.58, KYIV=[1.58,2.07], KHARK=[2.48,2.93], KHER=[2.93,3.42], GRIND=[3.42,4.5];
   function phase(t){
     if(t<INV[0]) return ['FEB 2022','',0];
     if(t<INV[1]) return ['FEB–MAR 2022','THE INVASION',0];

@@ -50,7 +50,7 @@
   var span=document.querySelector('.typed'), cur=document.querySelector('.cursor');
   var pre='or with an ', silver='Iron\u00a0Fist', total=pre.length+silver.length;
   window.__render=function(t){
-    var p=Math.max(0,Math.min(1,(t-0.2)/1.9)); var k=Math.round(p*total);
+    var p=Math.max(0,Math.min(1,(t-0.15)/1.15)); var k=Math.round(p*total);
     var html; if(k<=pre.length){ html=pre.slice(0,k); }
     else { html=pre+'<span class="silver">'+silver.slice(0,k-pre.length)+'</span>'; }
     span.innerHTML=html;

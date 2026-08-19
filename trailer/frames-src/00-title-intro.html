@@ -24,8 +24,6 @@
   <div class="stack">
     <img class="cube" src="logo-cube.png" alt="PG cube">
     <img class="wm" src="../../assets/wordmark.png" alt="POLIGEO">
-    <div class="rule"></div>
-    <div class="genre">The Ultimate Geopolitical Simulator</div>
   </div>
   <div class="disclaimer">OPENS THE FILM · CUBE GLOWS IN ALONE · WORDMARK RESOLVES · GENRE LINE LAST · DEAD CENTER</div>
   <div class="timecode">TEASER 02 · 0:00–0:03</div>
@@ -37,23 +35,18 @@
   // bespoke reveal (defines __render, so autoReveal cannot touch .stack's centering)
   var stack=document.querySelector('.stack');
   var cube=document.querySelector('.cube'), wm=document.querySelector('.wm');
-  var rule=document.querySelector('.rule'), genre=document.querySelector('.genre');
+  
   var halo=document.querySelector('.halo');
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
-    stack.style.transform='translateY(-52%)';
-    var c=E((t-0.15)/0.9);
+    stack.style.transform='translateY(-50%)';
+    var c=E((t-0.12)/0.75);
     cube.style.opacity=c;
     cube.style.transform='scale('+(0.92+0.08*c)+')';
     cube.style.filter='drop-shadow(0 0 '+(60*c)+'px rgba(201,165,74,'+(0.35*c)+'))';
-    var w=E((t-0.95)/0.7);
+    var w=E((t-0.7)/0.6);
     wm.style.opacity=w; wm.style.transform='translateY('+(14*(1-w))+'px)';
-    var r=E((t-1.6)/0.4);
-    rule.style.transform='scaleX('+r+')';
-    var g=E((t-1.9)/0.8);
-    genre.style.opacity=g;
-    genre.style.letterSpacing=(0.5-0.18*g)+'em';
-    halo.style.opacity=0.4+0.6*Math.min(1,t/2.5);
+    halo.style.opacity=0.4+0.6*Math.min(1,t/2.2);
   };
   window.__render(0);
 })();

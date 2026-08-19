@@ -1,52 +1,68 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
-<title>The Mandate — approval</title>
+<title>The Mandate — approval, cohorts, polling</title>
 <style>
   body{background:#080d18}
-  .tag{position:absolute; left:0; right:0; top:64px; text-align:center;
-    font-family:var(--mono); font-size:19px; letter-spacing:0.4em; color:var(--dim)}
-  /* hero row: number left, chart right — one aligned band */
-  .hero{position:absolute; left:120px; right:120px; top:150px; height:470px;
-    display:grid; grid-template-columns:480px 1fr; gap:36px}
-  .bignum{border:1px solid var(--line-soft); border-radius:8px; background:rgba(10,16,31,0.85);
-    padding:40px 46px; font-family:var(--mono); display:flex; flex-direction:column; justify-content:center}
-  .bignum .n{font-size:190px; color:var(--gold-hi); line-height:1; letter-spacing:-0.02em;
+  .tag{position:absolute; left:0; right:0; top:44px; text-align:center;
+    font-family:var(--mono); font-size:18px; letter-spacing:0.4em; color:var(--dim)}
+  .grid{position:absolute; left:100px; right:100px; top:104px; bottom:96px;
+    display:grid; grid-template-columns:420px 1fr 470px; grid-template-rows:1fr 300px; gap:22px}
+  .panel{border:1px solid var(--line-soft); border-radius:8px; background:rgba(10,16,31,0.85);
+    padding:24px 28px; font-family:var(--mono); position:relative; overflow:hidden; opacity:0}
+  .pl{display:flex; justify-content:space-between; font-size:14px; letter-spacing:0.2em;
+    color:var(--muted); margin-bottom:14px; text-transform:uppercase}
+  .pl .hm{color:#7fb896}
+  /* big number */
+  .bignum{display:flex; flex-direction:column; justify-content:center}
+  .bignum .n{font-size:150px; color:var(--gold-hi); line-height:1;
     text-shadow:0 0 60px rgba(227,192,106,0.22); font-variant-numeric:tabular-nums}
-  .bignum .n small{font-size:80px; color:var(--gold)}
-  .bignum .lab{font-size:19px; letter-spacing:0.34em; color:var(--muted); margin-top:22px}
-  .bignum .d{font-size:20px; color:#7fb896; margin-top:16px; letter-spacing:0.08em; white-space:nowrap}
-  .chartbox{border:1px solid var(--line-soft); border-radius:8px; background:rgba(10,16,31,0.85);
-    padding:26px 32px 14px; display:flex; flex-direction:column}
-  .cl{display:flex; justify-content:space-between; font-family:var(--mono); font-size:16px;
-    letter-spacing:0.22em; color:var(--muted); margin-bottom:10px}
-  .cl .hm{color:#7fb896}
-  /* stat tiles */
-  .tiles{position:absolute; left:120px; right:120px; bottom:130px; display:grid;
-    grid-template-columns:repeat(3,1fr); gap:28px}
-  .tile{background:rgba(10,16,31,0.85); border:1px solid var(--line-soft); border-radius:8px;
-    padding:30px 30px 26px; font-family:var(--mono); text-align:center}
-  .tile .v{font-size:56px; color:var(--ivory); font-variant-numeric:tabular-nums}
-  .tile .v .up{color:#7fb896; font-size:26px; margin-left:10px}
-  .tile .l{font-size:15px; letter-spacing:0.26em; color:var(--muted); margin-top:14px}
+  .bignum .n small{font-size:64px; color:var(--gold)}
+  .bignum .lab{font-size:17px; letter-spacing:0.3em; color:var(--muted); margin-top:18px}
+  .bignum .d{font-size:18px; color:#7fb896; margin-top:12px; white-space:nowrap}
+  /* trend spans two rows on the right? no: top-middle+top-right = trend; simpler: */
+  .trend{grid-column:2 / 4}
+  /* cohort bars */
+  .bars .row{display:grid; grid-template-columns:96px 1fr 64px; align-items:center; gap:14px; margin:17px 0}
+  .bars .bl{font-size:14.5px; letter-spacing:0.12em; color:var(--muted)}
+  .bars .track{display:block; height:20px; background:#0a101f; border:1px solid var(--line-soft); border-radius:3px; overflow:hidden}
+  .bars .fill{display:block; height:100%; width:0; background:linear-gradient(90deg,#8a6f2e,var(--gold-hi)); border-radius:2px}
+  .bars .bv{font-size:19px; color:var(--ivory); text-align:right; font-variant-numeric:tabular-nums}
+  .bars.party .fill.dem{background:linear-gradient(90deg,#2c4a86,#5f7fc0)}
+  .bars.party .fill.ind{background:linear-gradient(90deg,#5c5f6b,#9aa0ae)}
+  .bars.party .fill.rep{background:linear-gradient(90deg,#7e3335,#c05a56)}
 </style>
 <div class="stage">
-  <div class="tag">DAY 9 OF THE TERM · APPROVAL &amp; POLLING</div>
-  <div class="hero">
-    <div class="bignum">
+  <div class="tag">DAY 9 OF THE TERM · APPROVAL &amp; POLLING · CONTINUOUS</div>
+  <div class="grid">
+    <div class="panel bignum" id="p1">
       <div class="n"><span id="apn">0</span><small>%</small></div>
       <div class="lab">JOB APPROVAL</div>
-      <div class="d" id="apd">▲ +9 SINCE ELECTION DAY</div>
+      <div class="d">▲ +9 SINCE ELECTION DAY · HIGHEST ON RECORD</div>
     </div>
-    <div class="chartbox">
-      <div class="cl"><span>APPROVAL · ELECTION NIGHT → DAY 9</span><span class="hm">HIGHEST ON RECORD</span></div>
-      <svg id="ch" width="100%" height="360" viewBox="0 0 1100 360" preserveAspectRatio="none"></svg>
+    <div class="panel trend" id="p2">
+      <div class="pl"><span>APPROVAL · ELECTION NIGHT → DAY 9</span><span class="hm">HONEYMOON</span></div>
+      <svg id="ch" width="100%" height="290" viewBox="0 0 1240 290" preserveAspectRatio="none"></svg>
+    </div>
+    <div class="panel bars" id="p3">
+      <div class="pl"><span>APPROVAL BY AGE COHORT</span></div>
+      <div class="row"><span class="bl">18–29</span><span class="track"><span class="fill" data-v="44"></span></span><span class="bv"><span class="cv" data-to="44">0</span>%</span></div>
+      <div class="row"><span class="bl">30–44</span><span class="track"><span class="fill" data-v="52"></span></span><span class="bv"><span class="cv" data-to="52">0</span>%</span></div>
+      <div class="row"><span class="bl">45–64</span><span class="track"><span class="fill" data-v="61"></span></span><span class="bv"><span class="cv" data-to="61">0</span>%</span></div>
+      <div class="row"><span class="bl">65+</span><span class="track"><span class="fill" data-v="66"></span></span><span class="bv"><span class="cv" data-to="66">0</span>%</span></div>
+    </div>
+    <div class="panel bars party" id="p4" style="grid-column:1 / 3">
+      <div class="pl"><span>BY PARTY ID</span><span>GALLUP-STYLE TRACKER</span></div>
+      <div class="row"><span class="bl">REP</span><span class="track"><span class="fill rep" data-v="91"></span></span><span class="bv"><span class="cv" data-to="91">0</span>%</span></div>
+      <div class="row"><span class="bl">IND</span><span class="track"><span class="fill ind" data-v="55"></span></span><span class="bv"><span class="cv" data-to="55">0</span>%</span></div>
+      <div class="row"><span class="bl">DEM</span><span class="track"><span class="fill dem" data-v="24"></span></span><span class="bv"><span class="cv" data-to="24">0</span>%</span></div>
+    </div>
+    <div class="panel bars" id="p5">
+      <div class="pl"><span>THE COUNTRY'S MOOD</span></div>
+      <div class="row"><span class="bl">RIGHT TRACK</span><span class="track"><span class="fill" data-v="58"></span></span><span class="bv"><span class="cv" data-to="58">0</span>%</span></div>
+      <div class="row"><span class="bl">ECON CONF.</span><span class="track"><span class="fill" data-v="61"></span></span><span class="bv"><span class="cv" data-to="61">0</span>%</span></div>
+      <div class="row"><span class="bl">TURNOUT '24</span><span class="track"><span class="fill" data-v="67"></span></span><span class="bv"><span class="cv" data-to="67">0</span>%</span></div>
     </div>
   </div>
-  <div class="tiles">
-    <div class="tile" id="t1"><div class="v"><span class="cv" data-to="57">0</span>%<span class="up">▲9</span></div><div class="l">JOB APPROVAL</div></div>
-    <div class="tile" id="t2"><div class="v"><span class="cv" data-to="61">0</span>%<span class="up">▲6</span></div><div class="l">ECONOMIC CONFIDENCE</div></div>
-    <div class="tile" id="t3"><div class="v"><span class="cv" data-to="58">0</span>%<span class="up">▲11</span></div><div class="l">RIGHT TRACK</div></div>
-  </div>
-  <div class="disclaimer">NUMBER COUNTS UP · LINE DRAWS ON · TILES LAND ONE BY ONE</div>
+  <div class="disclaimer">PANELS LAND IN SEQUENCE · LINE DRAWS · EVERY BAR GROWS · EVERY NUMBER COUNTS</div>
   <div class="timecode">TEASER 02 · THE MANDATE</div>
   <div class="grade"></div>
 </div>
@@ -55,43 +71,51 @@
   var NS='http://www.w3.org/2000/svg';
   var svg=document.getElementById('ch');
   function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e}
-  // grid
-  el('line',{x1:0,y1:320,x2:1100,y2:320,stroke:'#1a2742','stroke-width':1});
-  el('line',{x1:0,y1:180,x2:1100,y2:180,stroke:'#1a2742','stroke-width':1,'stroke-dasharray':'4 6'});
-  var t50=el('text',{x:10,y:170,'font-family':'DejaVu Sans Mono','font-size':16,fill:'#5b647c'}); t50.textContent='50%';
-  el('line',{x1:380,y1:320,x2:380,y2:40,stroke:'#243352','stroke-dasharray':'3 5'});
-  var tj=el('text',{x:394,y:60,'font-family':'DejaVu Sans Mono','font-size':16,fill:'#5b647c'}); tj.textContent='JAN 20 · SWORN IN';
-  // approval series (x,y)
-  var PTS=[[0,206],[85,208],[170,201],[255,203],[330,196],[380,190],[450,168],[540,157],[640,136],[740,124],[840,106],[930,90],[1010,79],[1100,66]];
-  var dstr=PTS.map(function(p,i){return (i?'L':'M')+p[0]+','+p[1]}).join(' ');
-  var path=el('path',{d:dstr,fill:'none',stroke:'#e3c06a','stroke-width':4.5,'stroke-linecap':'round'});
+  el('line',{x1:0,y1:252,x2:1240,y2:252,stroke:'#1a2742'});
+  el('line',{x1:0,y1:140,x2:1240,y2:140,stroke:'#1a2742','stroke-dasharray':'4 6'});
+  var t50=el('text',{x:8,y:132,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#5b647c'}); t50.textContent='50%';
+  el('line',{x1:430,y1:252,x2:430,y2:30,stroke:'#243352','stroke-dasharray':'3 5'});
+  var tj=el('text',{x:444,y:46,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#5b647c'}); tj.textContent='JAN 20 · SWORN IN';
+  var PTS=[[0,168],[95,170],[190,163],[285,165],[370,158],[430,152],[510,134],[610,125],[720,108],[830,97],[940,82],[1050,68],[1140,58],[1240,48]];
+  var path=el('path',{d:PTS.map(function(p,i){return (i?'L':'M')+p[0]+','+p[1]}).join(' '),
+    fill:'none',stroke:'#e3c06a','stroke-width':4,'stroke-linecap':'round'});
   var LEN=path.getTotalLength();
   path.setAttribute('stroke-dasharray',LEN); path.setAttribute('stroke-dashoffset',LEN);
-  var dot=el('circle',{r:8,fill:'#e3c06a',cx:PTS[0][0],cy:PTS[0][1]});
-  var pl=el('text',{x:0,y:0,'font-family':'DejaVu Sans Mono','font-size':20,fill:'#e3c06a','text-anchor':'end'});
+  var dot=el('circle',{r:7,fill:'#e3c06a',cx:0,cy:168});
+  var pl=el('text',{x:0,y:0,'font-family':'DejaVu Sans Mono','font-size':18,fill:'#e3c06a','text-anchor':'end'});
   var apn=document.getElementById('apn');
-  var apd=document.getElementById('apd');
-  var tiles=[1,2,3].map(function(i){return document.getElementById('t'+i)});
+  var panels=['p1','p2','p3','p4','p5'].map(function(i){return document.getElementById(i)});
+  var PT=[0.10,0.30,0.85,1.25,1.65];
+  var fills=[].slice.call(document.querySelectorAll('.fill'));
   var cvs=[].slice.call(document.querySelectorAll('.cv'));
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
-    // big number counts 0->57 over 0.2-1.3
-    var p=E((t-0.2)/1.1); apn.textContent=Math.round(57*p);
-    apd.style.opacity=t>1.35?1:0;
-    // line draws 0.3-1.7
-    var lp=E((t-0.3)/1.4);
+    panels.forEach(function(p,i){
+      var pp=E((t-PT[i])/0.35);
+      p.style.opacity=pp; p.style.transform='translateY('+(24*(1-pp))+'px)';
+    });
+    apn.textContent=Math.round(57*E((t-0.25)/1.0));
+    var lp=E((t-0.45)/1.25);
     path.setAttribute('stroke-dashoffset',LEN*(1-lp));
     var pt=path.getPointAtLength(LEN*lp);
     dot.setAttribute('cx',pt.x); dot.setAttribute('cy',pt.y);
-    pl.setAttribute('x',pt.x-14); pl.setAttribute('y',pt.y-16);
+    pl.setAttribute('x',pt.x-12); pl.setAttribute('y',pt.y-14);
     pl.textContent=(46+11.2*lp).toFixed(1)+'%';
-    // tiles pop one by one at 1.0 / 1.3 / 1.6
-    tiles.forEach(function(tl,i){
-      var tt=1.0+i*0.3, vis=t>=tt;
-      tl.style.opacity=vis?1:0;
-      tl.style.transform=vis?'translateY(0)':'translateY(26px)';
-      var cv=cvs[i], to=+cv.getAttribute('data-to');
-      cv.textContent=Math.round(to*E((t-tt)/0.6));
+    // every bar grows with its panel, staggered inside
+    fills.forEach(function(f){
+      var panel=f.closest('.panel');
+      var pi=panels.indexOf(panel);
+      var rows=[].slice.call(panel.querySelectorAll('.fill'));
+      var ri=rows.indexOf(f);
+      var bp=E((t-(PT[pi]+0.25+ri*0.14))/0.55);
+      f.style.width=(+f.getAttribute('data-v'))*bp+'%';
+    });
+    cvs.forEach(function(c){
+      var panel=c.closest('.panel');
+      var pi=panels.indexOf(panel);
+      var rows=[].slice.call(panel.querySelectorAll('.cv'));
+      var ri=rows.indexOf(c);
+      c.textContent=Math.round((+c.getAttribute('data-to'))*E((t-(PT[pi]+0.25+ri*0.14))/0.55));
     });
   };
   window.__render(0);

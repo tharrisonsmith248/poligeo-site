@@ -1,14 +1,14 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="../frame.css">
-<title>Caracas strike chrome</title>
+<title>Parade chrome</title>
 <style>
   html,body{background:transparent!important}
   .stage{background:transparent}
   .grade,.disclaimer,.timecode{display:none!important}
   .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.93);
-    border-top:3px solid var(--crimson); padding:20px 56px 24px}
+    border-top:3px solid var(--crimson); padding:20px 56px 20px}
   .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
     font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:10px}
-  .chyron h2{font-family:var(--display); font-weight:400; font-size:46px; color:var(--ivory); margin:0}
+  .chyron h2{font-family:var(--display); font-weight:400; font-size:37px; color:var(--ivory); margin:0}
   .chyron .sub{font-family:var(--mono); font-size:15px; letter-spacing:0.16em; color:#9aa3b8; margin-top:9px}
   .tkband{position:absolute; left:0; right:0; bottom:0; height:44px; background:#060a13;
     border-top:1px solid rgba(150,170,205,0.2)}
@@ -21,11 +21,13 @@
 </style>
 <div class="stage">
 
-  <div class="live">LIVE · CARACAS</div>
-  <div class="cam">GUNSHIP FORMATION · DAWN</div>
-  <div class="tkband"></div>
-  <div class="chyron" style="bottom:44px">
-    <span class="plate">● BREAKING</span>
-    <h2>US forces strike Caracas</h2>
+  <div class="paradeline">
+    <h1>The only bounds on power are the ones you can <span class="g">overcome</span>.</h1>
   </div>
 </div>
+<style>
+  .paradeline{position:absolute; left:0; right:0; bottom:130px; text-align:center; z-index:50}
+  .paradeline h1{font-family:var(--display); font-weight:400; font-size:56px; letter-spacing:0.06em;
+    color:var(--ivory); margin:0; text-shadow:0 3px 34px rgba(0,0,0,0.95); padding:0 180px; line-height:1.35}
+  .paradeline .g{color:var(--gold-hi); text-shadow:0 3px 34px rgba(0,0,0,0.95), 0 0 60px rgba(201,165,74,0.4)}
+  .chyron{display:none}</style>

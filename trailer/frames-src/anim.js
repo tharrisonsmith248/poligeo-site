@@ -3,8 +3,10 @@
    - CSS animations (anim.css classes) are paused and seeked via currentTime.
    - Shots that need custom JS motion define window.__render(t). */
 (function(){
-  if (location.search.indexOf('clean=1')>=0)
-    document.addEventListener('DOMContentLoaded',function(){document.body.classList.add('clean')});
+  document.addEventListener('DOMContentLoaded',function(){
+    if (location.search.indexOf('clean=1')>=0) document.body.classList.add('clean');
+    if (location.search.indexOf('scope=1')>=0) document.body.classList.add('scope');
+  });
   var paused=false;
   function pauseAll(){
     if(paused) return; paused=true;

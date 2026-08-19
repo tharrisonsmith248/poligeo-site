@@ -52,9 +52,17 @@
   .steam{width:38px; height:38px}
   .links{position:absolute; left:0; right:0; top:952px; text-align:center; opacity:0;
     font-family:var(--mono); font-size:18px; letter-spacing:0.3em; color:var(--muted)}
+  body.scope .scene, body.scope .logoimg{top:258px}
+  body.scope .wm{top:448px}
+  body.scope .rule{top:578px}
+  body.scope .tagline{top:606px}
+  body.scope .datecard{top:684px}
+  body.scope .ctarow{top:748px}
+  body.scope .links{top:862px}
 </style>
 <div class="stage">
   <div class="halo"></div>
+  <div class="field" id="field" style="position:absolute;inset:0;opacity:0.5"></div>
   <div class="scene"><div class="cube3d" id="cube">
     <div class="face fmap top"></div>
     <div class="face fmap left"></div>
@@ -82,6 +90,22 @@
   <div class="grade"></div>
 </div>
 <script>
+// same faint province-dot field as the opening card, so the film closes where it opened
+(function(){
+  var host=document.getElementById('field');
+  function rnd(seed){ return function(){ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648 } }
+  var r=rnd(7);
+  for(var i=0;i<160;i++){
+    var x=r()*1920, y=r()*1080;
+    var dx=(x-960)/960, dy=(y-540)/540;
+    if(dx*dx+dy*dy<0.16) continue;
+    var sz=1.5+r()*2.5;
+    var e=document.createElement('div');
+    e.style.cssText='position:absolute;border-radius:50%;width:'+sz+'px;height:'+sz+'px;'+
+      'left:'+x+'px;top:'+y+'px;background:rgba(143,151,171,'+(0.12+0.3*r()).toFixed(2)+')';
+    host.appendChild(e);
+  }
+})();
 (function(){
   var $=function(id){return document.getElementById(id)};
   var cube=$('cube'), scene=document.querySelector('.scene'), logo=$('logoimg');
@@ -97,28 +121,28 @@
   }
   window.__render=function(t){
     // cube spin: two-and-a-half fast turns decelerating into the lock over 2.3s
-    var sp=E(Math.min(1,t/2.1));
+    var sp=E(Math.min(1,t/1.95));
     var ry=-34-900*(1-sp);
     var scale=0.86+0.14*sp;
     cube.style.transform='rotateX(-18deg) rotateY('+ry+'deg) scale('+scale+')';
     // at settle, the map-cube resolves into the actual mark
-    var xf=E((t-2.1)/0.42);
+    var xf=E((t-1.95)/0.4);
     scene.style.opacity=1-xf;
     logo.style.opacity=xf;
     logo.style.transform='translate(-50%,-50%) scale('+(0.94+0.06*xf)+')';
     // the stack lands piece by piece
-    fadeUp(wm,t,2.55);
-    fadeUp(rule,t,3.00);
-    fadeUp(tag,t,3.25);
+    fadeUp(wm,t,2.4);
+    fadeUp(rule,t,2.82);
+    fadeUp(tag,t,3.05);
     // date letterspaces in
-    var dp=E((t-3.95)/0.45);
+    var dp=E((t-3.7)/0.45);
     date.style.opacity=dp;
     date.style.letterSpacing=(0.60-0.26*dp)+'em';
     // wishlist CTA lands last, with a pop
-    var cp=E((t-4.70)/0.35);
+    var cp=E((t-4.4)/0.35);
     ctarow.style.opacity=cp;
     ctarow.style.transform='scale('+(1.12-0.12*cp)+')';
-    fadeUp(links,t,5.30,14);
+    fadeUp(links,t,4.95,14);
   };
   window.__render(0);
 })();

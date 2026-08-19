@@ -89,4 +89,48 @@ function candles(id, seed, n, up, crash){
 candles('c1', 41, 46, true,  false);   // S&P grinding up
 candles('c2', 73, 46, false, false);   // Brent drifting
 candles('c3', 55, 46, true,  false);   // DXY up
+
+// --- per-panel animation: each screen lands, its chart prints, cells cascade ---
+(function(){
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  var scrs=[].slice.call(document.querySelectorAll('.scr'));
+  var PT=[0.15,0.40,0.65,0.90,1.15,1.40];             // panel land times
+  // group candle elements pairwise (wick+body) per candle for sweep
+  var charts=['c1','c2','c3'].map(function(id){
+    var svg=document.getElementById(id);
+    var kids=[].slice.call(svg.children), groups=[];
+    for(var i=0;i<kids.length;i+=2) groups.push([kids[i],kids[i+1]]);
+    return groups;
+  });
+  var chartPanel=[0,1,4];                              // scr index for c1,c2,c3
+  var heatCells=[].slice.call(document.querySelectorAll('.heat div'));
+  var rowEls=[].slice.call(document.querySelectorAll('.rows .rw'));
+  var card=document.querySelector('.card'), rule=document.querySelector('.card-rule');
+  window.__render=function(t){
+    scrs.forEach(function(s,i){
+      var p=E((t-PT[i])/0.32);
+      s.style.opacity=p;
+      s.style.transform='translateY('+(26*(1-p))+'px) scale('+(0.97+0.03*p)+')';
+    });
+    charts.forEach(function(groups,ci){
+      var t0=PT[chartPanel[ci]]+0.22;
+      var vis=Math.round(groups.length*Math.max(0,Math.min(1,(t-t0)/1.15)));
+      groups.forEach(function(g,i){ var on=i<vis?1:0; g.forEach(function(el){ if(el) el.setAttribute('opacity',on) }); });
+    });
+    heatCells.forEach(function(c,i){
+      var p=E((t-(PT[2]+0.25+i*0.09))/0.3);
+      c.style.opacity=p; c.style.transform='scale('+(0.85+0.15*p)+')';
+    });
+    rowEls.forEach(function(r){
+      var panel=r.closest('.scr'); var pi=scrs.indexOf(panel);
+      var rows=[].slice.call(panel.querySelectorAll('.rw')); var ri=rows.indexOf(r);
+      var p=E((t-(PT[pi]+0.25+ri*0.12))/0.3);
+      r.style.opacity=p;
+    });
+    var cp=E((t-2.15)/0.35);
+    card.style.opacity=cp; rule.style.opacity=cp;
+    card.style.transform='translateY('+(18*(1-cp))+'px)';
+  };
+  window.__render(0);
+})();
 </script>

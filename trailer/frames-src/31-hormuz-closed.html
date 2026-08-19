@@ -46,7 +46,7 @@
   <div class="timecode" style="bottom:110px">TEASER 02 · 0:41</div>
   <div class="grade"></div>
 </div>
-<script src="world.js"></script>
+<script src="gulf2.js"></script>
 <script>
 (function(){
   var NS='http://www.w3.org/2000/svg';
@@ -54,59 +54,77 @@
   function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
     if(txt)e.textContent=txt; svg.appendChild(e); return e}
   el('rect',{width:1000,height:640,fill:'#0a1120',rx:8});
-  GULF.forEach(function(c){
+  GULF2.forEach(function(c){
     el('path',{d:c.d, fill:c.i==='IRN'?'#16233c':'#131d33', stroke:'#243352','stroke-width':1});
   });
-  el('text',{x:560,y:150,'font-family':'DejaVu Sans Mono','font-size':20,'letter-spacing':6,fill:'#3d4a6b'},'IRAN');
-  el('text',{x:200,y:520,'font-family':'DejaVu Sans Mono','font-size':17,'letter-spacing':5,fill:'#3d4a6b'},'SAUDI ARABIA');
-  el('text',{x:760,y:560,'font-family':'DejaVu Sans Mono','font-size':15,'letter-spacing':4,fill:'#3d4a6b'},'OMAN');
-  el('text',{x:330,y:330,'font-family':'DejaVu Sans Mono','font-size':15,'letter-spacing':4,fill:'#2c3c60'},'PERSIAN GULF');
-  el('text',{x:780,y:470,'font-family':'DejaVu Sans Mono','font-size':14,'letter-spacing':3,fill:'#2c3c60'},'GULF OF OMAN');
-  // shipping lanes: dashes march along them until the strait slams shut
-  var lane1=el('path',{d:'M180 290 L300 320 L420 345 L540 355 L620 358 L648 362', stroke:'#3d5a94',
-    'stroke-width':4,'stroke-dasharray':'14 10',fill:'none',opacity:0.85});
-  var lane2=el('path',{d:'M703 380 Q760 420 830 455', stroke:'#3d5a94','stroke-width':4,'stroke-dasharray':'14 10',fill:'none',opacity:0.85});
-  var hx=HORMUZ[0], hy=HORMUZ[1];
-  var ring=el('circle',{cx:hx,cy:hy,r:46,fill:'none',stroke:'#b04a4a','stroke-width':3});
-  var x1=el('line',{x1:hx-28,y1:hy-28,x2:hx+28,y2:hy+28,stroke:'#b04a4a','stroke-width':9,'stroke-linecap':'round'});
-  var x2=el('line',{x1:hx+28,y1:hy-28,x2:hx-28,y2:hy+28,stroke:'#b04a4a','stroke-width':9,'stroke-linecap':'round'});
-  var lab1=el('text',{x:hx,y:hy+82,'text-anchor':'middle','font-family':'DejaVu Sans Mono','font-size':16,'letter-spacing':3,fill:'#d98a8a'},'STRAIT OF HORMUZ');
-  var lab2=el('text',{x:hx,y:hy+106,'text-anchor':'middle','font-family':'DejaVu Sans Mono','font-size':16,'letter-spacing':3,fill:'#d98a8a'},'CLOSED');
-  var mines=[[hx-32,hy-14],[hx-8,hy+26],[hx+24,hy-20],[hx+38,hy+16]].map(function(c){
+  LABELS.forEach(function(L){
+    el('text',{x:L[1][0],y:L[1][1],'font-family':'DejaVu Sans Mono','font-size':L[0].length>10?15:18,
+      'letter-spacing':4,fill:L[0].indexOf('GULF')>=0?'#2c3c60':'#3d4a6b','text-anchor':'middle'},L[0]);
+  });
+  var hx=HORMUZ2[0], hy=HORMUZ2[1];
+  // shipping lanes: one per gulf port, converging on the strait, then one exit lane to the Gulf of Oman
+  var lanes=PORTS.map(function(pt){
+    var x0=pt.p[0], y0=pt.p[1];
+    var mx=(x0+hx)/2+18, my=(y0+hy)/2+((y0<hy)?26:-8);
+    var d='M'+x0+' '+y0+' Q'+mx+' '+my+' '+hx+' '+hy;
+    var ln=el('path',{d:d, stroke:'#3d5a94','stroke-width':3.5,'stroke-dasharray':'12 9',fill:'none',opacity:0.85});
+    return {ln:ln, port:pt};
+  });
+  var exit=el('path',{d:'M'+hx+' '+hy+' Q '+(hx+34)+' '+(hy+38)+' '+OMANI[0]+' '+OMANI[1],
+    stroke:'#3d5a94','stroke-width':3.5,'stroke-dasharray':'12 9',fill:'none',opacity:0.85});
+  // port markers + names
+  PORTS.forEach(function(pt){
+    el('circle',{cx:pt.p[0],cy:pt.p[1],r:6,fill:'#0a0e1a',stroke:'#e3c06a','stroke-width':2});
+    el('text',{x:pt.p[0]+2,y:pt.p[1]+24,'font-family':'DejaVu Sans Mono','font-size':14,
+      'letter-spacing':2,fill:'#8f97ab','text-anchor':'middle'},pt.n);
+  });
+  // the X at the strait
+  var ring=el('circle',{cx:hx,cy:hy,r:44,fill:'none',stroke:'#b04a4a','stroke-width':3});
+  var x1=el('line',{x1:hx-26,y1:hy-26,x2:hx+26,y2:hy+26,stroke:'#b04a4a','stroke-width':9,'stroke-linecap':'round'});
+  var x2=el('line',{x1:hx+26,y1:hy-26,x2:hx-26,y2:hy+26,stroke:'#b04a4a','stroke-width':9,'stroke-linecap':'round'});
+  var lab1=el('text',{x:hx,y:hy+80,'text-anchor':'middle','font-family':'DejaVu Sans Mono','font-size':16,'letter-spacing':3,fill:'#d98a8a'},'STRAIT OF HORMUZ');
+  var lab2=el('text',{x:hx,y:hy+104,'text-anchor':'middle','font-family':'DejaVu Sans Mono','font-size':16,'letter-spacing':3,fill:'#d98a8a'},'CLOSED');
+  var mines=[[hx-30,hy-12],[hx-6,hy+24],[hx+22,hy-18],[hx+34,hy+14]].map(function(c){
     return el('circle',{cx:c[0],cy:c[1],r:5,fill:'#b04a4a'});
   });
-  // tanker queue: they creep along the lane, then bunch up and hold
-  var TK=[[210,296],[260,308],[310,322],[360,334],[410,343],[460,350],[510,353],[560,356]];
-  var tankers=TK.map(function(c){ return el('rect',{x:c[0],y:c[1]-5,width:32,height:10,rx:3,fill:'#8f97ab'}); });
-  var tlab=el('text',{x:180,y:262,'font-family':'DejaVu Sans Mono','font-size':14,'letter-spacing':2,fill:'#5b647c'},'TANKERS HOLDING');
+  // tankers riding each lane toward the strait, freezing at close
+  var tankers=[];
+  lanes.forEach(function(l,li){
+    var L=l.ln.getTotalLength();
+    for(var k=0;k<3;k++){
+      var r=el('rect',{x:0,y:0,width:26,height:9,rx:3,fill:'#8f97ab'});
+      tankers.push({r:r, path:l.ln, len:L, off:0.16+k*0.22+li*0.05});
+    }
+  });
+  var tlab=el('text',{x:130,y:250,'font-family':'DejaVu Sans Mono','font-size':14,'letter-spacing':2,fill:'#5b647c'},'TANKERS HOLDING');
   el('text',{x:20,y:626,'font-family':'DejaVu Sans Mono','font-size':12,'letter-spacing':2,fill:'#3d4a6b'},'REAL COASTLINES \u00b7 NATURAL EARTH 50M');
-
-  var CLOSE=0.90;  // the strait slams shut here
+  var CLOSE=0.90;
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__hormuz=function(t){
-    // dashes march toward the strait; after close they stop
-    var march=Math.min(t,CLOSE)*40;
-    lane1.setAttribute('stroke-dashoffset',-march);
-    lane2.setAttribute('stroke-dashoffset',-march);
-    lane2.setAttribute('opacity', t>CLOSE?0.25:0.85);
-    // X draws in at CLOSE with a snap
+    var march=Math.min(t,CLOSE)*38;
+    lanes.forEach(function(l){ l.ln.setAttribute('stroke-dashoffset',-march); });
+    exit.setAttribute('stroke-dashoffset',-march);
+    exit.setAttribute('opacity', t>CLOSE?0.22:0.85);
     var xp=E((t-CLOSE)/0.22);
     [x1,x2].forEach(function(x,i){
-      var d=i===0?[-28,-28,28,28]:[28,-28,-28,28];
+      var d=i===0?[-26,-26,26,26]:[26,-26,-26,26];
       x.setAttribute('x2', hx+d[0]+(d[2]-d[0])*xp);
       x.setAttribute('y2', hy+d[1]+(d[3]-d[1])*xp);
       x.setAttribute('opacity', t>CLOSE?1:0);
     });
-    // ring pulses after close
     var pulse=1+0.10*Math.sin((t-CLOSE)*7);
-    ring.setAttribute('r', t>CLOSE?46*pulse:0.001);
+    ring.setAttribute('r', t>CLOSE?44*pulse:0.001);
     ring.setAttribute('opacity', t>CLOSE?0.55+0.45*Math.abs(Math.sin((t-CLOSE)*7)):0);
     lab1.setAttribute('opacity', t>CLOSE+0.18?1:0);
     lab2.setAttribute('opacity', t>CLOSE+0.30?1:0);
     mines.forEach(function(m,i){ m.setAttribute('opacity', t>CLOSE+0.1+i*0.06?1:0); });
-    // tankers creep toward the strait until it closes, then hold
-    var drift=Math.min(t,CLOSE)*26;
-    tankers.forEach(function(r,i){ r.setAttribute('x', TK[i][0]+drift*(1-i*0.06)); });
+    // tankers creep along their lanes toward the strait, then hold
+    var drift=Math.min(t,CLOSE)*0.045;
+    tankers.forEach(function(tk){
+      var f=Math.min(0.92, tk.off+drift);
+      var pt=tk.path.getPointAtLength(tk.len*f);
+      tk.r.setAttribute('x',pt.x-13); tk.r.setAttribute('y',pt.y-4.5);
+    });
     tlab.textContent='TANKERS HOLDING \u00b7 '+Math.round(Math.max(0,Math.min(1,(t-CLOSE)/1.4))*63);
     tlab.setAttribute('opacity', t>CLOSE?1:0.4);
   };

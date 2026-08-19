@@ -1,0 +1,58 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
+<title>Features intro — the simulator card</title>
+<style>
+  body{background:#070b14}
+  .halo{position:absolute; left:50%; top:44%; transform:translate(-50%,-50%);
+    width:1500px; height:900px;
+    background:radial-gradient(ellipse 48% 48% at 50% 50%, rgba(201,165,74,0.08), transparent 66%)}
+  .l1{position:absolute; left:0; right:0; top:300px; text-align:center;
+    font-family:var(--display); font-size:64px; letter-spacing:0.06em; color:var(--ivory);
+    text-shadow:0 2px 30px rgba(4,7,14,0.9); opacity:0}
+  .l2{position:absolute; left:0; right:0; top:408px; text-align:center;
+    font-family:var(--display); font-size:38px; letter-spacing:0.12em; color:var(--gold-hi);
+    text-shadow:0 0 30px rgba(201,165,74,0.25); opacity:0}
+  .blocks{position:absolute; left:0; right:0; top:560px; display:flex; justify-content:center; gap:26px}
+  .blk{width:400px; border:1px solid var(--line); border-radius:8px; background:rgba(10,16,31,0.85);
+    padding:34px 26px 30px; text-align:center; opacity:0;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5)}
+  .blk .bt{font-family:var(--display); font-size:33px; color:var(--ivory); letter-spacing:0.04em; line-height:1.3}
+  .blk .bs{font-family:var(--mono); font-size:13px; letter-spacing:0.24em; color:var(--muted); margin-top:14px; text-transform:uppercase}
+  .blk.gold{border-color:rgba(201,165,74,0.5)}
+  .blk.gold .bt{color:var(--gold-hi); font-size:27px; line-height:1.45}
+</style>
+<div class="stage">
+  <div class="halo"></div>
+  <div class="l1" id="l1">The Ultimate Geopolitical Simulator</div>
+  <div class="l2" id="l2">Grand Strategy Set in the 21st Century</div>
+  <div class="blocks">
+    <div class="blk" id="b1"><div class="bt">200+ Countries</div><div class="bs">Every nation playable</div></div>
+    <div class="blk" id="b2"><div class="bt">Wars, Diplomacy,<br>Economics</div><div class="bs">One connected simulation</div></div>
+    <div class="blk gold" id="b3"><div class="bt">The most realistic political simulator ever built.</div><div class="bs">PoliGeo</div></div>
+  </div>
+  <div class="disclaimer">THREE PHASES · HEADLINE · SUBLINE PHASES IN · BLOCKS LAND LEFT TO RIGHT</div>
+  <div class="timecode">TEASER 02 · FEATURES CARD</div>
+  <div class="grade"></div>
+</div>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var l1=$('l1'), l2=$('l2'), bs=[$('b1'),$('b2'),$('b3')];
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  window.__render=function(t){
+    // phase 1: headline
+    var p1=E((t-0.2)/0.6);
+    l1.style.opacity=p1; l1.style.transform='translateY('+(20*(1-p1))+'px)';
+    // phase 2: subline phases in
+    var p2=E((t-1.3)/0.6);
+    l2.style.opacity=p2;
+    l2.style.letterSpacing=(0.3-0.18*p2)+'em';
+    // phase 3: blocks land left to right
+    bs.forEach(function(b,i){
+      var p=E((t-(2.4+i*0.5))/0.45);
+      b.style.opacity=p;
+      b.style.transform='translateY('+(30*(1-p))+'px)';
+    });
+  };
+  window.__render(0);
+})();
+</script>

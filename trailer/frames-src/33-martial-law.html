@@ -48,8 +48,6 @@
     <div class="stamp">RETURNED · UNREAD</div>
     <div class="sig">Proclamation 12 — signed</div>
   </div>
-  <p class="card2">The only bounds on power are the ones you can <span class="g">overcome</span>.</p>
-  <div class="card-rule" style="bottom:92px"></div>
   <div class="disclaimer">HEADLINES LAND ONE BY ONE · THE INJUNCTION RETURNS UNREAD · THEN THE LINE</div>
   <div class="timecode">TEASER 02 · MARTIAL LAW</div>
   <div class="grade"></div>
@@ -60,8 +58,7 @@
   var doc=document.querySelector('.doc');
   var stamp=document.querySelector('.stamp');
   var sig=document.querySelector('.sig');
-  var card=document.querySelector('.card2');
-  var rule=document.querySelector('.card-rule');
+
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
     // headline boxes land one after another
@@ -81,10 +78,6 @@
     stamp.style.opacity=on?1:0;
     stamp.style.transform='rotate(-11deg) scale('+(on?(1.5-0.5*sp):1.5)+')';
     sig.style.opacity=t>=2.18?1:0;
-    // the closing line appears last
-    var cp=E((t-2.42)/0.3);
-    card.style.opacity=cp; rule.style.opacity=cp;
-    card.style.transform='translateY('+(22*(1-cp))+'px)';
   };
   window.__render(0);
 })();

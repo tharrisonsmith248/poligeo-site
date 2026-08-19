@@ -2,11 +2,14 @@
 <title>Operation Steel Claw — typed, then redacted</title>
 <style>
   body{background:#080c15}
-  .satgrid{position:absolute; inset:0; opacity:0.35;
+  .lobby{position:absolute; inset:0;
     background:
-      linear-gradient(rgba(36,51,82,0.4) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(36,51,82,0.4) 1px, transparent 1px);
-    background-size:96px 96px}
+      radial-gradient(ellipse 62% 46% at 30% 66%, rgba(38,52,84,0.35), transparent 70%),
+      linear-gradient(180deg, #070b14 0%, #0a101d 52%, #10182a 78%, #0b1120 100%)}
+  .lobby .floor{position:absolute; left:0; right:0; bottom:0; height:400px;
+    background:linear-gradient(180deg, transparent, rgba(16,24,42,0.9));
+    transform:perspective(900px) rotateX(38deg); transform-origin:bottom}
+  .seal{position:absolute; left:24px; top:150px; width:820px; height:820px; opacity:0.8}
   .crosshair{position:absolute; right:220px; top:140px; width:280px; height:280px; opacity:0.5}
   .cable{position:absolute; left:330px; top:110px; width:1150px; padding:70px 90px;
     background:rgba(11,17,30,0.96); border:1px solid var(--line);
@@ -26,7 +29,20 @@
   .c-foot{margin-top:44px; font-size:15px; letter-spacing:0.2em; color:var(--dim)}
 </style>
 <div class="stage">
-  <div class="satgrid"></div>
+  <div class="lobby"><div class="floor"></div></div>
+  <svg class="seal" viewBox="0 0 400 400">
+    <defs><path id="ringpath" d="M200,58 a142,142 0 1,1 -0.1,0"/></defs>
+    <circle cx="200" cy="200" r="184" fill="rgba(13,20,36,0.6)" stroke="#35477a" stroke-width="3"/>
+    <circle cx="200" cy="200" r="152" fill="none" stroke="#35477a" stroke-width="2"/>
+    <circle cx="200" cy="200" r="108" fill="rgba(10,16,30,0.8)" stroke="#3a4c80" stroke-width="2"/>
+    <text font-family="Georgia, serif" font-size="21" letter-spacing="5" fill="#5468a0">
+      <textPath href="#ringpath">CENTRAL INTELLIGENCE AGENCY · UNITED STATES OF AMERICA ·</textPath></text>
+    <g stroke="#4a5e96" fill="#1a2848">
+      <path d="M200 108 L216 176 L284 176 L229 214 L250 288 L200 240 L150 288 L171 214 L116 176 L184 176 Z"
+        stroke-width="2.5"/>
+    </g>
+    <circle cx="200" cy="200" r="16" fill="#1a2742" stroke="#4a5e96" stroke-width="2"/>
+  </svg>
   <svg class="crosshair" viewBox="0 0 100 100">
     <circle cx="50" cy="50" r="42" fill="none" stroke="#243352" stroke-width="1"/>
     <circle cx="50" cy="50" r="24" fill="none" stroke="#243352" stroke-width="1"/>
