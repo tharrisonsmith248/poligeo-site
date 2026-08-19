@@ -27,12 +27,36 @@
     <div class="rule"></div>
     <div class="genre">The Ultimate Geopolitical Simulator</div>
   </div>
-  <div class="disclaimer">OPENS THE FILM · CALM, NO DRUMS YET · CUBE GLOWS, WORDMARK RESOLVES, GENRE LINE FADES UP</div>
+  <div class="disclaimer">OPENS THE FILM · CUBE GLOWS IN ALONE · WORDMARK RESOLVES · GENRE LINE LAST · DEAD CENTER</div>
   <div class="timecode">TEASER 02 · 0:00–0:03</div>
   <div class="grade"></div>
 </div>
 <script>
 // faint scattered province dots, denser toward the edges so the mark stays clean
+(function(){
+  // bespoke reveal (defines __render, so autoReveal cannot touch .stack's centering)
+  var stack=document.querySelector('.stack');
+  var cube=document.querySelector('.cube'), wm=document.querySelector('.wm');
+  var rule=document.querySelector('.rule'), genre=document.querySelector('.genre');
+  var halo=document.querySelector('.halo');
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  window.__render=function(t){
+    stack.style.transform='translateY(-52%)';
+    var c=E((t-0.15)/0.9);
+    cube.style.opacity=c;
+    cube.style.transform='scale('+(0.92+0.08*c)+')';
+    cube.style.filter='drop-shadow(0 0 '+(60*c)+'px rgba(201,165,74,'+(0.35*c)+'))';
+    var w=E((t-0.95)/0.7);
+    wm.style.opacity=w; wm.style.transform='translateY('+(14*(1-w))+'px)';
+    var r=E((t-1.6)/0.4);
+    rule.style.transform='scaleX('+r+')';
+    var g=E((t-1.9)/0.8);
+    genre.style.opacity=g;
+    genre.style.letterSpacing=(0.5-0.18*g)+'em';
+    halo.style.opacity=0.4+0.6*Math.min(1,t/2.5);
+  };
+  window.__render(0);
+})();
 (function(){
   var host=document.getElementById('field');
   function rnd(seed){ return function(){ seed=(seed*1103515245+12345)%2147483648; return seed/2147483648 } }
