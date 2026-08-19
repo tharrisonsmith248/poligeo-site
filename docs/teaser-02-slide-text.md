@@ -1,103 +1,97 @@
 # Teaser 02 — all on-screen text, slide by slide (for review)
 
-Every word that appears on screen, in cut order. **Bold** = large display
-text (Marcellus). `MONO` = small interface/label text. *(anim)* = how it
-arrives. Edit anything here and the frame sources update in minutes.
+0:59 cut. Every word that appears on screen, in cut order. **Bold** = large
+display text (Marcellus). `MONO` = small interface/label text. *(anim)* = how
+it arrives. Music: timed to the last ~59 s of Les Préludes (placeholder for a
+licensed track — see trailer/FAL-NOTES.md).
 
 ---
 
 **S1 · 0:00 · 00-title-intro** — logo card
-- [PG cube lockup: "PG — POLITICS & GEOGRAPHY" (artwork)]
-- [POLIGEO wordmark (artwork)]
+- [PG cube lockup — logo 1.1]
+- [POLIGEO wordmark]
 - **THE ULTIMATE GEOPOLITICAL SIMULATOR**
 
-**S2 · 0:03 · 00-2-hyperbole** — hyperbolic claim card *(new)*
-- **Command the most powerful office on Earth.**
-- `199 NATIONS · EVERY RIVAL, EVERY ALLY, EVERY CONSEQUENCE — YOURS`
+**S2 · 0:03 · 00-2-hyperbole** — claim card
+- **Rule Democratically…** *(holds)* **or with an Iron Fist** *(types in; "Iron Fist" bold silver)*
 
-**S3 · 0:05.5 · 01-wire-headline** — cold open
-- `● THE WIRE · LIVE`
-- **Decision Desk: 312 electoral votes. A landslide.** *(types on)*
-- `THE WIRE DECISION DESK · 5 NOV 2024 · 01:47 EST`
-- `PRE-ALPHA IN-GAME FOOTAGE · SIMULATED BROADCAST IMAGERY` *(corner disclaimer, stays through S4)*
+**S3 · 0:05.5 · 01-wire-headline** — the result
+- **Election 2024…** *(holds)* **A Landslide Victory** *(types in; bold dark red)*
+- `NOVEMBER 5, 2024`
+- `PRE-ALPHA IN-GAME FOOTAGE` *(corner disclaimer)*
 
-**S4 · 0:06.5 · 20-electoral-map** — the mandate
+**S4 · 0:06.5 · 20-electoral-map** — the map fills
 - `UNITED STATES · PRESIDENTIAL ELECTION · NOVEMBER 5, 2024 · 538 ELECTORAL VOTES`
-- `312 / ELECTORAL VOTES · POPULAR VOTE 77.3M · 49.8%` (left)
-- `226 / ELECTORAL VOTES · POPULAR VOTE 75.0M · 48.3%` (right)
-- `✓ 270 REACHED · 01:47 EST`
-- `SPLIT DISTRICTS: ME-02 → R · NE-02 → D`
-- [51 state tiles with abbreviations + EV counts, real 2024 winners]
-- **A LANDSLIDE.**
+- Left tally counts up · right tally counts up (ends **312 / 226**) · `CALLED SO FAR · COUNT LIVE`
+- `COUNTING · 270 TO WIN`
+- `7 STATES OUTSTANDING · FINAL: 312 – 226`
+- [51 state tiles: all start **grey**, each populates red/blue on the real 2024 call timeline, tallies rising with each call; ME-02/NE-02 notches appear on their calls]
 
-**S5 · 0:09 · 21-approval** — polling & approval
-- `POPULAR AGENT MODEL · APPROVAL, POLLED CONTINUOUSLY · DAY 9 OF THE TERM`
-- **57%** `JOB APPROVAL` `▲ +9 SINCE THE ELECTION`
+**S5 · 0:09 · 21-approval** — polling & approval (cleaned)
+- `APPROVAL & POLLING · CONTINUOUS · DAY 9 OF THE TERM`
+- **57%** `JOB APPROVAL` · `▲ +9 SINCE ELECTION DAY`
 - `APPROVAL · ELECTION NIGHT → DAY 9` · `HONEYMOON` · `JAN 20 · SWORN IN` · `57.2%`
-- Cohort rows: `RURAL EVANGELICALS 91 · SUBURBAN MODERATES 61 · UNION HOUSEHOLDS 54 · FIRST-GEN IMMIGRANTS 44 · COLLEGE URBANISTS 28 · VETERAN RETIREES 78`
+- Three stat tiles: `JOB APPROVAL 57% ▲9` · `ECONOMIC CONFIDENCE 61% ▲6` · `RIGHT TRACK 58% ▲11`
 
-**S6 · 0:11 · 22-markets-wall** — the economy
-- Panels: `S&P 500 · 1D — 5,931 ▲ 1.4%` · `BRENT CRUDE · $/BBL — 71.40 ▼ 0.8%` · `SECTORS · LIVE — RISK ON` (ENERGY DEFENSE BANKS TECH AIRLINES AGRI PHARMA SHIPPING · `VIX 14.2 ▼`) · `MACRO PRINT · MONTHLY` (CPI 2.9% ▼0.2 · GDP 2.3% ▲ · UNEMPLOYMENT 4.1% — · GAS $3.12 ▲0.04 · 10Y 4.38% ▲) · `DXY · DOLLAR INDEX — 108.1 ▲` · `GLOBAL SHIPPING` (HORMUZ TRANSIT OPEN · 41 TANKERS/DAY · SUEZ NORMAL · FREIGHT 1,204 ▼2% · RESERVE 372M BBL)
+**S6 · 0:11 · 22-markets-wall** — strong economy, stable politics
+- `A STRONG ECONOMY · STABLE POLITICS · DAY 9`
+- `S&P 500 · 1D — 5,931 ▲ 1.4%` · `BRENT CRUDE 71.40` · `SECTORS · RISK ON` · `MACRO PRINT` (CPI 2.9% · GDP 2.3% · UNEMPLOYMENT 4.1% · GAS $3.12 · 10Y 4.38%) · `DXY 108.1` · `DOMESTIC STABILITY — STEADY` (UNREST INDEX 12 · LOW · APPROVAL 57% ▲ · CONGRESS ALIGNED · MAJORITY +5 · CABINET UNITY HIGH)
 - **COMPUTED IN REAL TIME.**
 
 **S7 · 0:13 (H1) · 04-one-world** — the world map
 - `199 NATIONS · 4,454 PROVINCES · 14,262 TILES` *(counters race)*
-- **ONE LIVING WORLD.**
+- **ONE SIMULATION.**
 
-**S8 · 0:15 (H2) · 23-ukraine-timelapse** — the war you inherit
-- `RUSSO-UKRAINIAN WAR · IN-GAME REPLAY · FEB 2022 → 20 JAN 2025 · 421 TILES`
-- Stamp: `INTENSITY: EXISTENTIAL`
-- Stage chips: `FEB–MAR 2022 / THE INVASION · KYIV AXIS / NORTH + SOUTH + EAST` · `NOV 2022 / KHARKIV & KHERSON / COUNTEROFFENSIVES` · `20 JAN 2025 · SEEDED / THE FRONT YOU INHERIT / 293 HELD · 128 OCCUPIED`
+**S8 · 0:15 (H2) · 23-ukraine-timelapse** — the ongoing war
+- `RUSSO-UKRAINIAN WAR · 2022 → 2025`
+- Date chips only: `FEB 2022` · `NOV 2022` · `JAN 2025` (territory timelapse, no other text)
 
-**S9 · 0:19 (H3) · 06-every-word** — the Kremlin channel
-- Header: `VP · Vladimir Putin · KREMLIN · SECURE CHANNEL · ENCRYPTED · 20 JANUARY 2025`
-- Putin: *"Nothing comes off before you end this war. Make a deal with Zelensky and we can discuss sanctions relief."* `DELIVERED · 14:02 MSK`
-- Reply options: *"The line freezes. Sanctions stay until Kyiv signs."* (`HAWKS −2 · KYIV −4 · OIL —`) · *"So let's talk about what is really killing you. The sanctions. I can move those."* (`LEVERAGE +6 · SENATE RISK`) · **selected →** *"No deal. Every tank we have is going to Kyiv, and the next package is already drafted."* (`ESCALATION ++ · OIL +9% · HAWKS +5`)
-- **EVERY WORD.**
+**S9 · 0:19 (H3) · 06-every-word** — the Kremlin channel *(real site-demo dialogue, hardline path)*
+- `Vladimir Putin · KREMLIN · SECURE CHANNEL · 20 JANUARY 2025 · ENCRYPTED`
+- Putin: *"I hope we can reach an end to this conflict, but Ukraine must accept our terms: Ukraine never joins NATO. Permanent neutrality, written into its constitution. Recognition of Crimea and Donbass as Russian territories."* `PUTIN · 14:02 MSK`
+- **YOU** (`THREATEN`): *"You don't dictate to me, Vladimir. Nobody dictates to me. Your economy is a disaster and everybody knows it."* `YOU · PRESIDENT OF THE UNITED STATES · SENT ✓`
+- Putin: *"Threats, from a man whose voters count the price of gas every morning. Push again, and we will learn together how much pain your Congress can vote for."* `PUTIN · 14:07 MSK`
+- **YOU** (`HARDLINE`): *"The only thing you are going to recognize is what happens to the ruble. Watch it."* `YOU · PRESIDENT OF THE UNITED STATES · SENT ✓`
+- *(fal animates the Putin portrait in the header — subtle idle)*
 
 **S10 · 0:21.5 · 12-redacted-cable** — the covert order
-- `EYES ONLY // DIRECTORATE · CABLE 0114-A`
+- `CLASSIFIED // CIA DIRECTORATE · OPERATION STEEL CLAW`
 - `SUBJECT: CAPTURE OF THE PRESIDENT OF BELARUS — MINSK STATION`
-- `1. ORDER: THE PRINCIPAL IS TO BE TAKEN AT ██████ LOCAL BY A ████████████ ELEMENT. NO FLAG. NO CLAIM.`
-- `2. A CAPTURED PRESIDENT SIMPLY GOES ███████ UNTIL YOU DECIDE WHAT THE WORLD ██████.`
-- `3. DENIABILITY HOLDS THROUGH ████████████████. IF IT BLOWS, IT BLOWS ████.`
-- `ORIGIN: ██████████ · DISTRIBUTION: PRINCIPAL ONLY · DESTROY AFTER READING`
-- Red stamp: `AUTHORIZED · NOT SIGNED · EXECUTE`
+- `1. ORDER: THE PRINCIPAL IS TO BE TAKEN AT ██ LOCAL BY A ██ ELEMENT. NO FLAG. NO CLAIM.`
+- `2. A CAPTURED PRESIDENT SIMPLY GOES ██ UNTIL YOU DECIDE WHAT THE WORLD ██.`
+- `3. DENIABILITY HOLDS THROUGH ██. IF IT BLOWS, IT BLOWS ██.`
+- Stamp: `AUTHORIZED · NOT SIGNED · EXECUTE`
 
-**S11 · 0:23.5 · 24-minsk-raid** — the raid (fal clip)
-- `DENIABLE OPERATION · MINSK · 02:14 LOCAL · NO FLAG · NO CLAIM`
-- `FEED · ISR-4 THERMAL / PRINCIPAL · LOCATED · FLOOR 2 / EXFIL WINDOW · 00:03:41`
+**S11 · 0:23.5 · 24-minsk-raid** — the raid + success briefing (fal clip)
+- `BRIEFING // CIA DIRECTORATE · OPERATION SUCCESS`
+- `PRESIDENT OF BELARUS · CAPTURED` · `PRINCIPAL · HELD IN SECURE FACILITY` · `STATUS · AWAITS INTERROGATION`
 
 **S12 · 0:25.5 (H4) · 25-invasion-headline** — breaking
 - `● BREAKING`
 - **US launches full-scale invasion of Venezuela**
-- `AMPHIBIOUS LANDINGS IN THE GULF AND ALONG THE CARIBBEAN COAST · 270 REAL TILES · SIMULATED LIVE`
-- Ticker: `Carrier strike groups cover the landings · Congress erupts over the war powers clock · Caracas orders general mobilization · Regional capitals close US embassies`
+- `AMPHIBIOUS LANDINGS IN THE GULF AND ALONG THE CARIBBEAN COAST`
 
 **S13 · 0:29 · 26-puppet-regime** — week 4
 - `OPERATION SOUTHERN SHIELD · TIMELAPSE` · **WEEK 4**
-- Stats: `TILES HELD 134/270 · CARACAS ENCIRCLED · ENEMY CASUALTIES 5,428 · US KIA 97 · REFUGEES 6k · COST $26.3B`
+- `TERRITORY SECURED 50% · CARACAS ENCIRCLED · ENEMY CASUALTIES 5,428 · US KIA 97 · REFUGEES 6k · COST $26.3B`
 - `● THE WIRE · CARACAS` — **US-backed government installed in Caracas; opposition calls it a puppet regime**
-- `THE PALACE CHANGES HANDS BEFORE THE COUNTRY DOES · CHAVISTA FORCES WITHDRAW SOUTH`
+- `REGIME ELEMENTS IN DISARRAY • ARMED GROUPS CHALLENGE DEMOCRATIC ADMINISTRATION`
 
 **S14 · 0:31 · 27-insurgency** — week 10
 - **WEEK 10 · FALL**
-- Stats: `TILES HELD 219/270 · STATE CAPITULATED · INSURGENT CELLS 12 ACTIVE · US KIA 116 · REFUGEES 11k · COST $66.8B`
+- `TERRITORY SECURED 82% · STATE CAPITULATED · INSURGENT CELLS 12 ACTIVE · US KIA 116 · REFUGEES 11k · COST $66.8B`
 - `● THE WIRE · CARACAS` — **Venezuelan resistance launches insurgency from the southern jungles**
 - `COLECTIVO CELLS SURFACE IN CARACAS · WASHINGTON SIGNALS A LONG-TERM ENGAGEMENT`
 
-**S15 · 0:33 (H5) · 28-iran-warroom** — the Iran interface
-- `WAR WITH IRAN · DAY 12 · TWO CAMPAIGNS, ONE SCREEN`
-- `COVERT · OPERATION EMBER`: `OBJECTIVE INCITE UNREST · STATUS ACTIVE · DENIABLE · CELLS FUNDED 14 · SIX PROVINCES · BROADCAST REACH 2.1M/NIGHT · UNREST INDEX 61 ▲▲ · EXPOSURE RISK RISING`
-- `AIR CAMPAIGN · MILITARY TARGETS`: `SORTIES FLOWN 412 · TARGETS STRUCK 178/214 · AIR DEFENSES DEGRADED 64% · AIRCRAFT LOST 3 · CIVILIAN TOLL · EST PRICED · LEDGERED · NEXT PACKAGE TEHRAN · COMMAND NODES`
-- Map markers: `TEHRAN · PENDING` · `TABRIZ ✓ · NATANZ ✓ · ISFAHAN ✓ · BUSHEHR ✓ · BANDAR ABBAS ✓`
+**S15 · 0:33 (H5) · 28-iran-warroom** — the two orders
+- `CLASSIFIED // CIA DIRECTORATE · OPERATION EMBER` — `SUBJECT: COVERT ACTION TO INCITE UNREST IN THE ISLAMIC REPUBLIC OF IRAN` (fund/direct opposition cells · amplify broadcasts · coordinate ahead of the air campaign · deniability) · `AUTHORIZED · PRINCIPAL ONLY · DESTROY AFTER READING`
+- `BRIEFING // JOINT STAFF · OPERATION IRON SKY` — `AIR CAMPAIGN AGAINST IRANIAN MILITARY ASSETS · DAY 12` (SORTIES 412 · TARGETS STRUCK 178 OF 214 · AIR DEFENSES DEGRADED 64% · AIRCRAFT LOST 3 · NEXT PACKAGE TEHRAN · COMMAND NODES) · `CLEARED FOR THE PRESIDENT · EYES ONLY`
 - `● THE WIRE` — **US incites unrest inside Iran as airstrikes pound military assets**
 
-**S16 · 0:35.5 · 08-every-consequence** — the levers
-- `WAR WITH IRAN · DAY 12 · EVERY ACTION IS PRICED`
-- Levers: `Blockade the Strait of Hormuz` (off) · `Air campaign on Iranian military sites` (ON) · **`Decapitation strikes on Tehran` (flips ON)**
-- Charts: `BRENT CRUDE +31% · PRESIDENTIAL APPROVAL −6.2 · S&P 500 −4.8%`
-- Ticker: `US aircraft strike military sites across Iran · Decapitation option moves to the President's desk · Covert campaign stokes unrest in twelve provinces · Oil climbs for a ninth session · Tehran vows retaliation on any soil · Senate demands a war powers vote`
+**S16 · 0:35.5 · 34-war-with-iran** — WAR WITH IRAN (fal destruction footage)
+- **WAR WITH IRAN**
+- `DECAPITATION STRIKES ORDERED · DAY 12`
+- `● BREAKING` — **President orders decapitation strikes on Tehran**
 
 **S17 · 0:37 · 29-tehran-strike** — the strike (fal clip)
 - `● LIVE · TEHRAN · 03:26` · `FIXED CAM · NORTH RIDGE · SIMULATED COVERAGE`
@@ -106,7 +100,7 @@ arrives. Edit anything here and the frame sources update in minutes.
 **S18 · 0:39 · 30-iran-crackdown** — the regime answers (fal clip)
 - `● STATE BROADCAST · TEHRAN` · `IRIB-STYLE · FICTIONAL — ORDER RESTORED IN THE CAPITAL, AUTHORITIES SAY`
 - `● THE WIRE · MONITORED FEED` — **Iranian regime crushes protests; thousands reported dead**
-- `CRACKDOWN · LETHALITY TIER III · FOREIGN MONITORS EXPELLED · INTERNET DARK IN SIX PROVINCES`
+- `IRGC DEPLOYED AGAINST PROTESTERS · FOREIGN MONITORS EXPELLED · INTERNET DARK IN SIX PROVINCES`
 
 **S19 · 0:41 · 31-hormuz-closed** — the answer
 - Map: `IRAN · SAUDI ARABIA · OMAN · PERSIAN GULF · GULF OF OMAN · STRAIT OF HORMUZ / CLOSED · TANKERS HOLDING · 63`
@@ -114,23 +108,24 @@ arrives. Edit anything here and the frame sources update in minutes.
 - `● BREAKING` — **Iran closes the Strait of Hormuz to all shipping**
 
 **S20 · 0:43 · 32-home-unrest** — the home front (fal clips)
-- `● LIVE · WASHINGTON · NIGHT 3` · `NBS · DC — ANTI-WAR COALITION FLOODS 40 CITIES · GENERAL STRIKE CALLED`
-- `DOMESTIC · UNREST CONSOLE`: `UNREST INDEX 74 ▲▲ · SPREADING · MOVEMENT ANTI-WAR LEFT COALITION · DRIVER IRAN WAR · DRAFT RUMORS · APPROVAL 41% ▼ 16 SINCE DAY 9 · GOVERNORS COMPLYING 31/50`
-- Gold order box: `ORDER: FEDERAL CRACKDOWN · LETHALITY TIER II · CURFEW + MASS ARRESTS · ● ISSUED`
-- `EVERY CRACKDOWN HAS A LETHALITY TIER · EVERY BROKEN PROMISE IS LEDGERED FOREVER`
-- `● THE WIRE` — **President orders federal crackdown on anti-war unrest**
+- `● LIVE · WASHINGTON · NIGHT 3` · `NBS · DC — PROTESTS FLOOD 40 CITIES · GENERAL STRIKE CALLED`
+- `DOMESTIC · UNREST CONSOLE`: `UNREST INDEX 74 ▲▲ · SPREADING · MOVEMENT MASS PROTEST COALITION · DRIVER WAR FATIGUE · DRAFT RUMORS · APPROVAL 41% ▼ 16 · GOVERNORS COMPLYING 31/50`
+- Gold order box: `ORDER: FEDERAL CRACKDOWN · LETHAL FORCE AUTHORIZED · CURFEW + MASS ARRESTS · ● ISSUED`
+- `EVERY ORDER IS PRICED · EVERY BROKEN PROMISE IS LEDGERED FOREVER`
+- `● THE WIRE` — **President orders federal crackdown on unrest**
 
 **S21 · 0:45.5 · 33-martial-law** — the climax card
-- Headlines: **President defies Supreme Court order on detentions** (`THE WIRE · 21:04`) · **Martial law declared in twelve cities; National Guard federalized** (`THE WIRE · 22:36`) · **"The Constitution is not a suicide pact," the White House says** (`THE WIRE · 23:12`)
-- Court doc: `SUPREME COURT OF THE UNITED STATES · EMERGENCY INJUNCTION · 24A-1107 · ENFORCEMENT ORDERED · IMMEDIATE — THE EXECUTIVE IS HEREBY ENJOINED FROM FURTHER DETENTIONS UNDER PROCLAMATION 11-C, AND SHALL RELEASE ALL PERSONS HELD WITHOUT CHARGE FORTHWITH. NONCOMPLIANCE WILL BE TREATED AS CONTEMPT OF THIS COURT.` — stamped **RETURNED · UNREAD**, signed *Proclamation 12 — signed*
+- **President defies Supreme Court order on detentions** (`THE WIRE · 21:04`)
+- **Martial law declared in twelve cities; National Guard federalized** (`THE WIRE · 22:36`)
+- **The President has suspended the Constitution to enforce order** (`WHITE HOUSE STATEMENT · 23:12`)
+- Court doc: `SUPREME COURT OF THE UNITED STATES · EMERGENCY INJUNCTION · 24A-1107 · ENFORCEMENT ORDERED · IMMEDIATE …` — stamped **RETURNED · UNREAD**, signed *Proclamation 12 — signed*
 - **The only bounds on power are the ones you can overcome.**
 
 **S22 · 0:48 · 15-the-hand** — the sting (fal clip)
-- Console: `STRATEGIC RELEASE · TIER ONE` · `ARMED · AWAITING PRINCIPAL`
-- `THE WORLD IS WAITING`
+- `STRATEGIC RELEASE · TIER ONE` · `ARMED · AWAITING PRINCIPAL` · `THE WORLD IS WAITING`
 
 **S23 · 0:49.5 · 16-caesura** — the held breath
-- **History is in session.**
+- **Define the Nation's Future.**
 
 **S24 · 0:50.5 · 17-title** — title card
 - [PG cube lockup + POLIGEO wordmark]

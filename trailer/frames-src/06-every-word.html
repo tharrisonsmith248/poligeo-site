@@ -1,33 +1,31 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
-<title>0:10 — H3 · Every word</title>
+<title>0:19 — H3 · The Kremlin channel</title>
 <style>
-  .chat{position:absolute; left:460px; top:70px; width:1000px; height:700px;
+  .chat{position:absolute; left:400px; top:60px; width:1120px; height:830px;
     background:rgba(14,22,40,0.96); border:1px solid var(--line); border-radius:10px;
     box-shadow:0 40px 120px rgba(0,0,0,0.7); overflow:hidden}
-  .chat-head{display:flex; align-items:center; gap:22px; padding:26px 34px;
+  .chat-head{display:flex; align-items:center; gap:22px; padding:20px 30px;
     border-bottom:1px solid var(--line); background:rgba(10,16,31,0.9)}
-  .avatar{width:74px; height:74px; border-radius:50%; background:#1a2742; border:2px solid var(--gold);
+  .avatar{width:64px; height:64px; border-radius:50%; background:#1a2742; border:2px solid var(--gold);
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--display); font-size:30px; color:var(--gold-hi)}
-  .who .n{font-family:var(--display); font-size:30px; color:var(--ivory); letter-spacing:0.03em}
-  .who .s{font-family:var(--mono); font-size:16px; color:var(--muted); letter-spacing:0.22em; margin-top:6px}
-  .secure{margin-left:auto; font-family:var(--mono); font-size:15px; color:var(--green);
-    letter-spacing:0.2em; border:1px solid rgba(76,139,98,0.5); padding:8px 14px; border-radius:4px}
-  .msgs{padding:34px 34px 0}
-  .msg{max-width:78%; background:#131d34; border:1px solid var(--line); border-radius:10px;
-    padding:22px 28px; font-family:var(--serif); font-size:26px; line-height:1.55; color:#cfd4e0}
-  .msg .t{display:block; font-family:var(--mono); font-size:14px; color:var(--dim);
-    letter-spacing:0.18em; margin-top:14px}
-  .replies{position:absolute; left:34px; right:34px; bottom:26px; display:grid; gap:14px}
-  .reply{display:flex; align-items:center; justify-content:space-between; gap:20px;
-    border:1px solid var(--line); border-radius:8px; padding:18px 24px;
-    font-family:var(--serif); font-size:22px; color:var(--muted); background:rgba(10,16,31,0.7)}
-  .reply .price{font-family:var(--mono); font-size:15px; letter-spacing:0.12em; color:var(--dim); white-space:nowrap}
-  .reply.sel{border-color:var(--gold); color:var(--ivory);
-    box-shadow:0 0 30px rgba(201,165,74,0.15), inset 0 0 30px rgba(201,165,74,0.05)}
-  .reply.sel .price{color:var(--gold-hi)}
-  .datefeed{position:absolute; left:0; right:0; top:0; text-align:center; margin-top:20px;
-    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; color:var(--dim)}
+    font-family:var(--display); font-size:26px; color:var(--gold-hi)}
+  .who .n{font-family:var(--display); font-size:27px; color:var(--ivory); letter-spacing:0.03em}
+  .who .s{font-family:var(--mono); font-size:14px; color:var(--muted); letter-spacing:0.2em; margin-top:5px}
+  .secure{margin-left:auto; font-family:var(--mono); font-size:14px; color:var(--green);
+    letter-spacing:0.18em; border:1px solid rgba(76,139,98,0.5); padding:7px 13px; border-radius:4px}
+  .msgs{padding:24px 30px 0; display:grid; gap:16px}
+  .row{display:flex}
+  .row.you{justify-content:flex-end}
+  .msg{max-width:74%; border-radius:10px; padding:16px 22px;
+    font-family:var(--serif); font-size:21.5px; line-height:1.5}
+  .row.them .msg{background:#131d34; border:1px solid var(--line); color:#cfd4e0}
+  .row.you .msg{background:rgba(201,165,74,0.10); border:1px solid var(--gold); color:var(--ivory);
+    box-shadow:0 0 26px rgba(201,165,74,0.12)}
+  .meta{display:block; font-family:var(--mono); font-size:12px; letter-spacing:0.16em; margin-top:10px}
+  .row.them .meta{color:var(--dim)}
+  .row.you .meta{color:var(--gold-hi)}
+  .tagchip{display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:0.2em;
+    border:1px solid var(--gold); color:var(--gold-hi); padding:2px 8px; border-radius:2px; margin-right:10px}
 </style>
 <div class="stage">
   <div class="chat">
@@ -35,23 +33,18 @@
       <div class="avatar">VP</div>
       <div class="who">
         <div class="n">Vladimir Putin</div>
-        <div class="s">KREMLIN · SECURE CHANNEL</div>
+        <div class="s">KREMLIN · SECURE CHANNEL · 20 JANUARY 2025</div>
       </div>
       <div class="secure">ENCRYPTED</div>
     </div>
-    <div style="position:relative"><div class="datefeed">20 JANUARY 2025</div></div>
     <div class="msgs">
-      <div class="msg">&ldquo;Nothing comes off before you end this war. Make a deal with Zelensky and we can discuss sanctions relief.&rdquo;<span class="t">DELIVERED · 14:02 MSK</span></div>
-    </div>
-    <div class="replies">
-      <div class="reply"><span>&ldquo;The line freezes. Sanctions stay until Kyiv signs.&rdquo;</span><span class="price">HAWKS −2 · KYIV −4 · OIL —</span></div>
-      <div class="reply"><span>&ldquo;So let&rsquo;s talk about what is really killing you. The sanctions. I can move those.&rdquo;</span><span class="price">LEVERAGE +6 · SENATE RISK</span></div>
-      <div class="reply sel"><span>&ldquo;No deal. Every tank we have is going to Kyiv, and the next package is already drafted.&rdquo;</span><span class="price">ESCALATION ++ · OIL +9% · HAWKS +5</span></div>
+      <div class="row them"><div class="msg">&ldquo;I hope we can reach an end to this conflict, but Ukraine must accept our terms: Ukraine never joins NATO. Permanent neutrality, written into its constitution. Recognition of Crimea and Donbass as Russian territories.&rdquo;<span class="meta">PUTIN · 14:02 MSK</span></div></div>
+      <div class="row you"><div class="msg">&ldquo;You don&rsquo;t dictate to me, Vladimir. Nobody dictates to me. Your economy is a disaster and everybody knows it.&rdquo;<span class="meta"><span class="tagchip">THREATEN</span>YOU · PRESIDENT OF THE UNITED STATES · SENT ✓</span></div></div>
+      <div class="row them"><div class="msg">&ldquo;Threats, from a man whose voters count the price of gas every morning. Push again, and we will learn together how much pain your Congress can vote for.&rdquo;<span class="meta">PUTIN · 14:07 MSK</span></div></div>
+      <div class="row you"><div class="msg">&ldquo;The only thing you are going to recognize is what happens to the ruble. Watch it.&rdquo;<span class="meta"><span class="tagchip">HARDLINE</span>YOU · PRESIDENT OF THE UNITED STATES · SENT ✓</span></div></div>
     </div>
   </div>
-  <p class="card">EVERY <span class="g">WORD</span>.</p>
-  <div class="card-rule"></div>
-  <div class="disclaimer">SITE DEMO RE-RENDER · THE MOST HOSTILE OPTION IS SENT · HE ANSWERS IN KIND</div>
+  <div class="disclaimer">DIALOGUE FROM THE LIVE SITE DEMO · HARDLINE PATH · FAL: ANIMATE PUTIN PORTRAIT IN HEADER (SUBTLE IDLE)</div>
   <div class="timecode">TEASER 02 · 0:19 · H3</div>
   <div class="grade"></div>
 </div>

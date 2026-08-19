@@ -17,7 +17,7 @@ Act II — **The world you inherit** (Ukraine 2022→2025; talk to the Kremlin, 
 Act III — **Southern Shield** (invade Venezuela; install a regime; inherit an insurgency).
 Act IV — **Iran** (covert unrest + air campaign; decapitation strikes; the regime's crackdown; Hormuz closes).
 Act V — **The home front** (unrest at home; order the crackdown; defy the courts; martial law).
-Title — the bookend: logo, *History is in session.*, date and wishlist.
+Title — the bookend: logo, *The Ultimate Geopolitical Simulator*, date and wishlist.
 
 ## Second by second (0:59)
 
@@ -32,26 +32,26 @@ title, tagline and slate. Conform to the chosen recording before animating.
 | TC | Len | Frame | Shot |
 |---|---|---|---|
 | 0:00 | 3.0 | 00-title-intro | PG cube lockup glows in, POLIGEO wordmark resolves, gold rule, **THE ULTIMATE GEOPOLITICAL SIMULATOR**. The game introduces itself before any politics appears. |
-| 0:03 | 2.5 | 00-2-hyperbole | Second title card, hyperbolic: **"Command the most powerful office on Earth."** · sub: 199 NATIONS · EVERY RIVAL, EVERY ALLY, EVERY CONSEQUENCE — YOURS. |
+| 0:03 | 2.5 | 00-2-hyperbole | Second title card: **"Rule Democratically… or with an Iron Fist"** — the second half types in, Iron Fist in bold silver. |
 
 ### Act I — The mandate (0:05.5–0:13) · quiet build
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:05.5 | 1.0 | 01-wire-headline | Black. The Wire types: *"Decision Desk: 312 electoral votes. A landslide."* · 5 NOV 2024 · 01:47 EST. Disclaimer small type. |
-| 0:06.5 | 2.5 | 20-electoral-map | **Real 2024 electoral map** (tile cartogram): states snap in as called, the seven swing states land last with gold rims; 312–226, popular vote 77.3M/49.8% vs 75.0M/48.3%; ME-02/NE-02 splits. Card: **A LANDSLIDE.** |
-| 0:09 | 2.0 | 21-approval | Polling & approval: honeymoon line climbs to 57% (+9), PAM cohort bars settle one by one, agent dots drift. |
-| 0:11 | 2.0 | 22-markets-wall | Economy wall: S&P/Brent/DXY **candlestick charts** printing live, sector heatmap, CPI/GDP macro panel, Hormuz shipping OPEN. Card: **COMPUTED IN REAL TIME.** |
+| 0:05.5 | 1.0 | 01-wire-headline | **"Election 2024… A Landslide Victory"** — second half types in, bold dark red. NOVEMBER 5, 2024. |
+| 0:06.5 | 2.5 | 20-electoral-map | **Real 2024 electoral map**: every state starts grey and populates on the real call timeline while the tallies count up with each call, finishing 312–226 (ME-02/NE-02 splits on their calls). |
+| 0:09 | 2.0 | 21-approval | Polling & approval, cleaned: 57% (+9) headline stat, honeymoon line, three stat tiles (approval / economic confidence / right track). |
+| 0:11 | 2.0 | 22-markets-wall | Economy wall — "A STRONG ECONOMY · STABLE POLITICS": candlestick charts printing live, sector heatmap, macro panel, domestic-stability panel. Card: **COMPUTED IN REAL TIME.** |
 
 ### Act II — The world you inherit (0:13–0:25.5) · marziale begins
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:13 · H1 | 2.0 | 04-one-world | Brass slam. Accurate world map (Natural Earth, Mercator) drawn in the game's relations theme — player blue, rivals crimson — not a screenshot. 199 NATIONS · 4,454 PROVINCES. Card: **ONE LIVING WORLD.** |
-| 0:15 · H2 | 4.0 | 23-ukraine-timelapse | **Invasion timelapse 2022 → 2025**: tiles surge to the Kyiv axis (Feb–Mar 2022), snap back through the Kharkiv/Kherson counteroffensives (Nov 2022), settle on the exact 20 Jan 2025 seed. Stage chips date each phase. INTENSITY: EXISTENTIAL. |
-| 0:19 · H3 | 2.5 | 06-every-word | Kremlin secure channel. Putin: *"Nothing comes off before you end this war…"* — and the **most hostile reply is sent**: *"No deal. Every tank we have is going to Kyiv, and the next package is already drafted."* (ESCALATION ++ · OIL +9% · HAWKS +5). |
-| 0:21.5 | 2.0 | 12-redacted-cable | The orders you don't sign: **CAPTURE OF THE PRESIDENT OF BELARUS — MINSK STATION**, redactions striking through live. AUTHORIZED · NOT SIGNED · EXECUTE. |
-| 0:23.5 | 2.0 | 24-minsk-raid | fal clip: covert element stacks on the palace door in Minsk, 02:14, snow, gold torch beams. No shots shown. |
+| 0:13 · H1 | 2.0 | 04-one-world | Brass slam. Accurate world map (Natural Earth, Mercator) drawn in the game's relations theme — player blue, rivals crimson — not a screenshot. 199 NATIONS · 4,454 PROVINCES. Card: **ONE SIMULATION.** |
+| 0:15 · H2 | 4.0 | 23-ukraine-timelapse | The ongoing war, territory only: tiles surge (2022), pull back (late 2022), settle on the Jan 2025 line. Three date chips, no other text. |
+| 0:19 · H3 | 2.5 | 06-every-word | Kremlin channel, real site-demo dialogue, hardline path: Putin's terms → YOU (THREATEN): *"You don't dictate to me, Vladimir…"* → Putin's gas-price jab → YOU (HARDLINE): *"…what happens to the ruble. Watch it."* fal animates the Putin portrait. |
+| 0:21.5 | 2.0 | 12-redacted-cable | **CLASSIFIED // CIA DIRECTORATE · OPERATION STEEL CLAW** — capture of the President of Belarus, redactions striking through live. AUTHORIZED · NOT SIGNED · EXECUTE. |
+| 0:23.5 | 2.0 | 24-minsk-raid | fal raid clip + **BRIEFING // CIA DIRECTORATE · OPERATION SUCCESS**: President of Belarus captured, held in secure facility, awaits interrogation. |
 
 ### Act III — Southern Shield (0:25.5–0:33)
 
@@ -59,27 +59,27 @@ title, tagline and slate. Conform to the chosen recording before animating.
 |---|---|---|---|
 | 0:25.5 · H4 | 1.5 | 25-invasion-headline | Full-screen breaking banner over the dark tile map, landing arrows sweeping in: **US LAUNCHES FULL-SCALE INVASION OF VENEZUELA.** |
 | 0:27 | 2.0 | (26 logic, weeks 1→4) | Timelapse of control: 270 real tiles flood red from the coast, stat column spinning. |
-| 0:29 | 2.0 | 26-puppet-regime | Week 4 chyron: **"US-backed government installed in Caracas; opposition calls it a puppet regime."** Caracas ENCIRCLED. |
+| 0:29 | 2.0 | 26-puppet-regime | Week 4 chyron: **"US-backed government installed in Caracas; opposition calls it a puppet regime"** · REGIME ELEMENTS IN DISARRAY • ARMED GROUPS CHALLENGE DEMOCRATIC ADMINISTRATION. |
 | 0:31 | 2.0 | 27-insurgency | Week 10 · FALL: state capitulated — and gold-rimmed tiles flare: **"Venezuelan resistance launches insurgency from the southern jungles."** 12 cells active. |
 
 ### Act IV — Iran (0:33–0:43) · the stretto
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:33 · H5 | 2.5 | 28-iran-warroom | The military interface: OPERATION EMBER (incite unrest — 14 cells, six provinces) beside the AIR CAMPAIGN board (412 sorties, 178/214 targets, IADS −64%), strike map of Iran. Chyron: **"US incites unrest inside Iran as airstrikes pound military assets."** |
-| 0:35.5 | 1.5 | 08-every-consequence | The lever board, day 12: Air campaign ON — and **Decapitation strikes on Tehran flips ON**. Oil, approval and S&P ripple; the Wire floods. |
+| 0:33 · H5 | 2.5 | 28-iran-warroom | Two documents over the real Iran map: **CLASSIFIED // CIA DIRECTORATE · OPERATION EMBER** (covert action to incite unrest) and **BRIEFING // JOINT STAFF · OPERATION IRON SKY** (the air campaign). Chyron unchanged. |
+| 0:35.5 | 1.5 | 34-war-with-iran | **WAR WITH IRAN** title over fal destruction footage (smoke columns over a struck district). Chyron: **"President orders decapitation strikes on Tehran."** No levers. |
 | 0:37 | 2.0 | 29-tehran-strike | fal clip: night skyline, AA tracers rising, two distant blooms over the city. **"Strikes reported across Tehran."** |
-| 0:39 | 2.0 | 30-iran-crackdown | fal clip, boxed as a monitored state broadcast: crowds, smoke, shield line. Chyron: **"Iranian regime crushes protests; thousands reported dead."** Lethality tier III · internet dark. |
+| 0:39 | 2.0 | 30-iran-crackdown | fal clip, boxed as a monitored state broadcast: crowds, smoke, shield line. Chyron: **"Iranian regime crushes protests; thousands reported dead."** IRGC deployed · internet dark. |
 | 0:41 | 2.0 | 31-hormuz-closed | The answer: strait map severed with a red X, 63 tankers holding, Brent candles going vertical (+41%), circuit breaker. **"Iran closes the Strait of Hormuz to all shipping."** |
 
 ### Act V — The home front (0:43–0:49.5)
 
 | TC | Len | Frame | Shot |
 |---|---|---|---|
-| 0:43 | 2.5 | 32-home-unrest | fal protest clip beside the UNREST CONSOLE (index 74, approval 41% ▼16) — and the order goes out: **FEDERAL CRACKDOWN · LETHALITY TIER II · ISSUED**. Chyron: "President orders federal crackdown on anti-war unrest." fal clip of the crackdown follows for 0.5 s. |
-| 0:45.5 | 2.5 | 33-martial-law | Headlines stack — **"President defies Supreme Court order"**, **"Martial law declared in twelve cities"** — over the injunction stamped RETURNED · UNREAD and Proclamation 12, signed. Card: **The only bounds on power are the ones you can OVERCOME.** |
+| 0:43 | 2.5 | 32-home-unrest | fal protest clip beside the UNREST CONSOLE — and the order goes out: **FEDERAL CRACKDOWN · LETHAL FORCE AUTHORIZED · ISSUED**. Chyron: "President orders federal crackdown on unrest." fal crackdown clip follows 0.5 s. |
+| 0:45.5 | 2.5 | 33-martial-law | Headlines — **"President defies Supreme Court order"**, **"Martial law declared in twelve cities"**, **"The President has suspended the Constitution to enforce order"** — over the injunction stamped RETURNED · UNREAD. Card: **The only bounds on power are the ones you can OVERCOME.** |
 | 0:48 | 1.5 | 15-the-hand | Pre-title sting: the hand hovers over the last lever — STRATEGIC RELEASE · TIER ONE — and stops. Music cuts off. |
-| 0:49.5 | 1.0 | 16-caesura | Dead silence. One line: **History is in session.** |
+| 0:49.5 | 1.0 | 16-caesura | Dead silence. One line: **Define the Nation's Future.** |
 
 ### Title (0:50.5–0:59) · three cadence chords
 

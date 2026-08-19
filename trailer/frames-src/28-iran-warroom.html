@@ -1,21 +1,26 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css">
-<title>0:30 — War with Iran · the interface</title>
+<title>0:33 — War with Iran · the orders</title>
 <style>
   body{background:#070b14}
-  .hud{position:absolute; left:56px; top:50px; font-family:var(--mono); font-size:19px;
-    letter-spacing:0.3em; color:var(--muted); z-index:50}
-  .hud b{color:#d98a8a; font-weight:normal}
-  .panel{position:absolute; background:rgba(11,17,30,0.94); border:1px solid var(--line);
-    border-radius:8px; font-family:var(--mono)}
-  .p-h{font-size:15px; letter-spacing:0.26em; color:var(--gold); padding:18px 24px 12px;
-    border-bottom:1px solid var(--line-soft)}
-  .p-b{padding:14px 24px 20px}
-  .kv{display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line-soft);
-    font-size:15.5px; letter-spacing:0.1em; color:var(--muted)}
-  .kv b{color:var(--ivory); font-weight:normal} .kv .warn{color:#d98a8a} .kv .ok{color:#7fb896} .kv .g{color:var(--gold-hi)}
-  .covert{left:64px; top:150px; width:470px}
-  .air{right:64px; top:150px; width:470px}
-  .mapbox{position:absolute; left:580px; top:130px; width:760px; height:660px}
+  .iranbg{position:absolute; left:560px; top:60px; width:800px; height:700px; opacity:0.5}
+  .doc{position:absolute; top:110px; width:640px; background:#0d1322;
+    border:1px solid var(--line); padding:36px 44px; font-family:var(--mono);
+    box-shadow:0 40px 120px rgba(0,0,0,0.75)}
+  .doc.cia{left:90px; transform:rotate(-0.8deg)}
+  .doc.mil{right:90px; transform:rotate(0.7deg); border-top:3px solid #3d5a94}
+  .doc.cia{border-top:3px solid var(--crimson)}
+  .d-head{display:flex; justify-content:space-between; font-size:14px; letter-spacing:0.16em;
+    padding-bottom:16px; margin-bottom:22px}
+  .doc.cia .d-head{color:var(--crimson); border-bottom:2px solid var(--crimson)}
+  .doc.mil .d-head{color:#7f9fd8; border-bottom:2px solid #3d5a94}
+  .d-sub{font-size:15px; letter-spacing:0.1em; color:#a9b0c2; margin-bottom:20px; line-height:1.9}
+  .d-line{font-size:14.5px; line-height:2.3; color:#7a8298; letter-spacing:0.05em}
+  .d-line b{color:#c3cadb; font-weight:normal}
+  .redact{display:inline-block; background:#03050a; color:transparent; border:1px solid #1a2742;
+    padding:0 5px; vertical-align:-2px}
+  .stampline{margin-top:22px; font-size:13px; letter-spacing:0.2em}
+  .doc.cia .stampline{color:var(--gold-hi)}
+  .doc.mil .stampline{color:#7f9fd8}
   .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.95);
     border-top:3px solid var(--crimson); padding:22px 56px 26px}
   .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
@@ -23,32 +28,29 @@
   .chyron h2{font-family:var(--display); font-weight:400; font-size:38px; color:var(--ivory); margin:0; letter-spacing:0.03em}
 </style>
 <div class="stage">
-  <div class="hud">WAR WITH IRAN · DAY 12 · <b>TWO CAMPAIGNS, ONE SCREEN</b></div>
-  <div class="panel covert">
-    <div class="p-h">COVERT · OPERATION EMBER</div>
-    <div class="p-b">
-      <div class="kv"><span>OBJECTIVE</span><b>INCITE UNREST</b></div>
-      <div class="kv"><span>STATUS</span><b class="ok">ACTIVE · DENIABLE</b></div>
-      <div class="kv"><span>CELLS FUNDED</span><b>14 · SIX PROVINCES</b></div>
-      <div class="kv"><span>BROADCAST REACH</span><b>2.1M / NIGHT</b></div>
-      <div class="kv"><span>UNREST INDEX</span><b class="g">61 ▲▲</b></div>
-      <div class="kv"><span>EXPOSURE RISK</span><b class="warn">RISING</b></div>
+  <svg class="iranbg" id="iranbg" viewBox="0 0 760 660"></svg>
+  <div class="doc cia">
+    <div class="d-head"><span>CLASSIFIED // CIA DIRECTORATE</span><span>OPERATION EMBER</span></div>
+    <div class="d-sub">SUBJECT: COVERT ACTION TO INCITE UNREST IN THE ISLAMIC REPUBLIC OF IRAN</div>
+    <div class="d-line">
+      1. FUND AND DIRECT OPPOSITION CELLS IN <span class="redact">██████</span> PROVINCES.<br>
+      2. AMPLIFY OPPOSITION BROADCASTS · REACH <b>2.1M NIGHTLY</b>.<br>
+      3. COORDINATE WITH <span class="redact">████████</span> AHEAD OF THE AIR CAMPAIGN.<br>
+      4. DENIABILITY HOLDS THROUGH <span class="redact">████████████</span>.
     </div>
+    <div class="stampline">AUTHORIZED · PRINCIPAL ONLY · DESTROY AFTER READING</div>
   </div>
-  <div class="panel air">
-    <div class="p-h">AIR CAMPAIGN · MILITARY TARGETS</div>
-    <div class="p-b">
-      <div class="kv"><span>SORTIES FLOWN</span><b>412</b></div>
-      <div class="kv"><span>TARGETS STRUCK</span><b>178 / 214</b></div>
-      <div class="kv"><span>AIR DEFENSES</span><b class="g">DEGRADED 64%</b></div>
-      <div class="kv"><span>AIRCRAFT LOST</span><b>3</b></div>
-      <div class="kv"><span>CIVILIAN TOLL · EST</span><b class="warn">PRICED · LEDGERED</b></div>
-      <div class="kv"><span>NEXT PACKAGE</span><b>TEHRAN · COMMAND NODES</b></div>
+  <div class="doc mil">
+    <div class="d-head"><span>BRIEFING // JOINT STAFF</span><span>OPERATION IRON SKY</span></div>
+    <div class="d-sub">AIR CAMPAIGN AGAINST IRANIAN MILITARY ASSETS · DAY 12</div>
+    <div class="d-line">
+      SORTIES FLOWN · <b>412</b><br>
+      MILITARY TARGETS STRUCK · <b>178 OF 214</b><br>
+      AIR DEFENSES DEGRADED · <b>64%</b> &nbsp;·&nbsp; AIRCRAFT LOST · <b>3</b><br>
+      NEXT PACKAGE · <b>TEHRAN · COMMAND NODES</b>
     </div>
+    <div class="stampline">CLEARED FOR THE PRESIDENT · EYES ONLY</div>
   </div>
-  <svg class="mapbox" id="iranmap" viewBox="0 0 760 660">
-    <text x="380" y="640" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="13" fill="#5b647c" letter-spacing="2">● UNREST FLARE · ○ STRIKE · REAL BORDERS (NATURAL EARTH 50M)</text>
-  </svg>
   <div class="chyron">
     <span class="plate">● THE WIRE</span>
     <h2>US incites unrest inside Iran as airstrikes pound military assets</h2>
@@ -60,28 +62,15 @@
 <script>
 (function(){
   var NS='http://www.w3.org/2000/svg';
-  var svg=document.getElementById('iranmap');
-  function el(n,a,txt){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);
-    if(txt)e.textContent=txt; svg.appendChild(e); return e}
-  el('path',{d:IRAN_D, fill:'#101a2f', stroke:'#243352','stroke-width':2});
-  el('text',{x:430,y:250,'font-family':'DejaVu Sans Mono','font-size':26,'letter-spacing':8,fill:'#3d4a6b'},'IRAN');
-  // strikes at real city coordinates
+  var svg=document.getElementById('iranbg');
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e}
+  el('path',{d:IRAN_D, fill:'#0f1830', stroke:'#243352','stroke-width':2});
   var struck=['TABRIZ','NATANZ','ISFAHAN','BUSHEHR','BANDAR ABBAS'];
-  struck.forEach(function(n){
-    var c=IRAN_CITIES[n];
-    el('circle',{cx:c[0],cy:c[1],r:9,fill:'none',stroke:'#b04a4a','stroke-width':2.5});
-    el('circle',{cx:c[0],cy:c[1],r:3.5,fill:'#b04a4a'});
-    var tx=c[0]+16, anchor='start';
-    if(n==='BUSHEHR'){tx=c[0]-16;anchor='end'}
-    el('text',{x:tx,y:c[1]+5,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#8f97ab','text-anchor':anchor},n+' \u2713');
-  });
+  struck.forEach(function(n){var c=IRAN_CITIES[n];
+    el('circle',{cx:c[0],cy:c[1],r:8,fill:'none',stroke:'#b04a4a','stroke-width':2});
+    el('circle',{cx:c[0],cy:c[1],r:3,fill:'#b04a4a'});});
   var t=IRAN_CITIES['TEHRAN'];
-  el('circle',{cx:t[0],cy:t[1],r:12,fill:'none',stroke:'#e3c06a','stroke-width':2.5});
+  el('circle',{cx:t[0],cy:t[1],r:11,fill:'none',stroke:'#e3c06a','stroke-width':2.5});
   el('circle',{cx:t[0],cy:t[1],r:4,fill:'#e3c06a'});
-  el('text',{x:t[0]+18,y:t[1]-8,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#e3c06a'},'TEHRAN \u00b7 PENDING');
-  // unrest flares near real population centers (Qom, Mashhad-side, Ahvaz, Shiraz, Kermanshah, Karaj)
-  [[285,235],[520,180],[205,345],[355,430],[165,230],[280,195]].forEach(function(c){
-    el('circle',{cx:c[0],cy:c[1],r:5,fill:'#c9a54a',opacity:0.9});
-  });
 })();
 </script>

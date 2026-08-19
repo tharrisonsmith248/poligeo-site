@@ -21,16 +21,14 @@
 </style>
 <div class="stage">
   <div class="tag">UNITED STATES · PRESIDENTIAL ELECTION · NOVEMBER 5, 2024 · 538 ELECTORAL VOTES</div>
-  <div class="ev-l"><div class="n">312</div><div class="ev-lab">ELECTORAL VOTES</div>
-    <div class="pv">POPULAR VOTE<br><b>77.3M · 49.8%</b></div></div>
-  <div class="ev-r"><div class="n">226</div><div class="ev-lab">ELECTORAL VOTES</div>
-    <div class="pv">POPULAR VOTE<br><b>75.0M · 48.3%</b></div></div>
-  <div class="win">✓ 270 REACHED · 01:47 EST</div>
-  <div class="splitnote">SPLIT DISTRICTS<br>ME-02 → R · NE-02 → D</div>
+  <div class="ev-l"><div class="n">248</div><div class="ev-lab">ELECTORAL VOTES</div>
+    <div class="pv">CALLED SO FAR<br><b>COUNT LIVE</b></div></div>
+  <div class="ev-r"><div class="n">222</div><div class="ev-lab">ELECTORAL VOTES</div>
+    <div class="pv">CALLED SO FAR<br><b>COUNT LIVE</b></div></div>
+  <div class="win">COUNTING · 270 TO WIN</div>
+  <div class="splitnote">7 STATES OUTSTANDING<br>FINAL: 312 – 226</div>
   <svg class="cart" id="cart" width="1150" height="810" viewBox="0 0 1150 810"></svg>
-  <p class="card">A <span class="g">LANDSLIDE</span>.</p>
-  <div class="card-rule"></div>
-  <div class="disclaimer">REAL 2024 RESULTS · STATES SNAP IN AS THE GAME CALLS THEM · SWING STATES LAND LAST</div>
+    <div class="disclaimer">STATES START GREY, POPULATE ON THE REAL CALL TIMELINE · TALLY RISES WITH EACH CALL · ENDS 312–226 (ME-02 R · NE-02 D)</div>
   <div class="timecode">TEASER 02 · 0:06.5</div>
   <div class="grade"></div>
 </div>
@@ -48,6 +46,8 @@
     ['HI',0,7,4,'D'],['TX',3,7,40,'R'],['FL',8,7,30,'R']
   ];
   var SWING={'AZ':1,'GA':1,'NC':1,'NV':1,'PA':1,'MI':1,'WI':1};
+  // frame shows the mid-count state: these are still uncalled (grey) at this moment
+  var UNCALLED={'PA':1,'MI':1,'WI':1,'AZ':1,'NV':1,'AK':1,'ME':1};
   var NS='http://www.w3.org/2000/svg';
   var svg=document.getElementById('cart');
   var SZ=90, GAP=9;
@@ -57,23 +57,22 @@
     var r=document.createElementNS(NS,'rect');
     r.setAttribute('x',x); r.setAttribute('y',y); r.setAttribute('width',SZ); r.setAttribute('height',SZ);
     r.setAttribute('rx',6);
-    r.setAttribute('fill', st[4]==='R' ? '#8f3a3a' : '#33518f');
-    if(SWING[st[0]]){ r.setAttribute('stroke','#e3c06a'); r.setAttribute('stroke-width','2.5'); }
+    var un=UNCALLED[st[0]];
+    r.setAttribute('fill', un ? '#2c3247' : (st[4]==='R' ? '#8f3a3a' : '#33518f'));
+    if(SWING[st[0]]){ r.setAttribute('stroke', un ? '#8a7a4a' : '#e3c06a'); r.setAttribute('stroke-width','2.5'); }
     else { r.setAttribute('stroke','#0a101f'); r.setAttribute('stroke-width','1'); }
     g.appendChild(r);
     // split-district notch
-    if(st[0]==='ME'){ var n=document.createElementNS(NS,'path');
-      n.setAttribute('d','M'+(x+SZ)+' '+y+' l-24 0 l24 24 Z'); n.setAttribute('fill','#8f3a3a'); g.appendChild(n); }
     if(st[0]==='NE'){ var n2=document.createElementNS(NS,'path');
       n2.setAttribute('d','M'+(x+SZ)+' '+y+' l-24 0 l24 24 Z'); n2.setAttribute('fill','#33518f'); g.appendChild(n2); }
     var t=document.createElementNS(NS,'text');
     t.setAttribute('x',x+SZ/2); t.setAttribute('y',y+SZ/2-3); t.setAttribute('text-anchor','middle');
     t.setAttribute('font-family','DejaVu Sans Mono'); t.setAttribute('font-size','24');
-    t.setAttribute('fill','#ece5d3'); t.textContent=st[0];
+    t.setAttribute('fill', un ? '#6d7488' : '#ece5d3'); t.textContent=st[0];
     var e=document.createElementNS(NS,'text');
     e.setAttribute('x',x+SZ/2); e.setAttribute('y',y+SZ/2+27); e.setAttribute('text-anchor','middle');
     e.setAttribute('font-family','DejaVu Sans Mono'); e.setAttribute('font-size','18');
-    e.setAttribute('fill','rgba(236,229,211,0.55)'); e.textContent=st[3];
+    e.setAttribute('fill', un ? 'rgba(236,229,211,0.25)' : 'rgba(236,229,211,0.55)'); e.textContent=st[3];
     g.appendChild(t); g.appendChild(e);
     svg.appendChild(g);
   });
