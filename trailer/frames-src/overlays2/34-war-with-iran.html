@@ -1,5 +1,5 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="../frame.css">
-<title>War or diplomacy info card</title>
+<title>War system card</title>
 <style>
   html,body{background:transparent!important}
   .stage{background:transparent}
@@ -20,17 +20,26 @@
   
 </style>
 <div class="stage">
-
-  <div class="infocard">
-    <h1><span class="w1">Wage war.</span> <span class="w2">Or conduct diplomacy.</span></h1>
-    <div class="ic-sub">EVERY CONFLICT IS PLAYABLE · EVERY OUTCOME IS YOURS</div>
+  <div class="syscard">
+    <div class="kick">The Simulation · Conflict</div>
+    <h1>Wage war. <span class="g">Or conduct diplomacy.</span></h1>
+    <div class="pills">
+      <span class="spill sel">Wage War</span><span class="spill">Conduct Diplomacy</span>
+    </div>
   </div>
 </div>
 <style>
-  .infocard{position:absolute; left:0; right:0; top:42%; transform:translateY(-50%); text-align:center; z-index:50}
-  .infocard h1{font-family:var(--display); font-weight:400; font-size:78px; letter-spacing:0.04em;
+  .syscard{position:absolute; left:0; right:0; top:40%; transform:translateY(-50%); text-align:center; z-index:50}
+  .kick{font-family:var(--mono); font-size:16px; letter-spacing:0.5em; color:var(--gold);
+    text-transform:uppercase; text-shadow:0 2px 14px rgba(0,0,0,0.95); margin-bottom:26px; opacity:0.9}
+  .syscard h1{font-family:var(--display); font-weight:400; font-size:72px; letter-spacing:0.04em;
     color:var(--ivory); margin:0; text-shadow:0 4px 40px rgba(0,0,0,0.95)}
-  .infocard .w2{color:var(--gold-hi); text-shadow:0 4px 40px rgba(0,0,0,0.95), 0 0 60px rgba(201,165,74,0.35)}
-  .ic-sub{font-family:var(--mono); font-size:17px; letter-spacing:0.38em; color:#c8cfdf;
-    text-shadow:0 2px 14px rgba(0,0,0,0.9); margin-top:26px}
-  .chyron{display:none}</style>
+  .syscard .g{color:var(--gold-hi); text-shadow:0 4px 40px rgba(0,0,0,0.95), 0 0 60px rgba(201,165,74,0.35)}
+  .pills{display:flex; gap:18px; justify-content:center; margin-top:38px}
+  .spill{font-family:var(--mono); font-size:17px; letter-spacing:0.2em; color:#cfd4de;
+    border:1.5px solid rgba(207,212,222,0.4); border-radius:22px; padding:12px 28px;
+    background:rgba(10,14,24,0.65); text-transform:uppercase; text-shadow:0 2px 10px rgba(0,0,0,0.9)}
+  .spill.sel{color:var(--gold-hi); border-color:var(--gold); box-shadow:0 0 26px rgba(201,165,74,0.35);
+    background:rgba(201,165,74,0.14)}
+  .chyron{display:none}
+</style>

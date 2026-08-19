@@ -20,6 +20,7 @@
     box-shadow:0 0 12px rgba(227,192,106,0.7)}
   .city .nm{font-family:var(--serif); font-size:19px; color:#f2e7c8;
     text-shadow:0 1px 3px rgba(7,12,22,0.95), 0 0 14px rgba(7,12,22,0.9)}
+  .sysk{font-family:var(--mono); font-size:14px; letter-spacing:0.44em; color:var(--gold); opacity:0; text-transform:uppercase; text-shadow:0 2px 12px rgba(0,0,0,0.8)}
 </style>
 <div class="stage">
   <div class="map"><svg id="world" width="1920" height="1051" viewBox="0 0 1920 1051"></svg></div>
@@ -30,6 +31,7 @@
     <div class="counter"><div class="n" id="c2">4,454</div><div class="l">PROVINCES</div></div>
     <div class="counter"><div class="n" id="c3">14,262</div><div class="l">TILES</div></div>
   </div>
+  <div class="sysk" id="kk04" style="position:absolute;left:0;right:0;bottom:188px;text-align:center;z-index:50">The Simulation · One World</div>
   <p class="card" id="onesim">ONE <span class="g">SIMULATION</span>.</p>
   <div class="card-rule" id="onerule"></div>
   <div class="disclaimer">REAL GEOGRAPHY (NATURAL EARTH) IN THE GAME'S RELATIONS THEME · STARTS FULL GLOBE · ZOOMS TO THE US</div>
@@ -77,11 +79,15 @@
   });
   // US state boundaries (stroke-only), hidden until the push-in
   var NS2='http://www.w3.org/2000/svg';
+  // 50m filled states: at zoom they REPLACE the coarse 110m US shape entirely,
+  // giving a clean detailed coastline and crisp interior boundaries.
   var stateG=document.createElementNS(NS2,'g');
-  US_STATES.forEach(function(d){
+  var SFILL=['#3f6cc2','#3a64b6','#4472ca','#3d68bc'];
+  US_STATES.forEach(function(d,i){
     var p=document.createElementNS(NS2,'path');
-    p.setAttribute('d',d); p.setAttribute('fill','none');
-    p.setAttribute('stroke','#0d1526'); p.setAttribute('stroke-width','0.9');
+    p.setAttribute('d',d); p.setAttribute('fill',SFILL[i%4]);
+    p.setAttribute('stroke','#0b1424'); p.setAttribute('stroke-width','0.7');
+    p.setAttribute('stroke-linejoin','round');
     stateG.appendChild(p);
   });
   stateG.setAttribute('opacity','0'); svg.appendChild(stateG);
@@ -107,7 +113,7 @@
       else { c.p.setAttribute('fill', mix(c.rgb,GRAY,zp*0.85)); }
     });
     // state boundaries resolve mid-push
-    stateG.setAttribute('opacity', Math.max(0,Math.min(1,(zp-0.35)/0.4))*0.9);
+    stateG.setAttribute('opacity', Math.max(0,Math.min(1,(zp-0.3)/0.35)));
     // metros land near the end, staggered
     metros.forEach(function(m,i){
       var sx=(m.x-OX)*sc+OX+tx, sy=(m.y-OY)*sc+OY+MAPTOP+ty;
@@ -120,6 +126,7 @@
     c2.textContent=fmt(Math.round(4454*cp));
     c3.textContent=fmt(Math.round(14262*cp));
     var on=E((t-2.25)/0.35);
+    var kk=document.getElementById('kk04'); if(kk) kk.style.opacity=on*0.85;
     card.style.opacity=on; rule.style.opacity=on;
     card.style.transform='translateY('+(24*(1-on))+'px)';
   };

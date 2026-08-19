@@ -40,13 +40,13 @@
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
     stack.style.transform='translateY(-50%)';
-    var c=E((t-0.12)/0.75);
+    var c=E((t-0.08)/0.55);
     cube.style.opacity=c;
     cube.style.transform='scale('+(0.92+0.08*c)+')';
     cube.style.filter='drop-shadow(0 0 '+(60*c)+'px rgba(201,165,74,'+(0.35*c)+'))';
-    var w=E((t-0.7)/0.6);
+    var w=E((t-0.5)/0.5);
     wm.style.opacity=w; wm.style.transform='translateY('+(14*(1-w))+'px)';
-    halo.style.opacity=0.4+0.6*Math.min(1,t/2.2);
+    halo.style.opacity=0.4+0.6*Math.min(1,t/1.6);
   };
   window.__render(0);
 })();

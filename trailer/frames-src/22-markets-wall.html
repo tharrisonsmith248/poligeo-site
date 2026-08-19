@@ -14,6 +14,7 @@
   .rows{padding:4px 18px; font-family:var(--mono); font-size:15.5px}
   .rows .rw{display:flex; justify-content:space-between; padding:9px 2px; border-bottom:1px solid var(--line-soft); color:var(--muted)}
   .rows .rw b{color:var(--ivory); font-weight:normal} .rows .up{color:#7fb896} .rows .dn{color:#d98a8a}
+  .sysk{font-family:var(--mono); font-size:14px; letter-spacing:0.44em; color:var(--gold); opacity:0; text-transform:uppercase; text-shadow:0 2px 12px rgba(0,0,0,0.8)}
 </style>
 <div class="stage">
   <div style="position:absolute;left:0;right:0;top:52px;text-align:center;font-family:var(--mono);font-size:18px;letter-spacing:0.4em;color:var(--dim)">A STRONG ECONOMY · STABLE POLITICS · DAY 9</div>
@@ -48,6 +49,7 @@
         <div class="rw"><span>CABINET UNITY</span><b class="up">HIGH</b></div>
       </div></div>
   </div>
+  <div class="sysk" id="kk22" style="position:absolute;left:0;right:0;bottom:132px;text-align:center">The Simulation · Markets</div>
   <p class="card" style="bottom:64px">COMPUTED IN <span class="g">REAL TIME</span>.</p>
   <div class="card-rule" style="bottom:38px"></div>
   <div class="disclaimer" style="bottom:20px">EVERY PANEL TICKS LIVE · CANDLES PRINT ONE PER FRAME</div>
@@ -128,6 +130,7 @@ candles('c3', 55, 46, true,  false);   // DXY up
       r.style.opacity=p;
     });
     var cp=E((t-2.15)/0.35);
+    var kk=document.getElementById('kk22'); if(kk) kk.style.opacity=cp*0.85;
     card.style.opacity=cp; rule.style.opacity=cp;
     card.style.transform='translateY('+(18*(1-cp))+'px)';
   };

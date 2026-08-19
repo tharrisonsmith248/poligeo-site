@@ -46,7 +46,9 @@
   // pre-2022: Crimea (south) + the LNR/DNR core east of the 2015 contact line
   function isPre22(t,x,y){ return t.o && (y>245 || (x>365 && y>118 && y<190)) }
   // Feb-Mar 2022 axes beyond today's line:
-  function isNorth(x,y){ return y<105 && x>140 && x<390 }                 // Kyiv-Chernihiv-Sumy
+  function isNorth(x,y){
+    if(dist(x,y,199.3,70.9)<15) return false;   // Kyiv city and its inner ring never fall
+    return y<105 && x>140 && x<390 }             // Kyiv-Chernihiv-Sumy axes around it
   function isKharkEnv(x,y){ return x>380 && y<150 }                       // around Kharkiv
   function isKherson(x,y){ return x>235 && x<300 && y>195 && y<235 }      // west-bank pocket
   // Donbas fringe taken slowly in 2023-24 (Bakhmut/Avdiivka belt)

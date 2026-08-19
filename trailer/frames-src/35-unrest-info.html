@@ -1,31 +1,69 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
-<title>Info card — the home front</title>
+<title>System card — the home front</title>
 <style>
   body{background:#06080f}
-  h1{position:absolute; left:0; right:0; top:44%; transform:translateY(-50%); margin:0;
-    text-align:center; font-family:var(--display); font-weight:400; font-size:74px;
-    letter-spacing:0.04em; color:var(--ivory); line-height:1.5;
-    text-shadow:0 2px 30px rgba(4,7,14,0.9)}
+  .field{position:absolute; inset:0; opacity:0.4}
+
+  .sysk{font-family:var(--mono); font-size:16px; letter-spacing:0.5em; color:var(--gold);
+    opacity:0.85; text-transform:uppercase; text-shadow:0 2px 12px rgba(0,0,0,0.8)}
+  .sysrule{width:200px; height:2px; background:var(--gold); margin:26px auto;
+    box-shadow:0 0 18px rgba(201,165,74,0.4); transform:scaleX(0)}
+  .syssub{font-family:var(--mono); font-size:16px; letter-spacing:0.34em; color:var(--muted);
+    text-transform:uppercase; text-shadow:0 2px 12px rgba(0,0,0,0.8)}
+  .pills{display:flex; gap:18px; justify-content:center; margin-top:34px}
+  .spill{font-family:var(--mono); font-size:17px; letter-spacing:0.2em; color:var(--muted);
+    border:1.5px solid var(--line); border-radius:22px; padding:12px 26px; background:rgba(17,26,46,0.75);
+    text-transform:uppercase}
+  .spill.sel{color:var(--gold-hi); border-color:var(--gold); box-shadow:0 0 22px rgba(201,165,74,0.3);
+    background:rgba(201,165,74,0.12)}
+
+  .kick{position:absolute; left:0; right:0; top:29%; text-align:center; opacity:0}
+  h1{position:absolute; left:0; right:0; top:42%; transform:translateY(-50%); margin:0;
+    text-align:center; font-family:var(--display); font-weight:400; font-size:70px;
+    letter-spacing:0.04em; color:var(--ivory); line-height:1.5; text-shadow:0 2px 30px rgba(4,7,14,0.9)}
   h1 .g{color:var(--gold-hi); text-shadow:0 0 40px rgba(201,165,74,0.3)}
-  .sub{position:absolute; left:0; right:0; top:64%; text-align:center; opacity:0;
-    font-family:var(--mono); font-size:17px; letter-spacing:0.4em; color:var(--muted)}
+  .pillrow{position:absolute; left:0; right:0; top:60%}
 </style>
 <div class="stage">
+  <div class="field" id="field"></div>
+  <div class="kick sysk" id="kk">The Simulation · Domestic</div>
   <h1><span id="l1" style="opacity:0">Face unrest at home.</span><br><span class="g" id="l2" style="opacity:0">Master domestic politics.</span></h1>
-  <div class="sub" id="sub">PROTESTS · COURTS · CONGRESS · THE STREETS</div>
-  <div class="disclaimer">INFO CARD · LINE ONE, THEN THE GOLD LINE, THEN THE SUBLINE</div>
+  <div class="pillrow"><div class="pills" id="pills">
+    <span class="spill">Crack Down</span><span class="spill">Hear Them Out</span><span class="spill">Wait It Out</span>
+  </div></div>
+  <div class="disclaimer">SYSTEM CARD · KICKER · HEADLINE · THE GAME'S CHOICE PILLS, HIGHLIGHT LANDS ON CRACK DOWN</div>
   <div class="timecode">TEASER 02 · HOME FRONT CARD</div>
   <div class="grade"></div>
 </div>
 <script>
 (function(){
-  var l1=document.getElementById('l1'), l2=document.getElementById('l2'), sub=document.getElementById('sub');
+  var host=document.getElementById('field');
+  function rnd(s){return function(){s=(s*1103515245+12345)%2147483648;return s/2147483648}}
+  var r=rnd(11);
+  for(var i=0;i<140;i++){
+    var x=r()*1920,y=r()*1080,dx=(x-960)/960,dy=(y-540)/540;
+    if(dx*dx+dy*dy<0.14) continue;
+    var sz=1.5+r()*2.5,e=document.createElement('div');
+    e.style.cssText='position:absolute;border-radius:50%;width:'+sz+'px;height:'+sz+'px;left:'+x+
+      'px;top:'+y+'px;background:rgba(143,151,171,'+(0.1+0.28*r()).toFixed(2)+')';
+    host.appendChild(e);
+  }
+  var kk=document.getElementById('kk'), l1=document.getElementById('l1'), l2=document.getElementById('l2');
+  var pills=[].slice.call(document.querySelectorAll('.spill'));
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
-    var p1=E((t-0.15)/0.5); l1.style.opacity=p1;
-    var p2=E((t-0.85)/0.5); l2.style.opacity=p2;
-    var p3=E((t-1.5)/0.45); sub.style.opacity=p3;
-    sub.style.letterSpacing=(0.55-0.15*p3)+'em';
+    kk.style.opacity=E((t-0.1)/0.4)*0.85;
+    var p1=E((t-0.3)/0.5); l1.style.opacity=p1;
+    var p2=E((t-0.8)/0.5); l2.style.opacity=p2;
+    // the game's decision pills: appear, highlight walks, lands on CRACK DOWN
+    var pr=E((t-1.25)/0.35);
+    pills.forEach(function(p,i){
+      p.style.opacity=pr; p.style.transform='translateY('+(16*(1-pr))+'px)';
+    });
+    var idx=-1;
+    if(t>=1.6){ idx=Math.min(2, Math.floor((t-1.6)/0.22)); }
+    if(t>=2.15) idx=0;    // walks 0,1,2 then snaps back to CRACK DOWN
+    pills.forEach(function(p,i){ p.classList.toggle('sel', i===idx); });
   };
   window.__render(0);
 })();

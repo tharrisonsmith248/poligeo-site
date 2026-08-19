@@ -1,5 +1,5 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="../frame.css">
-<title>Parade chrome</title>
+<title>Parade system card</title>
 <style>
   html,body{background:transparent!important}
   .stage{background:transparent}
@@ -20,14 +20,20 @@
   
 </style>
 <div class="stage">
-
+  <div class="pband"></div>
   <div class="paradeline">
+    <div class="kick">One Term · The Turn</div>
     <h1>The only bounds on power are the ones you can <span class="g">overcome</span>.</h1>
   </div>
 </div>
 <style>
-  .paradeline{position:absolute; left:0; right:0; bottom:130px; text-align:center; z-index:50}
-  .paradeline h1{font-family:var(--display); font-weight:400; font-size:56px; letter-spacing:0.06em;
-    color:var(--ivory); margin:0; text-shadow:0 3px 34px rgba(0,0,0,0.95); padding:0 180px; line-height:1.35}
+  .pband{position:absolute; left:0; right:0; bottom:0; height:340px; z-index:45;
+    background:linear-gradient(to top, rgba(4,7,14,0.88) 0%, rgba(4,7,14,0.55) 55%, transparent 100%)}
+  .paradeline{position:absolute; left:0; right:0; bottom:96px; text-align:center; z-index:50}
+  .kick{font-family:var(--mono); font-size:15px; letter-spacing:0.5em; color:var(--gold);
+    text-transform:uppercase; text-shadow:0 2px 14px rgba(0,0,0,0.95); margin-bottom:20px; opacity:0.9}
+  .paradeline h1{font-family:var(--display); font-weight:400; font-size:54px; letter-spacing:0.05em;
+    color:var(--ivory); margin:0; text-shadow:0 3px 34px rgba(0,0,0,0.95); padding:0 200px; line-height:1.4}
   .paradeline .g{color:var(--gold-hi); text-shadow:0 3px 34px rgba(0,0,0,0.95), 0 0 60px rgba(201,165,74,0.4)}
-  .chyron{display:none}</style>
+  .chyron{display:none}
+</style>
