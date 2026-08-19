@@ -19,13 +19,13 @@
   <div class="map"><svg id="world" width="1920" height="1051" viewBox="0 0 1920 1051"></svg></div>
   <div class="shade"></div>
   <div class="counters">
-    <div class="counter"><div class="n">200+</div><div class="l">NATIONS</div></div>
-    <div class="counter"><div class="n">4,454</div><div class="l">PROVINCES</div></div>
-    <div class="counter"><div class="n">14,262</div><div class="l">TILES</div></div>
+    <div class="counter"><div class="n" id="c1">200+</div><div class="l">NATIONS</div></div>
+    <div class="counter"><div class="n" id="c2">4,454</div><div class="l">PROVINCES</div></div>
+    <div class="counter"><div class="n" id="c3">14,262</div><div class="l">TILES</div></div>
   </div>
-  <p class="card">ONE <span class="g">SIMULATION</span>.</p>
-  <div class="card-rule"></div>
-  <div class="disclaimer">REAL GEOGRAPHY (NATURAL EARTH) IN THE GAME'S RELATIONS THEME · NOT A SCREENSHOT · PULL-BACK FROM DC TO GLOBE</div>
+  <p class="card" id="onesim">ONE <span class="g">SIMULATION</span>.</p>
+  <div class="card-rule" id="onerule"></div>
+  <div class="disclaimer">REAL GEOGRAPHY (NATURAL EARTH) IN THE GAME'S RELATIONS THEME · STARTS FULL GLOBE · ZOOMS TO THE US</div>
   <div class="timecode">TEASER 02 · 0:13 · H1</div>
   <div class="grade"></div>
 </div>
@@ -56,5 +56,29 @@
     p.setAttribute('stroke-width','1');
     svg.appendChild(p);
   });
+  // --- seek-driven: full globe -> zoom to the US; counters count up; card lands ---
+  var map=document.querySelector('.map');
+  map.style.transformOrigin='430px 368px'; // continental US in this projection
+  map.style.willChange='transform';
+  var c1=document.getElementById('c1'), c2=document.getElementById('c2'), c3=document.getElementById('c3');
+  var card=document.getElementById('onesim'), rule=document.getElementById('onerule');
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  function fmt(n){return n.toLocaleString('en-US')}
+  window.__render=function(t){
+    // hold the full globe 0-0.5, then push in to the US through 2.6
+    var zp=E((t-0.5)/2.1);
+    var s=1+1.9*zp;
+    map.style.transform='translate('+(530*zp).toFixed(1)+'px,'+(272*zp).toFixed(1)+'px) scale('+s.toFixed(4)+')';
+    // counters
+    var cp=E((t-0.25)/1.4);
+    c1.textContent=Math.round(200*cp)+'+';
+    c2.textContent=fmt(Math.round(4454*cp));
+    c3.textContent=fmt(Math.round(14262*cp));
+    // ONE SIMULATION lands late
+    var on=t>=2.15;
+    card.style.opacity=on?1:0; rule.style.opacity=on?1:0;
+    card.style.transform=on?'translateY(0)':'translateY(24px)';
+  };
+  window.__render(0);
 })();
 </script>

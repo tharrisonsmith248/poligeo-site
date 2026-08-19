@@ -50,7 +50,42 @@
   </div>
   <p class="card2">The only bounds on power are the ones you can <span class="g">overcome</span>.</p>
   <div class="card-rule" style="bottom:92px"></div>
-  <div class="disclaimer">THE GAME PRICES THIS TOO · COURTS, GOVERNORS AND VOTERS ALL ANSWER · NOTHING IS FREE</div>
-  <div class="timecode">TEASER 02 · 0:45.5 · THE CLIMAX CARD</div>
+  <div class="disclaimer">HEADLINES LAND ONE BY ONE · THE INJUNCTION RETURNS UNREAD · THEN THE LINE</div>
+  <div class="timecode">TEASER 02 · MARTIAL LAW</div>
   <div class="grade"></div>
 </div>
+<script>
+(function(){
+  var hls=[].slice.call(document.querySelectorAll('.hl'));
+  var doc=document.querySelector('.doc');
+  var stamp=document.querySelector('.stamp');
+  var sig=document.querySelector('.sig');
+  var card=document.querySelector('.card2');
+  var rule=document.querySelector('.card-rule');
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  window.__render=function(t){
+    // headline boxes land one after another
+    var HT=[0.20,0.68,1.16];
+    hls.forEach(function(h,i){
+      var p=E((t-HT[i])/0.30);
+      h.style.opacity=p;
+      var rot=['-0.4deg','0.5deg','-0.2deg'][i];
+      h.style.transform='rotate('+rot+') translateY('+(26*(1-p))+'px)';
+    });
+    // the injunction slides in from the right
+    var dp=E((t-1.5)/0.32);
+    doc.style.opacity=dp;
+    doc.style.transform='rotate(1deg) translateX('+(70*(1-dp))+'px)';
+    // stamp slams
+    var on=t>=1.95, sp=E((t-1.95)/0.14);
+    stamp.style.opacity=on?1:0;
+    stamp.style.transform='rotate(-11deg) scale('+(on?(1.5-0.5*sp):1.5)+')';
+    sig.style.opacity=t>=2.18?1:0;
+    // the closing line appears last
+    var cp=E((t-2.42)/0.3);
+    card.style.opacity=cp; rule.style.opacity=cp;
+    card.style.transform='translateY('+(22*(1-cp))+'px)';
+  };
+  window.__render(0);
+})();
+</script>

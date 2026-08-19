@@ -1,5 +1,5 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
-<title>0:00 — Wire headline</title>
+<title>A Landslide Victory — types blue, lands red</title>
 <style>
   .wire-tag{
     position:absolute; left:56px; top:52px; display:flex; align-items:center; gap:18px;
@@ -12,32 +12,48 @@
     text-align:center; font-family:var(--display); font-size:84px; letter-spacing:0.05em;
     color:var(--ivory); text-shadow:0 2px 30px rgba(4,7,14,0.9);
   }
-  .headline .red{font-weight:bold}
-  .headline .r{color:#a52a2a; text-shadow:0 0 30px rgba(165,42,42,0.4)}
-  .headline .bl{color:#3f63c8; text-shadow:0 0 30px rgba(63,99,200,0.4)}
-  .headline .typed{color:var(--gold)}
+  .headline .typed span{transition:none}
   .sub{
     position:absolute; left:0; right:0; top:calc(44% + 128px); text-align:center;
     font-family:var(--mono); font-size:19px; letter-spacing:0.28em; color:#4a5878;
   }
+  .cursor{display:inline-block; width:6px; height:64px; background:var(--gold);
+    vertical-align:-6px; margin-left:6px}
 </style>
 <div class="stage">
-  
-  <div class="headline">Election 2024&hellip; <span class="typed"><span class="red"><span class="r">A</span> <span class="bl">L</span><span class="r">a</span><span class="bl">n</span><span class="r">d</span><span class="bl">s</span><span class="r">l</span><span class="bl">i</span><span class="r">d</span><span class="bl">e</span> <span class="r">V</span><span class="bl">i</span><span class="r">c</span><span class="bl">t</span><span class="r">o</span><span class="bl">r</span><span class="r">y</span></span></span>&nbsp;<span class="cursor"></span></div>
+  <div class="headline">Election 2024&hellip; <span class="typed" id="typed"></span><span class="cursor" id="cur"></span></div>
   <div class="sub">NOVEMBER 5, 2024</div>
-  <div class="disclaimer">PART AFTER THE ELLIPSIS TYPES IN · LANDSLIDE VICTORY ALTERNATES RED / BLUE PER LETTER</div>
-  <div class="timecode">TEASER 02 · 0:08</div>
+  <div class="disclaimer">TYPES IN BLUE · FLIPS RED ONCE COMPLETE</div>
+  <div class="timecode">TEASER 02 · A LANDSLIDE VICTORY</div>
   <div class="grade"></div>
 </div>
 <script>
 (function(){
-  var letters=[].slice.call(document.querySelectorAll('.headline .red span'));
-  var cur=document.querySelector('.headline .cursor');
-  letters.forEach(function(l){ l.style.opacity=0; });
+  var FULL='A Landslide Victory';
+  var BLUE='#4a6fd0', RED='#a52a2a';
+  var typed=document.getElementById('typed'), cur=document.getElementById('cur');
+  // one span per character so we can color them as a block
+  var spans=FULL.split('').map(function(ch){
+    var s=document.createElement('span');
+    s.textContent=ch; s.style.opacity=0; typed.appendChild(s); return s;
+  });
+  var T0=0.15, TDUR=1.20, FLIP=1.60; // type 0.12-1.07, flip red at 1.35
   window.__render=function(t){
-    var p=Math.max(0,Math.min(1,(t-0.1)/0.85)); var k=Math.round(p*letters.length);
-    letters.forEach(function(l,i){ l.style.opacity=(i<k)?1:0; });
-    if(cur) cur.style.opacity=(t*2%1<0.55)?1:0.1;
+    var p=Math.max(0,Math.min(1,(t-T0)/TDUR));
+    var n=Math.round(p*spans.length);
+    var done=(t>=FLIP);
+    var col=done?RED:BLUE;
+    var glow=done?'0 0 34px rgba(165,42,42,0.55)':'0 0 26px rgba(74,111,208,0.35)';
+    spans.forEach(function(s,i){
+      s.style.opacity=(i<n)?1:0;
+      s.style.color=col; s.style.textShadow=glow;
+      s.style.fontWeight='bold';
+    });
+    // flip flash: brief brighter red right on the flip frame
+    if(done && t<FLIP+0.22){
+      spans.forEach(function(s){ s.style.color='#c43a3a'; s.style.textShadow='0 0 48px rgba(196,58,58,0.8)'; });
+    }
+    if(cur) cur.style.opacity=(t>=FLIP)?0:((t*2%1<0.55)?1:0.1);
   };
   window.__render(0);
 })();

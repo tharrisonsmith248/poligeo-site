@@ -1,35 +1,41 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
-<title>0:26 — Week 4 · a government installed</title>
+<title>Venezuela · day by day to Week 10</title>
 <style>
-  .map{position:absolute; left:330px; top:20px}
-  .ve-tag{position:absolute; left:360px; top:70px; font-family:var(--mono); font-size:22px;
+  .map{position:absolute; left:330px; top:0}
+  .ve-tag{position:absolute; left:360px; top:64px; font-family:var(--mono); font-size:22px;
     letter-spacing:0.42em; color:var(--muted)}
-  .wk{position:absolute; left:360px; top:112px; font-family:var(--mono); font-size:64px;
-    color:var(--gold-hi); letter-spacing:0.06em}
-  .stats{position:absolute; right:130px; top:170px; width:430px; font-family:var(--mono)}
+  .wk{position:absolute; left:360px; top:106px; font-family:var(--mono); font-size:58px;
+    color:var(--gold-hi); letter-spacing:0.06em; font-variant-numeric:tabular-nums}
+  .wk small{font-size:26px; color:var(--muted); letter-spacing:0.2em; margin-left:16px}
+  .stats{position:absolute; right:130px; top:150px; width:430px; font-family:var(--mono)}
   .stat{display:flex; justify-content:space-between; align-items:baseline;
-    border-bottom:1px solid var(--line-soft); padding:18px 4px}
+    border-bottom:1px solid var(--line-soft); padding:16px 4px}
   .stat .l{font-size:16px; letter-spacing:0.22em; color:var(--muted)}
-  .stat .v{font-size:30px; color:var(--ivory)}
+  .stat .v{font-size:29px; color:var(--ivory); font-variant-numeric:tabular-nums}
   .stat .v.gold{color:var(--gold-hi)}
+  .stat .v.warn{color:#d98a8a}
   .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.95);
-    border-top:3px solid var(--crimson); padding:26px 56px 30px}
+    border-top:3px solid var(--crimson); padding:20px 56px 0}
   .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
-    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:14px}
-  .chyron h2{font-family:var(--display); font-weight:400; font-size:42px; color:var(--ivory); margin:0; letter-spacing:0.03em}
-  .chyron .sub{font-family:var(--mono); font-size:15px; letter-spacing:0.16em; color:var(--muted); margin-top:10px}
+    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:12px}
+  .chyron h2{font-family:var(--display); font-weight:400; font-size:40px; color:var(--ivory); margin:0 0 14px; letter-spacing:0.03em}
+  .tickerbar{margin:0 -56px; border-top:1px solid var(--line-soft); background:#060a13;
+    overflow:hidden; white-space:nowrap; padding:12px 0 14px}
+  .tk{display:inline-block; font-family:var(--mono); font-size:17px; letter-spacing:0.14em;
+    color:#c8933f; white-space:nowrap; will-change:transform}
+  .tk b{color:var(--ivory); font-weight:normal}
 </style>
 <div class="stage">
-  <div class="map"><svg id="ve" width="940" height="850" viewBox="0 0 640 579"></svg></div>
+  <div class="map"><svg id="ve" width="900" height="815" viewBox="0 0 640 579"></svg></div>
   <div class="ve-tag">OPERATION SOUTHERN SHIELD · TIMELAPSE</div>
-  <div class="wk">WEEK 4</div>
+  <div class="wk"><span id="wkn">WEEK 1</span><small id="dayn">DAY 1</small></div>
   <div class="stats" id="stats"></div>
   <div class="chyron">
-    <span class="plate">● THE WIRE · CARACAS</span>
-    <h2>US-backed government installed in Caracas; opposition calls it a puppet regime</h2>
-    <div class="sub">REGIME ELEMENTS IN DISARRAY • ARMED GROUPS CHALLENGE DEMOCRATIC ADMINISTRATION</div>
+    <span class="plate" id="plate">● THE WIRE · CARACAS</span>
+    <h2 id="headline">US forces advance across Venezuela</h2>
+    <div class="tickerbar"><div class="tk" id="tk"></div></div>
   </div>
-  <div class="timecode" style="bottom:160px">TEASER 02 · 0:29 · WEEK 4</div>
+  <div class="timecode" style="bottom:170px">TEASER 02 · WEEK 1 → WEEK 10</div>
   <div class="grade"></div>
 </div>
 <script src="data.js"></script>
@@ -37,40 +43,73 @@
 (function(){
   var NS='http://www.w3.org/2000/svg';
   var svg=document.getElementById('ve');
-  var GOV="#28406e", OCC="#8f3040", FRESH="#c9a961", BGLN="#0a101f";
-  var CUMS=[]; var cur=new Set();
-  VE.weeks.forEach(function(w){ w.add.forEach(function(i){cur.add(i)}); w.rm.forEach(function(i){cur.delete(i)}); CUMS.push(new Set(cur)); });
-  var MAP=[2,5,7,10,13,16,18,21,23,26];
+  var GOV="#28406e", OCC="#8f3040", FRESH="#c9a961", LOST="#d98a8a", BGLN="#0a101f";
   var paths=VE_PATHS.map(function(d){
     var p=document.createElementNS(NS,'path');
     p.setAttribute('d',d); p.setAttribute('fill',GOV); p.setAttribute('stroke',BGLN); p.setAttribute('stroke-width',0.5);
     svg.appendChild(p); return p;
   });
-  var wk=document.querySelector('.wk'), stats=document.getElementById('stats');
-  // animate weeks 1->4 across the shot; territory fills, stats climb, week ticks up
+  // Per-tile activation/deactivation DAY from the weekly ledger (weeks 1..10)
+  var actDay={}, rmDay={};
+  for(var w=1; w<=10; w++){
+    var wk=VE.weeks[w-1], start=(w-1)*7+1;
+    wk.add.forEach(function(idx,i){ if(!(idx in actDay)) actDay[idx]=start+(i/Math.max(1,wk.add.length))*6.5; });
+    wk.rm.forEach(function(idx,i){ rmDay[idx]=start+(i/Math.max(1,wk.rm.length))*6.0; });
+  }
+  // cumulative weekly stats for interpolation (week 0 = zeros)
+  var W=[{cas:0,kia:0,ref:3800,cost:0}].concat(VE.weeks.slice(0,10));
+  function lerp(a,b,f){return a+(b-a)*f}
+  var wkn=document.getElementById('wkn'), dayn=document.getElementById('dayn'),
+      stats=document.getElementById('stats'),
+      plate=document.getElementById('plate'), headline=document.getElementById('headline'),
+      tk=document.getElementById('tk');
+  var TKTEXT='ARMED GROUPS CHALLENGE DEMOCRATIC ADMINISTRATION • IED ATTACKS IN THREE PROVINCES • '+
+    'CONVOY AMBUSHED OUTSIDE MARACAY • REGIME ELEMENTS IN DISARRAY • CURFEW DECLARED IN CARACAS • '+
+    'US KIA RISES • OIL EXPORTS SUSPENDED • ';
+  tk.textContent=TKTEXT+TKTEXT+TKTEXT;
+  var TDUR=5.5, D0=0.3, D1=4.6;    // day 1 at D0, day 70 at D1, hold after
   window.__render=function(t){
-    var W=Math.max(1,Math.min(4, 1+Math.floor((t/ (window.__vedur||3.6))*4)));
-    var frac=(t/(window.__vedur||3.6));
-    var ow=MAP[W-1], prevOw=W>1?MAP[W-2]:0;
-    var occ=CUMS[ow-1], prev=prevOw?CUMS[prevOw-1]:new Set(), st=VE.weeks[ow-1];
+    var day=1+69*Math.max(0,Math.min(1,(t-D0)/(D1-D0)));
+    var w=Math.min(10,Math.floor((day-1)/7)+1), f=Math.min(1,(day-(w-1)*7-1)/7);
+    var occCount=0;
     paths.forEach(function(p,i){
-      var iso=occ.has(i), fresh=iso&&!prev.has(i);
-      p.setAttribute('fill', iso?OCC:GOV);
-      p.setAttribute('stroke', fresh?FRESH:BGLN); p.setAttribute('stroke-width', fresh?1.6:0.5);
+      var a=actDay[i], r=rmDay[i];
+      var occ=(a!==undefined && day>=a) && !(r!==undefined && day>=r);
+      var lost=(r!==undefined && day>=r);
+      if(occ) occCount++;
+      var fresh=occ && a!==undefined && (day-a)<3.2;
+      var justLost=lost && (day-r)<4.5;
+      p.setAttribute('fill', occ?OCC:(justLost?'#33456f':GOV));
+      p.setAttribute('stroke', fresh?FRESH:(justLost?LOST:BGLN));
+      p.setAttribute('stroke-width', (fresh||justLost)?1.6:0.5);
     });
-    if(wk) wk.textContent='WEEK '+W;
+    wkn.textContent='WEEK '+w; dayn.textContent='DAY '+Math.round(day);
+    var s0=W[w-1], s1=W[w];
+    var cas=Math.round(lerp(s0.cas,s1.cas,f)), kia=Math.round(lerp(s0.kia,s1.kia,f));
+    var ref=Math.round(lerp(s0.ref,s1.ref,f)), cost=lerp(s0.cost||0,s1.cost,f);
     var rows=[
-      ['TERRITORY SECURED', Math.round(occ.size/270*100)+'%', true],
-      ['CARACAS', W>=4?'ENCIRCLED':'UNDER ASSAULT', true],
-      ['ENEMY CASUALTIES', st.cas.toLocaleString('en-US'), false],
-      ['US KIA', st.kia.toLocaleString('en-US'), false],
-      ['REFUGEES', st.ref>=1000?Math.round(st.ref/1000)+'k':st.ref, false],
-      ['COST', '$'+st.cost.toFixed(1)+'B', false]
+      ['TERRITORY SECURED', Math.round(occCount/270*100)+'%', 'gold'],
+      ['CARACAS', day>=25?'ENCIRCLED':(day>=12?'UNDER ASSAULT':'HOLDING'), 'gold'],
+      ['ENEMY CASUALTIES', cas.toLocaleString('en-US'), ''],
+      ['US KIA', kia.toLocaleString('en-US'), day>=58?'warn':''],
+      ['REFUGEES', Math.round(ref/1000)+'k', ''],
+      ['COST', '$'+cost.toFixed(1)+'B', '']
     ];
     stats.innerHTML=rows.map(function(r){
-      return '<div class="stat"><span class="l">'+r[0]+'</span><span class="v'+(r[2]?' gold':'')+'">'+r[1]+'</span></div>';
+      return '<div class="stat"><span class="l">'+r[0]+'</span><span class="v '+r[2]+'">'+r[1]+'</span></div>';
     }).join('');
+    // chyron phases: advance -> puppet regime installed (wk4) -> insurgency (wk9-10)
+    if(day<26){ plate.textContent='● THE WIRE · CARACAS';
+      headline.textContent='US forces advance across Venezuela'; }
+    else if(day<58){ plate.textContent='● THE WIRE · CARACAS';
+      headline.textContent='US-backed government installed; opposition calls it a puppet regime'; }
+    else { plate.textContent='● THE WIRE · WEEK 10';
+      headline.textContent='Insurgency erupts against the new government'; }
+    // insurgency ticker scrolls once the insurgency begins
+    var ton=day>=58;
+    tk.parentNode.style.opacity=ton?1:0;
+    if(ton) tk.style.transform='translateX('+(-(t-3.9)*230)+'px)';
   };
-  window.__vedur=3.6; window.__render(3.6);
+  window.__render(0);
 })();
 </script>

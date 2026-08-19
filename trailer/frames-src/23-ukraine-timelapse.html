@@ -1,11 +1,16 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
-<title>0:12 — The war you inherit · 2022 → 2025</title>
+<title>The war you inherit · 2022 → 2025, faithfully</title>
 <style>
   body{background:#070c16}
   .map{position:absolute; left:270px; top:-10px}
   .hud-top{position:absolute; left:56px; top:50px; font-family:var(--mono); font-size:19px;
     letter-spacing:0.3em; color:var(--muted); z-index:50}
   .hud-top b{color:var(--ivory); font-weight:normal}
+  .date{position:absolute; left:56px; top:96px; z-index:50; font-family:var(--mono);
+    font-size:54px; color:var(--gold-hi); letter-spacing:0.08em}
+  .evt{position:absolute; left:58px; top:170px; z-index:50; font-family:var(--mono);
+    font-size:16px; letter-spacing:0.26em; color:var(--crimson); min-height:22px}
+  .evt.lib{color:#7fb896}
   .stages{position:absolute; left:64px; right:64px; bottom:64px; display:flex; gap:20px; z-index:50}
   .stage-chip{flex:1; background:rgba(9,14,26,0.92); border:1px solid var(--line); border-radius:6px;
     padding:14px 18px 10px; display:flex; gap:18px; align-items:center}
@@ -14,25 +19,22 @@
   .stage-chip .txt b{color:var(--ivory); font-weight:normal; font-size:16px}
   .stage-chip.cur{border-color:var(--gold)}
   .stage-chip.cur .txt b{color:var(--gold-hi)}
-  .stamp{position:absolute; right:120px; top:150px; z-index:55; transform:rotate(4deg);
-    border:4px solid var(--crimson); border-radius:6px; padding:12px 26px;
-    font-family:var(--mono); font-size:30px; letter-spacing:0.2em; color:var(--crimson);
-    background:rgba(11,18,32,0.5); text-shadow:0 0 24px rgba(176,74,74,0.5)}
 </style>
 <div class="stage">
   <div class="hud-top">RUSSO-UKRAINIAN WAR · <b>2022 → 2025</b></div>
+  <div class="date" id="date">FEB 2022</div>
+  <div class="evt" id="evt"></div>
   <div class="map"><svg id="ua" width="1380" height="1014"></svg></div>
-  
   <div class="stages">
-    <div class="stage-chip"><svg id="m1" width="200" height="140"></svg>
-      <div class="txt"><b>FEB 2022</b></div></div>
-    <div class="stage-chip"><svg id="m2" width="200" height="140"></svg>
-      <div class="txt"><b>NOV 2022</b></div></div>
-    <div class="stage-chip cur"><svg id="m3" width="200" height="140"></svg>
-      <div class="txt"><b>JAN 2025</b></div></div>
+    <div class="stage-chip" id="c0"><svg id="m1" width="200" height="140"></svg>
+      <div class="txt"><b>MAR 2022 · HIGH WATER</b></div></div>
+    <div class="stage-chip" id="c1"><svg id="m2" width="200" height="140"></svg>
+      <div class="txt"><b>NOV 2022 · THE ROLLBACK</b></div></div>
+    <div class="stage-chip" id="c2"><svg id="m3" width="200" height="140"></svg>
+      <div class="txt"><b>JAN 2025 · THE LINE TODAY</b></div></div>
   </div>
-  <div class="disclaimer" style="bottom:24px">TERRITORY TIMELAPSE · THREE YEARS IN FOUR SECONDS</div>
-  <div class="timecode" style="bottom:24px">TEASER 02 · 0:15 · H2</div>
+  <div class="disclaimer">REAL PROGRESSION · INVASION → KYIV WITHDRAWAL → KHARKIV → KHERSON → THE GRIND</div>
+  <div class="timecode">TEASER 02 · THE WAR YOU INHERIT</div>
   <div class="grade"></div>
 </div>
 <script src="data.js"></script>
@@ -40,42 +42,50 @@
 (function(){
   var NS='http://www.w3.org/2000/svg';
   function firstXY(d){ var m=d.match(/M([\-0-9.]+),([\-0-9.]+)/); return [parseFloat(m[1]),parseFloat(m[2])] }
-  // approximate 2022 invasion high-water: 2025 occupied set PLUS northern axes (Kyiv/Chernihiv/Sumy)
-  // and the Kharkiv envelope; NOV 2022: 2025 set plus west-bank Kherson pocket.
-  function occ2022(t){ var p=firstXY(t.d);
-    return t.o || (p[1] < 112 && p[0] > 150) || (p[0] > 380 && p[1] < 150); }
-  function occNov22(t){ var p=firstXY(t.d);
-    return t.o || (p[0] > 235 && p[0] < 300 && p[1] > 195 && p[1] < 235); }
-  function occ2025(t){ return !!t.o }
-  function draw(id, occFn, scale){
+  // ---- set membership from real-war geography (tile first-vertex heuristics) ----
+  // pre-2022: Crimea (south) + the LNR/DNR core east of the 2015 contact line
+  function isPre22(t,x,y){ return t.o && (y>245 || (x>365 && y>118 && y<190)) }
+  // Feb-Mar 2022 axes beyond today's line:
+  function isNorth(x,y){ return y<105 && x>140 && x<390 }                 // Kyiv-Chernihiv-Sumy
+  function isKharkEnv(x,y){ return x>380 && y<150 }                       // around Kharkiv
+  function isKherson(x,y){ return x>235 && x<300 && y>195 && y<235 }      // west-bank pocket
+  // Donbas fringe taken slowly in 2023-24 (Bakhmut/Avdiivka belt)
+  function isFringe(t,x,y){ return t.o && !isPre22(t,x,y) && x>352 && x<382 && y>115 && y<195 }
+  function E(p){ p=Math.max(0,Math.min(1,p)); return 1-Math.pow(1-p,3) }
+  function dist(x,y,a,b){ var dx=x-a,dy=y-b; return Math.sqrt(dx*dx+dy*dy) }
+
+  // ---- chip snapshots ----
+  function snapHigh(t){ var p=firstXY(t.d),x=p[0],y=p[1];
+    return t.o||isNorth(x,y)||isKharkEnv(x,y)||isKherson(x,y) }
+  function snapNov(t){ return !!t.o }
+  function snap25(t){ return !!t.o }
+  function draw(id, occFn){
     var s=document.getElementById(id);
     s.setAttribute('viewBox', UAV.x+' '+UAV.y+' '+UAV.w+' '+UAV.h);
     function el(n,a){var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); s.appendChild(e); return e}
     UA_NEI.forEach(function(d){ el('path',{d:d, fill:'#141d33', stroke:'#141d33','stroke-width':7,'stroke-linejoin':'round'}) });
     UA_TILES.forEach(function(t){ el('path',{d:t.d, fill:occFn(t)?'#a84e56':'#46598c',
-      stroke:'#111a2e','stroke-width':scale?1.2:0.5}) });
-    if(!scale){
-      UA_CITIES.forEach(function(c){
-        el('circle',{cx:c.x, cy:c.y, r:c.c?2.6:1.5, fill:c.c?'#0a0e1a':'#cfd4e0', opacity:c.c?1:0.7,
-          stroke:c.c?'#e8cf8e':'none','stroke-width':c.c?1.3:0});
-        if(c.c){var t=el('text',{x:c.x+8,y:c.y+5,'font-size':14,'font-family':'Marcellus, Georgia, serif',
-          fill:'#f2e7c8','paint-order':'stroke',stroke:'rgba(7,12,22,0.85)','stroke-width':3}); t.textContent=c.n}
-      });
-    }
+      stroke:'#111a2e','stroke-width':1.2}) });
   }
-  // small chips: static snapshots
-  draw('m1', occ2022, true);
-  draw('m2', occNov22, true);
-  draw('m3', occ2025, true);
-  // BIG map: a live territory timelapse driven by __seek(t).
+  draw('m1', snapHigh); draw('m2', snapNov); draw('m3', snap25);
+
+  // ---- BIG map ----
   var s=document.getElementById('ua');
   s.setAttribute('viewBox', UAV.x+' '+UAV.y+' '+UAV.w+' '+UAV.h);
-  function el(n,a,par){var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); (par||s).appendChild(e); return e}
+  function el(n,a){var e=document.createElementNS(NS,n); for(var k in a) e.setAttribute(k,a[k]); s.appendChild(e); return e}
   UA_NEI.forEach(function(d){ el('path',{d:d, fill:'#141d33', stroke:'#141d33','stroke-width':7,'stroke-linejoin':'round'}) });
   var HELD='#46598c', OCC='#a84e56', FLASH='#e3c06a';
   var tiles=UA_TILES.map(function(t){
     var p=el('path',{d:t.d, fill:HELD, stroke:'#111a2e','stroke-width':0.5});
-    return {p:p, x:firstXY(t.d)[0], a:occ2022(t), b:occNov22(t), c:occ2025(t)};
+    var xy=firstXY(t.d), x=xy[0], y=xy[1];
+    var pre=isPre22(t,x,y), fringe=isFringe(t,x,y);
+    // invasion delay: fastest applicable axis reaches this tile first
+    var dN=isNorth(x,y)? (y-38)/70 : 9;
+    var dE=(x>360)? (432-x)/95 : 9;
+    var dS=dist(x,y,272,252)/150;                      // out of Crimea
+    var inv=Math.max(0,Math.min(1,Math.min(dN,dE,dS)));
+    return {p:p,x:x,y:y,o:!!t.o,pre:pre,fringe:fringe,
+      north:isNorth(x,y), khark:isKharkEnv(x,y), kher:isKherson(x,y), inv:inv};
   });
   UA_CITIES.forEach(function(c){
     el('circle',{cx:c.x, cy:c.y, r:c.c?2.6:1.5, fill:c.c?'#0a0e1a':'#cfd4e0', opacity:c.c?1:0.7,
@@ -83,29 +93,75 @@
     if(c.c){var tx=el('text',{x:c.x+8,y:c.y+5,'font-size':14,'font-family':'Marcellus, Georgia, serif',
       fill:'#f2e7c8','paint-order':'stroke',stroke:'rgba(7,12,22,0.85)','stroke-width':3}); tx.textContent=c.n}
   });
-  var chips=document.querySelectorAll('.stage-chip');
-  // phases: [start,end,targetKey]; tiles flip west->east across each phase window
-  var PH=[[0.25,1.35,'a'],[1.35,2.45,'b'],[2.45,3.55,'c']];
-  var xs=tiles.map(function(t){return t.x}), xmin=Math.min.apply(null,xs), xmax=Math.max.apply(null,xs);
+  var chips=[document.getElementById('c0'),document.getElementById('c1'),document.getElementById('c2')];
+  var dateEl=document.getElementById('date'), evtEl=document.getElementById('evt');
+
+  // ---- the real timeline, seek-driven (shot = 5.0s) ----
+  var INV=[0.35,1.45], HOLD1=1.75, KYIV=[1.75,2.30], KHARK=[2.75,3.25], KHER=[3.25,3.80], GRIND=[3.80,5.0];
+  function phase(t){
+    if(t<INV[0]) return ['FEB 2022','',0];
+    if(t<INV[1]) return ['FEB–MAR 2022','THE INVASION',0];
+    if(t<KYIV[0]) return ['MAR 2022','HIGH WATER MARK',0];
+    if(t<KYIV[1]) return ['APR 2022','KYIV AXIS WITHDRAWN',0];
+    if(t<KHARK[0]) return ['SUMMER 2022','THE LINE HARDENS',1];
+    if(t<KHARK[1]) return ['SEP 2022','KHARKIV COUNTEROFFENSIVE',1];
+    if(t<KHER[1]) return ['NOV 2022','KHERSON LIBERATED',1];
+    var g=(t-GRIND[0])/(GRIND[1]-GRIND[0]);
+    if(g<0.4) return ['2023','THE FRONT GRINDS ON',2];
+    if(g<0.75) return ['2024','THE FRONT GRINDS ON',2];
+    return ['JAN 2025','THE WAR YOU INHERIT',2];
+  }
   window.__render=function(t){
-    // which phase and progress
-    var phi=0; for(var i=0;i<PH.length;i++){ if(t>=PH[i][0]) phi=i; }
-    var ph=PH[phi], prog=Math.max(0,Math.min(1,(t-ph[0])/(ph[1]-ph[0])));
-    var prevKey = phi===0?'held':PH[phi-1][2];
-    var key=ph[2];
+    var ph=phase(t);
+    dateEl.textContent=ph[0]; evtEl.textContent=ph[1];
+    evtEl.className='evt'+((ph[1].indexOf('LIBERATED')>=0||ph[1].indexOf('COUNTER')>=0||ph[1].indexOf('WITHDRAWN')>=0)?' lib':'');
+    chips.forEach(function(c,i){ c.classList.toggle('cur', i===ph[2]) });
     tiles.forEach(function(tl){
-      var frac=(tl.x-xmin)/(xmax-xmin);          // 0 west .. 1 east
-      var reveal=Math.max(0,Math.min(1,(prog-frac*0.8)/0.2)); // moving front W->E
-      var from = prevKey==='held'?false:tl[prevKey];
-      var to = tl[key];
-      var occNow = reveal>=0.5 ? to : from;
-      tl.p.setAttribute('fill', occNow?OCC:HELD);
-      // flash the tiles currently flipping
-      if(reveal>0.05 && reveal<0.95 && from!==to){
-        tl.p.setAttribute('stroke',FLASH); tl.p.setAttribute('stroke-width','1.4');
-      } else { tl.p.setAttribute('stroke','#111a2e'); tl.p.setAttribute('stroke-width','0.5'); }
+      var occ, flip=false;
+      var inS1=tl.o||tl.north||tl.khark||tl.kher;
+      if(tl.pre){ occ=true; }
+      else if(!inS1){ occ=false; }
+      else {
+        // 1) invasion sweep
+        var ip=(t-INV[0])/(INV[1]-INV[0]);
+        var reveal=Math.max(0,Math.min(1,(ip-tl.inv*0.82)/0.18));
+        occ=reveal>=0.5;
+        flip=flip||(reveal>0.05&&reveal<0.95);
+        if(occ){
+          // 2) Kyiv-axis withdrawal (deepest first)
+          if(tl.north&&!tl.o){
+            var wp=(t-KYIV[0])/(KYIV[1]-KYIV[0]);
+            var back=Math.max(0,Math.min(1,(wp-((105-tl.y)/70)*0.75)/0.25));
+            if(back>=0.5) occ=false;
+            flip=flip||(back>0.05&&back<0.95);
+          }
+          // 3) Kharkiv counteroffensive (west->east)
+          if(occ&&tl.khark&&!tl.o){
+            var kp=(t-KHARK[0])/(KHARK[1]-KHARK[0]);
+            var lib=Math.max(0,Math.min(1,(kp-((tl.x-380)/60)*0.7)/0.3));
+            if(lib>=0.5) occ=false;
+            flip=flip||(lib>0.05&&lib<0.95);
+          }
+          // 4) Kherson west bank (north->south to the river)
+          if(occ&&tl.kher&&!tl.o){
+            var hp2=(t-KHER[0])/(KHER[1]-KHER[0]);
+            var lib2=Math.max(0,Math.min(1,(hp2-((tl.y-195)/40)*0.7)/0.3));
+            if(lib2>=0.5) occ=false;
+            flip=flip||(lib2>0.05&&lib2<0.95);
+          }
+        }
+        // 5) 2023-24 fringe gains arrive slowly during the grind
+        if(tl.fringe){
+          var gp=(t-GRIND[0])/(GRIND[1]-GRIND[0]);
+          var gain=Math.max(0,Math.min(1,(gp-((382-tl.x)/30)*0.6)/0.4));
+          if(t<GRIND[0]) occ=false;
+          else { occ=gain>=0.5; flip=flip||(gain>0.05&&gain<0.95); }
+        }
+      }
+      tl.p.setAttribute('fill', occ?OCC:HELD);
+      if(flip){ tl.p.setAttribute('stroke',FLASH); tl.p.setAttribute('stroke-width','1.5'); }
+      else { tl.p.setAttribute('stroke','#111a2e'); tl.p.setAttribute('stroke-width','0.5'); }
     });
-    chips.forEach(function(c,i){ c.classList.toggle('cur', i===phi); });
   };
   window.__render(0);
 })();

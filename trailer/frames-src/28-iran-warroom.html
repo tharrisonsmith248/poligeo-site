@@ -22,14 +22,19 @@
   .doc.cia .stampline{color:var(--gold-hi)}
   .doc.mil .stampline{color:#7f9fd8}
   .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.95);
-    border-top:3px solid var(--crimson); padding:22px 56px 26px}
+    border-top:3px solid var(--crimson); padding:20px 56px 0}
+  .chyron h2{margin-bottom:14px !important}
+  .tickerbar{margin:0 -56px; border-top:1px solid var(--line-soft); background:#060a13;
+    overflow:hidden; white-space:nowrap; padding:11px 0 13px}
+  .tk{display:inline-block; font-family:var(--mono); font-size:16px; letter-spacing:0.14em;
+    color:#c8933f; white-space:nowrap; will-change:transform}
   .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
     font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:12px}
   .chyron h2{font-family:var(--display); font-weight:400; font-size:38px; color:var(--ivory); margin:0; letter-spacing:0.03em}
 </style>
 <div class="stage">
   <svg class="iranbg" id="iranbg" viewBox="0 0 760 660"></svg>
-  <div class="doc cia">
+  <div class="doc cia" id="dcia">
     <div class="d-head"><span>CLASSIFIED // CIA DIRECTORATE</span><span>OPERATION EMBER</span></div>
     <div class="d-sub">SUBJECT: COVERT ACTION TO INCITE UNREST IN THE ISLAMIC REPUBLIC OF IRAN</div>
     <div class="d-line">
@@ -40,20 +45,21 @@
     </div>
     <div class="stampline">AUTHORIZED · PRINCIPAL ONLY · DESTROY AFTER READING</div>
   </div>
-  <div class="doc mil">
+  <div class="doc mil" id="dmil">
     <div class="d-head"><span>BRIEFING // JOINT STAFF</span><span>OPERATION IRON SKY</span></div>
     <div class="d-sub">AIR CAMPAIGN AGAINST IRANIAN MILITARY ASSETS · DAY 12</div>
     <div class="d-line">
-      SORTIES FLOWN · <b>412</b><br>
-      MILITARY TARGETS STRUCK · <b>178 OF 214</b><br>
-      AIR DEFENSES DEGRADED · <b>64%</b> &nbsp;·&nbsp; AIRCRAFT LOST · <b>3</b><br>
+      SORTIES FLOWN · <b id="n1">412</b><br>
+      MILITARY TARGETS STRUCK · <b><span id="n2">178</span> OF 214</b><br>
+      AIR DEFENSES DEGRADED · <b><span id="n3">64</span>%</b> &nbsp;·&nbsp; AIRCRAFT LOST · <b>3</b><br>
       NEXT PACKAGE · <b>TEHRAN · COMMAND NODES</b>
     </div>
     <div class="stampline">CLEARED FOR THE PRESIDENT · EYES ONLY</div>
   </div>
   <div class="chyron">
     <span class="plate">● THE WIRE</span>
-    <h2>US incites unrest inside Iran as airstrikes pound military assets</h2>
+    <h2 id="hl">US incites unrest inside Iran as airstrikes pound military assets</h2>
+    <div class="tickerbar"><div class="tk" id="tk"></div></div>
   </div>
   <div class="timecode" style="bottom:130px">TEASER 02 · 0:33 · H5</div>
   <div class="grade"></div>
@@ -72,5 +78,41 @@
   var t=IRAN_CITIES['TEHRAN'];
   el('circle',{cx:t[0],cy:t[1],r:11,fill:'none',stroke:'#e3c06a','stroke-width':2.5});
   el('circle',{cx:t[0],cy:t[1],r:4,fill:'#e3c06a'});
+})();
+</script>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var dcia=$('dcia'), dmil=$('dmil'), hl=$('hl'), tk=$('tk');
+  var n1=$('n1'), n2=$('n2'), n3=$('n3');
+  var ciaParts=[dcia.querySelector('.d-sub'), dcia.querySelector('.d-line'), dcia.querySelector('.stampline')];
+  var milParts=[dmil.querySelector('.d-sub'), dmil.querySelector('.d-line'), dmil.querySelector('.stampline')];
+  var TKTEXT='OPERATION EMBER · OPPOSITION BROADCASTS REACH 2.1M NIGHTLY • OPERATION IRON SKY DAY 12 • '+
+    '412 SORTIES FLOWN • IRGC COMMAND NODES TARGETED • AIR DEFENSES DEGRADED 64% • ';
+  tk.textContent=TKTEXT+TKTEXT+TKTEXT;
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  function slideIn(el,t,t0,fromX){
+    var p=E((t-t0)/0.3);
+    el.style.opacity=p;
+    el.style.transform=(el===dcia?'rotate(-0.8deg)':'rotate(0.7deg)')+' translateX('+(fromX*(1-p))+'px)';
+  }
+  function reveal(el,t,t0){
+    var p=E((t-t0)/0.4);
+    el.style.opacity=p<0.02?0:1;
+    el.style.clipPath='inset(0 0 '+(100-100*p)+'% 0)';
+  }
+  window.__render=function(t){
+    slideIn(dcia,t,0.10,-60);
+    slideIn(dmil,t,0.40,60);
+    reveal(ciaParts[0],t,0.35); reveal(ciaParts[1],t,0.55); reveal(ciaParts[2],t,1.05);
+    reveal(milParts[0],t,0.65); reveal(milParts[1],t,0.85); reveal(milParts[2],t,1.45);
+    var cp=E((t-0.85)/0.9);
+    n1.textContent=Math.round(412*cp);
+    n2.textContent=Math.round(178*cp);
+    n3.textContent=Math.round(64*cp);
+    hl.style.opacity=t>0.25?1:0;
+    tk.style.transform='translateX('+(-t*230)+'px)';
+  };
+  window.__render(0);
 })();
 </script>

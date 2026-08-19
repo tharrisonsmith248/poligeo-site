@@ -1,0 +1,56 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="../frame.css">
+<title>Minsk raid POV chrome</title>
+<style>
+  html,body{background:transparent!important}
+  .stage{background:transparent}
+  .grade,.disclaimer,.timecode{display:none!important}
+  .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.93);
+    border-top:3px solid var(--crimson); padding:20px 56px 24px}
+  .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
+    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:10px}
+  .chyron h2{font-family:var(--display); font-weight:400; font-size:37px; color:var(--ivory); margin:0}
+  .chyron .sub{font-family:var(--mono); font-size:15px; letter-spacing:0.16em; color:#9aa3b8; margin-top:9px}
+  .tkband{position:absolute; left:0; right:0; bottom:0; height:44px; background:#060a13;
+    border-top:1px solid rgba(150,170,205,0.2)}
+  .live{position:absolute; top:52px; left:56px; font-family:var(--mono); font-size:17px;
+    letter-spacing:0.28em; color:var(--ivory); z-index:50; text-shadow:0 2px 10px rgba(0,0,0,0.9)}
+  .live::before{content:"●"; color:var(--crimson); margin-right:12px}
+  .cam{position:absolute; top:52px; right:56px; font-family:var(--mono); font-size:15px;
+    letter-spacing:0.22em; color:#b9c1d4; z-index:50; text-shadow:0 2px 10px rgba(0,0,0,0.9)}
+  
+  .hud{position:absolute; inset:0; color:#b9e8c4; font-family:var(--mono); z-index:40;
+    text-shadow:0 0 12px rgba(120,255,150,0.35)}
+  .hud .br{position:absolute; width:70px; height:70px; border:3px solid rgba(185,232,196,0.75)}
+  .b1{left:120px; top:110px; border-right:none; border-bottom:none}
+  .b2{right:120px; top:110px; border-left:none; border-bottom:none}
+  .b3{left:120px; bottom:150px; border-right:none; border-top:none}
+  .b4{right:120px; bottom:150px; border-left:none; border-top:none}
+  .rec{position:absolute; left:150px; top:130px; font-size:19px; letter-spacing:0.3em}
+  .rec::before{content:"●"; color:#ff6b5e; margin-right:10px}
+  .nvmode{position:absolute; right:150px; top:130px; font-size:16px; letter-spacing:0.26em; text-align:right; line-height:2}
+  .nvbot{position:absolute; left:150px; bottom:180px; font-size:15px; letter-spacing:0.22em; line-height:2.1}
+  .compass{position:absolute; left:0; right:0; top:64px; text-align:center; font-size:15px; letter-spacing:0.6em}
+  .crossh{position:absolute; left:50%; top:50%; width:120px; height:120px; transform:translate(-50%,-50%); opacity:0.55}
+  .crossh::before,.crossh::after{content:""; position:absolute; background:rgba(185,232,196,0.8)}
+  .crossh::before{left:50%; top:0; bottom:0; width:2px; margin-left:-1px}
+  .crossh::after{top:50%; left:0; right:0; height:2px; margin-top:-1px}
+  .chyron{border-top-color:#3c7a4c}
+  .chyron .plate{background:#2e5e3b}
+
+</style>
+<div class="stage">
+
+  <div class="hud">
+    <div class="br b1"></div><div class="br b2"></div><div class="br b3"></div><div class="br b4"></div>
+    <div class="rec">REC 02:14:36</div>
+    <div class="nvmode">NV · IR AMPLIFIED<br>TEAM VIPER · HELMET 2</div>
+    <div class="nvbot">MINSK STATION · GRID 53N-27E<br>PRINCIPAL: <b style="color:#e8ffe9">SECURED</b></div>
+    <div class="compass">W&nbsp;&nbsp;·&nbsp;&nbsp;NW&nbsp;&nbsp;·&nbsp;&nbsp;<b>N</b>&nbsp;&nbsp;·&nbsp;&nbsp;NE&nbsp;&nbsp;·&nbsp;&nbsp;E</div>
+    <div class="crossh"></div>
+  </div>
+  <div class="chyron">
+    <span class="plate">CLASSIFIED // OPERATION STEEL CLAW</span>
+    <h2>OPERATION SUCCESS — President of Belarus captured</h2>
+    <div class="sub">EXTRACTION TEAM FEED · NO FLAG · NO CLAIM</div>
+  </div>
+</div>

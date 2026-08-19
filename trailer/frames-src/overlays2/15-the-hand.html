@@ -1,0 +1,30 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="../frame.css">
+<title>The hand chrome</title>
+<style>
+  html,body{background:transparent!important}
+  .stage{background:transparent}
+  .grade,.disclaimer,.timecode{display:none!important}
+  .chyron{position:absolute; left:0; right:0; bottom:0; z-index:50; background:rgba(7,11,20,0.93);
+    border-top:3px solid var(--crimson); padding:20px 56px 24px}
+  .chyron .plate{display:inline-block; background:var(--crimson); color:var(--ivory);
+    font-family:var(--mono); font-size:14px; letter-spacing:0.3em; padding:6px 14px; margin-bottom:10px}
+  .chyron h2{font-family:var(--display); font-weight:400; font-size:37px; color:var(--ivory); margin:0}
+  .chyron .sub{font-family:var(--mono); font-size:15px; letter-spacing:0.16em; color:#9aa3b8; margin-top:9px}
+  .tkband{position:absolute; left:0; right:0; bottom:0; height:44px; background:#060a13;
+    border-top:1px solid rgba(150,170,205,0.2)}
+  .live{position:absolute; top:52px; left:56px; font-family:var(--mono); font-size:17px;
+    letter-spacing:0.28em; color:var(--ivory); z-index:50; text-shadow:0 2px 10px rgba(0,0,0,0.9)}
+  .live::before{content:"●"; color:var(--crimson); margin-right:12px}
+  .cam{position:absolute; top:52px; right:56px; font-family:var(--mono); font-size:15px;
+    letter-spacing:0.22em; color:#b9c1d4; z-index:50; text-shadow:0 2px 10px rgba(0,0,0,0.9)}
+  
+  .handcard{position:absolute; left:0; right:0; bottom:170px; text-align:center; z-index:50;
+    font-family:var(--display); font-size:64px; letter-spacing:0.06em; color:var(--ivory);
+    text-shadow:0 2px 30px rgba(4,7,14,0.95)}
+  .handcard span{color:var(--gold-hi)}
+  .chyron{display:none}
+</style>
+<div class="stage">
+
+  <div class="handcard">Power is <span>unbounded</span>.</div>
+</div>

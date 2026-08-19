@@ -1,53 +1,99 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
-<title>0:09 — Polling & approval</title>
+<title>The Mandate — approval</title>
 <style>
-  .tag{position:absolute; left:0; right:0; top:56px; text-align:center;
+  body{background:#080d18}
+  .tag{position:absolute; left:0; right:0; top:64px; text-align:center;
     font-family:var(--mono); font-size:19px; letter-spacing:0.4em; color:var(--dim)}
-  .big{position:absolute; left:130px; top:190px; width:460px; font-family:var(--mono)}
-  .big .n{font-size:200px; color:var(--gold-hi); line-height:1;
-    text-shadow:0 0 60px rgba(227,192,106,0.25)}
-  .big .n small{font-size:76px; color:var(--gold)}
-  .big .lab{font-size:20px; letter-spacing:0.32em; color:var(--muted); margin-top:20px}
-  .big .d{font-size:26px; color:#7fb896; margin-top:22px; letter-spacing:0.12em}
-  .chart-appr{position:absolute; left:660px; top:170px; width:1130px;
-    border:1px solid var(--line-soft); border-radius:6px; background:rgba(10,16,31,0.8); padding:22px 28px 12px}
-  .cl{display:flex; justify-content:space-between; font-family:var(--mono); font-size:17px;
-    letter-spacing:0.2em; color:var(--muted); margin-bottom:8px}
-  .tiles{position:absolute; left:130px; right:130px; bottom:150px; display:grid;
-    grid-template-columns:repeat(3,1fr); gap:24px}
-  .tile{background:rgba(10,16,31,0.85); border:1px solid var(--line-soft); border-radius:6px;
-    padding:26px 30px; font-family:var(--mono); text-align:center}
-  .tile .v{font-size:52px; color:var(--ivory)}
-  .tile .v .up{color:#7fb896; font-size:26px}
-  .tile .l{font-size:15px; letter-spacing:0.26em; color:var(--muted); margin-top:12px}
+  /* hero row: number left, chart right — one aligned band */
+  .hero{position:absolute; left:120px; right:120px; top:150px; height:470px;
+    display:grid; grid-template-columns:480px 1fr; gap:36px}
+  .bignum{border:1px solid var(--line-soft); border-radius:8px; background:rgba(10,16,31,0.85);
+    padding:40px 46px; font-family:var(--mono); display:flex; flex-direction:column; justify-content:center}
+  .bignum .n{font-size:190px; color:var(--gold-hi); line-height:1; letter-spacing:-0.02em;
+    text-shadow:0 0 60px rgba(227,192,106,0.22); font-variant-numeric:tabular-nums}
+  .bignum .n small{font-size:80px; color:var(--gold)}
+  .bignum .lab{font-size:19px; letter-spacing:0.34em; color:var(--muted); margin-top:22px}
+  .bignum .d{font-size:20px; color:#7fb896; margin-top:16px; letter-spacing:0.08em; white-space:nowrap}
+  .chartbox{border:1px solid var(--line-soft); border-radius:8px; background:rgba(10,16,31,0.85);
+    padding:26px 32px 14px; display:flex; flex-direction:column}
+  .cl{display:flex; justify-content:space-between; font-family:var(--mono); font-size:16px;
+    letter-spacing:0.22em; color:var(--muted); margin-bottom:10px}
+  .cl .hm{color:#7fb896}
+  /* stat tiles */
+  .tiles{position:absolute; left:120px; right:120px; bottom:130px; display:grid;
+    grid-template-columns:repeat(3,1fr); gap:28px}
+  .tile{background:rgba(10,16,31,0.85); border:1px solid var(--line-soft); border-radius:8px;
+    padding:30px 30px 26px; font-family:var(--mono); text-align:center}
+  .tile .v{font-size:56px; color:var(--ivory); font-variant-numeric:tabular-nums}
+  .tile .v .up{color:#7fb896; font-size:26px; margin-left:10px}
+  .tile .l{font-size:15px; letter-spacing:0.26em; color:var(--muted); margin-top:14px}
 </style>
 <div class="stage">
-  <div class="tag">APPROVAL &amp; POLLING · CONTINUOUS · DAY 9 OF THE TERM</div>
-  <div class="big">
-    <div class="n">57<small>%</small></div>
-    <div class="lab">JOB APPROVAL</div>
-    <div class="d">▲ +9 SINCE ELECTION DAY</div>
-  </div>
-  <div class="chart-appr">
-    <div class="cl"><span>APPROVAL · ELECTION NIGHT → DAY 9</span><span style="color:#7fb896">HONEYMOON</span></div>
-    <svg width="1078" height="320" viewBox="0 0 1078 320">
-      <line x1="0" y1="290" x2="1078" y2="290" stroke="#1a2742"/>
-      <line x1="0" y1="160" x2="1078" y2="160" stroke="#1a2742" stroke-dasharray="4 6"/>
-      <text x="8" y="150" font-family="DejaVu Sans Mono" font-size="15" fill="#5b647c">50%</text>
-      <polyline points="0,182 100,184 200,178 300,180 360,172 430,150 520,140 620,120 720,110 820,94 920,80 1000,70 1078,60"
-        fill="none" stroke="#e3c06a" stroke-width="4"/>
-      <circle cx="1078" cy="60" r="7" fill="#e3c06a"/>
-      <text x="980" y="42" font-family="DejaVu Sans Mono" font-size="18" fill="#e3c06a">57.2%</text>
-      <line x1="360" y1="290" x2="360" y2="40" stroke="#243352" stroke-dasharray="3 5"/>
-      <text x="372" y="56" font-family="DejaVu Sans Mono" font-size="15" fill="#5b647c">JAN 20 · SWORN IN</text>
-    </svg>
+  <div class="tag">DAY 9 OF THE TERM · APPROVAL &amp; POLLING</div>
+  <div class="hero">
+    <div class="bignum">
+      <div class="n"><span id="apn">0</span><small>%</small></div>
+      <div class="lab">JOB APPROVAL</div>
+      <div class="d" id="apd">▲ +9 SINCE ELECTION DAY</div>
+    </div>
+    <div class="chartbox">
+      <div class="cl"><span>APPROVAL · ELECTION NIGHT → DAY 9</span><span class="hm">HIGHEST ON RECORD</span></div>
+      <svg id="ch" width="100%" height="360" viewBox="0 0 1100 360" preserveAspectRatio="none"></svg>
+    </div>
   </div>
   <div class="tiles">
-    <div class="tile"><div class="v">57% <span class="up">▲9</span></div><div class="l">JOB APPROVAL</div></div>
-    <div class="tile"><div class="v">61% <span class="up">▲6</span></div><div class="l">ECONOMIC CONFIDENCE</div></div>
-    <div class="tile"><div class="v">58% <span class="up">▲11</span></div><div class="l">RIGHT TRACK</div></div>
+    <div class="tile" id="t1"><div class="v"><span class="cv" data-to="57">0</span>%<span class="up">▲9</span></div><div class="l">JOB APPROVAL</div></div>
+    <div class="tile" id="t2"><div class="v"><span class="cv" data-to="61">0</span>%<span class="up">▲6</span></div><div class="l">ECONOMIC CONFIDENCE</div></div>
+    <div class="tile" id="t3"><div class="v"><span class="cv" data-to="58">0</span>%<span class="up">▲11</span></div><div class="l">RIGHT TRACK</div></div>
   </div>
-  <div class="disclaimer">POLLED CONTINUOUSLY · LINE DRAWS ON · TILES COUNT UP ONE BY ONE</div>
-  <div class="timecode">TEASER 02 · 0:09</div>
+  <div class="disclaimer">NUMBER COUNTS UP · LINE DRAWS ON · TILES LAND ONE BY ONE</div>
+  <div class="timecode">TEASER 02 · THE MANDATE</div>
   <div class="grade"></div>
 </div>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('ch');
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e}
+  // grid
+  el('line',{x1:0,y1:320,x2:1100,y2:320,stroke:'#1a2742','stroke-width':1});
+  el('line',{x1:0,y1:180,x2:1100,y2:180,stroke:'#1a2742','stroke-width':1,'stroke-dasharray':'4 6'});
+  var t50=el('text',{x:10,y:170,'font-family':'DejaVu Sans Mono','font-size':16,fill:'#5b647c'}); t50.textContent='50%';
+  el('line',{x1:380,y1:320,x2:380,y2:40,stroke:'#243352','stroke-dasharray':'3 5'});
+  var tj=el('text',{x:394,y:60,'font-family':'DejaVu Sans Mono','font-size':16,fill:'#5b647c'}); tj.textContent='JAN 20 · SWORN IN';
+  // approval series (x,y)
+  var PTS=[[0,206],[85,208],[170,201],[255,203],[330,196],[380,190],[450,168],[540,157],[640,136],[740,124],[840,106],[930,90],[1010,79],[1100,66]];
+  var dstr=PTS.map(function(p,i){return (i?'L':'M')+p[0]+','+p[1]}).join(' ');
+  var path=el('path',{d:dstr,fill:'none',stroke:'#e3c06a','stroke-width':4.5,'stroke-linecap':'round'});
+  var LEN=path.getTotalLength();
+  path.setAttribute('stroke-dasharray',LEN); path.setAttribute('stroke-dashoffset',LEN);
+  var dot=el('circle',{r:8,fill:'#e3c06a',cx:PTS[0][0],cy:PTS[0][1]});
+  var pl=el('text',{x:0,y:0,'font-family':'DejaVu Sans Mono','font-size':20,fill:'#e3c06a','text-anchor':'end'});
+  var apn=document.getElementById('apn');
+  var apd=document.getElementById('apd');
+  var tiles=[1,2,3].map(function(i){return document.getElementById('t'+i)});
+  var cvs=[].slice.call(document.querySelectorAll('.cv'));
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  window.__render=function(t){
+    // big number counts 0->57 over 0.2-1.3
+    var p=E((t-0.2)/1.1); apn.textContent=Math.round(57*p);
+    apd.style.opacity=t>1.35?1:0;
+    // line draws 0.3-1.7
+    var lp=E((t-0.3)/1.4);
+    path.setAttribute('stroke-dashoffset',LEN*(1-lp));
+    var pt=path.getPointAtLength(LEN*lp);
+    dot.setAttribute('cx',pt.x); dot.setAttribute('cy',pt.y);
+    pl.setAttribute('x',pt.x-14); pl.setAttribute('y',pt.y-16);
+    pl.textContent=(46+11.2*lp).toFixed(1)+'%';
+    // tiles pop one by one at 1.0 / 1.3 / 1.6
+    tiles.forEach(function(tl,i){
+      var tt=1.0+i*0.3, vis=t>=tt;
+      tl.style.opacity=vis?1:0;
+      tl.style.transform=vis?'translateY(0)':'translateY(26px)';
+      var cv=cvs[i], to=+cv.getAttribute('data-to');
+      cv.textContent=Math.round(to*E((t-tt)/0.6));
+    });
+  };
+  window.__render(0);
+})();
+</script>

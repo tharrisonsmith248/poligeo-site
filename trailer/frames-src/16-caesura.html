@@ -17,7 +17,7 @@
   var pre='Define the Nation\u2019s ', gold='Future', post='.';
   var total=pre.length+gold.length+post.length;
   window.__render=function(t){
-    var p=Math.max(0,Math.min(1,(t-0.1)/0.7)); var k=Math.round(p*total);
+    var p=Math.max(0,Math.min(1,(t-0.12)/0.93)); var k=Math.round(p*total);
     var html;
     if(k<=pre.length) html=pre.slice(0,k);
     else if(k<=pre.length+gold.length) html=pre+'<span class="g">'+gold.slice(0,k-pre.length)+'</span>';

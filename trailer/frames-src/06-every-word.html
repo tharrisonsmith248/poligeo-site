@@ -34,6 +34,16 @@
   .you{background:#2f56a8; color:#f1f4fc; align-self:flex-end; border-bottom-right-radius:6px}
   .them + .them{border-top-left-radius:6px}
   .you + .you{border-top-right-radius:6px}
+  .logwrap{position:absolute; left:0; right:0; top:196px; bottom:96px; overflow:hidden;
+    display:flex; flex-direction:column; justify-content:flex-end}
+  .typing .dots{display:inline-flex; gap:7px; padding:6px 2px 2px}
+  .typing .dots i{width:9px; height:9px; border-radius:50%; background:#8b94a8; display:block}
+  .chooser{align-self:flex-end; display:flex; gap:12px; margin:10px 0 4px}
+  .pill{font-family:var(--mono); font-size:14px; letter-spacing:0.18em; color:var(--muted);
+    border:1.5px solid var(--line); border-radius:18px; padding:9px 18px; background:rgba(17,26,46,0.8)}
+  .pill.sel{color:var(--gold-hi); border-color:var(--gold); box-shadow:0 0 18px rgba(201,165,74,0.25);
+    background:rgba(201,165,74,0.1)}
+  .pill.fire{color:#0b1220; background:var(--gold-hi); border-color:var(--gold-hi); font-weight:600}
   .composer{position:absolute; left:0; right:0; bottom:0; padding:18px 26px 22px;
     border-top:1px solid var(--line-soft); background:#111a2e; display:flex; align-items:center; gap:14px}
   .composer .field{flex:1; height:44px; border:1px solid var(--line); border-radius:22px;
@@ -58,19 +68,79 @@
       </div>
     </div>
     <div class="enc"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H5v13h14V9h-2V6a5 5 0 0 0-5-5zm3 8H9V6a3 3 0 0 1 6 0v3z"/></svg>Messages are end-to-end encrypted. Kremlin secure channel.</div>
-    <div class="chat-day">Today · 20 January 2025</div>
-    <div class="log">
-      <div class="b them"><div class="msg">I hope we can reach an end to this conflict, but Ukraine must accept our terms: Ukraine never joins NATO. Permanent neutrality, written into its constitution. Recognition of Crimea and Donbass as Russian territories.</div><div class="meta">14:02</div></div>
-      <div class="b you"><div class="msg"><span class="tag">THREATEN</span><br>You don&rsquo;t dictate to me, Vladimir. Nobody dictates to me. Your economy is a disaster and everybody knows it.</div><div class="meta">14:05 <svg class="tick" viewBox="0 0 24 16"><path d="M2 9l4 4 8-10"/><path d="M9 13l1 1 8-10"/></svg></div></div>
-      <div class="b them"><div class="msg">Threats, from a man whose voters count the price of gas every morning. Push again, and we will learn together how much pain your Congress can vote for.</div><div class="meta">14:07</div></div>
-      <div class="b you"><div class="msg"><span class="tag">HARDLINE</span><br>The only thing you are going to recognize is what happens to the ruble. Watch it.</div><div class="meta">14:08 <svg class="tick" viewBox="0 0 24 16"><path d="M2 9l4 4 8-10"/><path d="M9 13l1 1 8-10"/></svg></div></div>
-    </div>
+    <div class="logwrap"><div class="log">
+      <div class="chat-day" id="day">Today · 20 January 2025</div>
+      <div class="b them typing" id="ty1"><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="b them" id="m1"><div class="msg">I hope we can reach an end to this conflict, but Ukraine must accept our terms: Ukraine never joins NATO. Permanent neutrality, written into its constitution. Recognition of Crimea and Donbass as Russian territories.</div><div class="meta">14:02</div></div>
+      <div class="chooser" id="ch1">
+        <span class="pill">CONCILIATE</span><span class="pill">DEFLECT</span><span class="pill">THREATEN</span>
+      </div>
+      <div class="b you" id="m2"><div class="msg"><span class="tag">THREATEN</span><br>You don&rsquo;t dictate to me, Vladimir. Nobody dictates to me. Your economy is a disaster and everybody knows it.</div><div class="meta">14:05 <svg class="tick" id="tk1" viewBox="0 0 24 16"><path d="M2 9l4 4 8-10"/><path d="M9 13l1 1 8-10"/></svg></div></div>
+      <div class="b them typing" id="ty2"><div class="dots"><i></i><i></i><i></i></div></div>
+      <div class="b them" id="m3"><div class="msg">Threats, from a man whose voters count the price of gas every morning. Push again, and we will learn together how much pain your Congress can vote for.</div><div class="meta">14:07</div></div>
+      <div class="chooser" id="ch2">
+        <span class="pill">DE-ESCALATE</span><span class="pill">WARN</span><span class="pill">HARDLINE</span>
+      </div>
+      <div class="b you" id="m4"><div class="msg"><span class="tag">HARDLINE</span><br>The only thing you are going to recognize is what happens to the ruble. Watch it.</div><div class="meta">14:08 <svg class="tick" id="tk2" viewBox="0 0 24 16"><path d="M2 9l4 4 8-10"/><path d="M9 13l1 1 8-10"/></svg></div></div>
+    </div></div>
     <div class="composer">
       <div class="field">Secure message</div>
       <div class="send"><svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></div>
     </div>
   </div>
-  <div class="disclaimer">SIGNAL-STYLE CHANNEL (SITE DEMO SHAPE) · REAL DEMO DIALOGUE, HARDLINE PATH · FAL: ANIMATE THE PUTIN PORTRAIT IN THE AVATAR</div>
-  <div class="timecode">TEASER 02 · 0:19 · H3</div>
+  <div class="disclaimer">LIVE CHAT · TYPING DOTS → MESSAGE → RESPONSE PICKED → SENT</div>
+  <div class="timecode">TEASER 02 · THE KREMLIN CHANNEL</div>
   <div class="grade"></div>
 </div>
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var els={ty1:$('ty1'),m1:$('m1'),ch1:$('ch1'),m2:$('m2'),ty2:$('ty2'),m3:$('m3'),ch2:$('ch2'),m4:$('m4')};
+  var log=document.querySelector('.log');
+  // schedule (seconds): element -> [appear, disappear]
+  var SCHED={
+    ty1:[0.15,0.85], m1:[0.85,99], ch1:[1.45,2.45], m2:[2.45,99],
+    ty2:[2.90,3.60], m3:[3.60,99], ch2:[4.05,4.90], m4:[4.90,99]
+  };
+  // chooser highlight walks the options, lands on the last, flashes
+  function chooser(el,t,t0,tEnd){
+    var pills=el.querySelectorAll('.pill');
+    var steps=pills.length;
+    var walk=(tEnd-t0-0.25)/steps;
+    var idx=Math.min(steps-1, Math.floor((t-t0)/walk));
+    pills.forEach(function(p,i){
+      p.classList.toggle('sel', i===idx && t<tEnd-0.12);
+      p.classList.toggle('fire', i===steps-1 && t>=tEnd-0.12);
+    });
+  }
+  window.__render=function(t){
+    for(var k in SCHED){
+      var el=els[k], on=t>=SCHED[k][0] && t<SCHED[k][1];
+      el.style.display=on?'':'none';
+      if(on){
+        var age=t-SCHED[k][0];
+        var p=Math.min(1,age/0.18);
+        el.style.opacity=0.25+0.75*p;
+        el.style.transform='translateY('+(10*(1-p))+'px)';
+      }
+    }
+    // typing dots pulse
+    ['ty1','ty2'].forEach(function(k){
+      if(els[k].style.display==='none') return;
+      var dots=els[k].querySelectorAll('i');
+      dots.forEach(function(d,i){
+        var ph=(t*2.4 - i*0.28)%1;
+        d.style.opacity=(ph>0 && ph<0.55)?1:0.3;
+        d.style.transform='translateY('+((ph>0&&ph<0.55)?-3:0)+'px)';
+      });
+    });
+    if(els.ch1.style.display!=='none') chooser(els.ch1,t,SCHED.ch1[0],SCHED.ch1[1]);
+    if(els.ch2.style.display!=='none') chooser(els.ch2,t,SCHED.ch2[0],SCHED.ch2[1]);
+    // delivery ticks fade in shortly after send
+    var tk1=$('tk1'), tk2=$('tk2');
+    tk1.style.opacity=t>SCHED.m2[0]+0.5?1:0.15;
+    tk2.style.opacity=t>SCHED.m4[0]+0.4?1:0.15;
+  };
+  window.__render(0);
+})();
+</script>
