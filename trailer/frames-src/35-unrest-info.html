@@ -29,7 +29,7 @@
   <div class="kick sysk" id="kk">The Simulation · Politics</div>
   <h1><span id="l1"></span><br><span class="g" id="l2"></span></h1>
   <div class="pillrow"><div class="pills" id="pills">
-    <span class="spill">Crack Down</span><span class="spill">Hear Them Out</span><span class="spill">Wait It Out</span>
+    <span class="spill">Crush the Protests</span><span class="spill">Contain Demonstrations</span><span class="spill">Negotiate</span>
   </div></div>
   <div class="disclaimer">SYSTEM CARD · KICKER · HEADLINE · THE GAME'S CHOICE PILLS, HIGHLIGHT LANDS ON CRACK DOWN</div>
   <div class="timecode">TEASER 02 · HOME FRONT CARD</div>
@@ -69,7 +69,7 @@
     });
     var idx=-1;
     if(t>=1.6){ idx=Math.min(2, Math.floor((t-1.6)/0.22)); }
-    if(t>=2.15) idx=0;    // walks 0,1,2 then snaps back to CRACK DOWN
+    if(t>=2.15) idx=0;    // walks the options, then CRUSH THE PROTESTS selects
     pills.forEach(function(p,i){ p.classList.toggle('sel', i===idx); });
   };
   window.__render(0);
