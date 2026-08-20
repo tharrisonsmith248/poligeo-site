@@ -58,8 +58,6 @@
   </div>
   <div class="disclaimer">HEADLINES LAND ONE BY ONE · THE INJUNCTION RETURNS UNREAD · THEN THE LINE</div>
   <div class="timecode">TEASER 02 · MARTIAL LAW</div>
-  <div class="capshade" style="bottom:0;height:160px"></div>
-  <div class="storycap" id="scap" style="bottom:40px"></div>
   <div class="grade"></div>
 </div>
 <script>
@@ -88,23 +86,6 @@
     stamp.style.opacity=on?1:0;
     stamp.style.transform='rotate(-11deg) scale('+(on?(1.5-0.5*sp):1.5)+')';
     sig.style.opacity=t>=2.18?1:0;
-  };
-  window.__render(0);
-})();
-</script>
-<script>
-(function(){
-  var prev=window.__render;
-  var el=document.getElementById('scap');
-  var FULL='Take Control of Institutions', T0=2.1, DUR=0.6;
-  window.__render=function(t){
-    if(prev) prev(t);
-    var p=Math.max(0,Math.min(1,(t-T0)/DUR));
-    var n=Math.round(FULL.length*p);
-    el.innerHTML='<span style="position:relative;display:inline-block;white-space:pre">'+
-      '<span style="visibility:hidden">'+FULL+'</span>'+
-      '<span style="position:absolute;left:0;top:0;white-space:pre">'+FULL.slice(0,n)+
-      (p>0&&p<1?'<span class="capcur"></span>':'')+'</span></span>';
   };
   window.__render(0);
 })();
