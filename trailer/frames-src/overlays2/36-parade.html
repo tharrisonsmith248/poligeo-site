@@ -22,17 +22,15 @@
 <div class="stage">
   <div class="pband"></div>
   <div class="paradeline">
-    <div class="kick" id="kk36">One Term · The Turn</div>
     <h1><span id="pp36">Pursuit of Power is </span><span class="g" style="position:relative;display:inline-block;white-space:pre"><span style="visibility:hidden">Unbounded</span><span id="gl36" style="position:absolute;left:0;top:0;white-space:pre"></span></span></h1>
   </div>
 </div>
 <script>
 (function(){
-  var kk=document.getElementById('kk36'), pp=document.getElementById('pp36'), gl=document.getElementById('gl36');
+  var pp=document.getElementById('pp36'), gl=document.getElementById('gl36');
   var GOLD='Unbounded';
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
-    kk.style.opacity=E((t-0.15)/0.4)*0.9;
     var fp=E((t-0.25)/0.5);
     pp.style.opacity=fp;
     // the gold word types left-to-right in place over its reserved width
