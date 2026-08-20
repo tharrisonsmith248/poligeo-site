@@ -149,7 +149,10 @@
     if(prev) prev(t);
     var p=Math.max(0,Math.min(1,(t-T0)/DUR));
     var n=Math.round(FULL.length*p);
-    el.innerHTML=FULL.slice(0,n).replace(/&/g,'&amp;')+(p>0&&p<1?'<span class="capcur"></span>':'');
+    el.innerHTML='<span style="position:relative;display:inline-block;white-space:pre">'+
+      '<span style="visibility:hidden">'+FULL+'</span>'+
+      '<span style="position:absolute;left:0;top:0;white-space:pre">'+FULL.slice(0,n)+
+      (p>0&&p<1?'<span class="capcur"></span>':'')+'</span></span>';
   };
   window.__render(0);
 })();

@@ -143,8 +143,8 @@
   var log=document.querySelector('.log');
   // schedule (seconds): element -> [appear, disappear]
   var SCHED={
-    ty1:[0.12,0.70], m1:[0.70,99], ch1:[1.19,2.01], m2:[2.01,99],
-    ty2:[2.38,2.95], m3:[2.95,99], ch2:[3.32,4.02], m4:[4.02,99]
+    ty1:[0.10,0.60], m1:[0.60,99], ch1:[1.10,1.90], m2:[1.90,99],
+    ty2:[2.25,2.85], m3:[2.85,99], ch2:[3.20,3.95], m4:[3.95,99]
   };
   // chooser highlight walks the options, lands on the last, flashes
   function chooser(el,t,t0,tEnd){
@@ -197,12 +197,15 @@
 (function(){
   var prev=window.__render;
   var el=document.getElementById('scap');
-  var FULL='Or Escalate Them', T0=3.0, DUR=0.8;
+  var FULL='Or Escalate Them', T0=4.15, DUR=0.8;
   window.__render=function(t){
     if(prev) prev(t);
     var p=Math.max(0,Math.min(1,(t-T0)/DUR));
     var n=Math.round(FULL.length*p);
-    el.innerHTML=FULL.slice(0,n).replace(/&/g,'&amp;')+(p>0&&p<1?'<span class="capcur"></span>':'');
+    el.innerHTML='<span style="position:relative;display:inline-block;white-space:pre">'+
+      '<span style="visibility:hidden">'+FULL+'</span>'+
+      '<span style="position:absolute;left:0;top:0;white-space:pre">'+FULL.slice(0,n)+
+      (p>0&&p<1?'<span class="capcur"></span>':'')+'</span></span>';
   };
   window.__render(0);
 })();

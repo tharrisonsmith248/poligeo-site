@@ -34,11 +34,14 @@
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
     var kk=document.getElementById('kk'); if(kk) kk.style.opacity=Math.max(0,Math.min(1,(t-0.05)/0.4))*0.85;
-    // plain text fades on; only the gold word types
+    // plain text fades on; the gold word types left-to-right in place
     var fp=E((t-0.1)/0.4);
     var k=Math.round(Math.max(0,Math.min(1,(t-0.55)/0.5))*gold.length);
-    line.innerHTML='<span style="opacity:'+fp.toFixed(3)+'">'+pre+'</span><span class="g">'+gold.slice(0,k)+'</span>'+
-      '<span class="cursor" style="width:0.5em;height:0.95em;opacity:'+((t*2%1<0.55)?1:0.1)+'"></span>';
+    var cur='<span class="cursor" style="width:0.5em;height:0.95em;display:inline-block;opacity:'+((t*2%1<0.55)?1:0.1)+'"></span>';
+    line.innerHTML='<span style="opacity:'+fp.toFixed(3)+'">'+pre+'</span>'+
+      '<span style="position:relative;display:inline-block;white-space:pre">'+
+      '<span style="visibility:hidden">'+gold+'</span>'+
+      '<span class="g" style="position:absolute;left:0;top:0;white-space:pre">'+gold.slice(0,k)+cur+'</span></span>';
   };
   window.__render(0);
 })();

@@ -11,6 +11,9 @@
     text-shadow:0 0 34px rgba(201,165,74,0.3)}
   .rule{position:absolute; left:50%; top:50.5%; transform:translateX(-50%) scaleX(0);
     width:220px; height:2px; background:var(--gold); box-shadow:0 0 18px rgba(201,165,74,0.4)}
+  .tgw{position:relative; display:inline-block; white-space:pre}
+  .tgg{visibility:hidden}
+  .tgl{position:absolute; left:0; top:0; white-space:pre}
 </style>
 <div class="stage">
   <div class="field" id="field"></div>
@@ -45,9 +48,11 @@
     l1.style.opacity=p1;
     l1.style.transform='translateY('+(-50+1.6*(1-p1))+'%)';
     rl.style.transform='translateX(-50%) scaleX('+E((t-0.85)/0.35)+')';
+    // gold line types left-to-right in place: hidden full text reserves the width
     var p2=Math.max(0,Math.min(1,(t-1.25)/1.0));
     l2.style.opacity=1;
-    l2.textContent=FULL2.slice(0,Math.round(FULL2.length*p2));
+    l2.innerHTML='<span class="tgw"><span class="tgg">'+FULL2+'</span>'+
+      '<span class="tgl">'+FULL2.slice(0,Math.round(FULL2.length*p2))+'</span></span>';
   };
   window.__render(0);
 })();

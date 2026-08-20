@@ -59,7 +59,9 @@
     l1.style.opacity=p1;
     l1.style.transform='translateY('+(14*(1-p1))+'px)';
     var p2=Math.max(0,Math.min(1,(t-0.8)/0.65));
-    l2.textContent=F2.slice(0,Math.round(F2.length*p2));
+    l2.innerHTML='<span style="position:relative;display:inline-block;white-space:pre">'+
+      '<span style="visibility:hidden">'+F2+'</span>'+
+      '<span style="position:absolute;left:0;top:0;white-space:pre">'+F2.slice(0,Math.round(F2.length*p2))+'</span></span>';
     // the game's decision pills: appear, highlight walks, lands on CRACK DOWN
     var pr=E((t-1.25)/0.35);
     pills.forEach(function(p,i){

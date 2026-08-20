@@ -51,10 +51,13 @@
   var pre='or with an ', silver='Iron\u00a0Fist';
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
-    // plain words fade on; only the silver accent types
+    // plain words fade on; the silver accent types left-to-right in place
     var fp=E((t-0.15)/0.45);
     var k=Math.round(Math.max(0,Math.min(1,(t-0.65)/0.65))*silver.length);
-    span.innerHTML='<span style="opacity:'+fp.toFixed(3)+'">'+pre+'</span><span class="silver">'+silver.slice(0,k)+'</span>';
+    span.innerHTML='<span style="opacity:'+fp.toFixed(3)+'">'+pre+'</span>'+
+      '<span style="position:relative;display:inline-block;white-space:pre">'+
+      '<span style="visibility:hidden" class="silver">'+silver+'</span>'+
+      '<span class="silver" style="position:absolute;left:0;top:0;white-space:pre">'+silver.slice(0,k)+'</span></span>';
     if(cur) cur.style.opacity=(t*2%1<0.55)?1:0.1;
   };
   window.__render(0);

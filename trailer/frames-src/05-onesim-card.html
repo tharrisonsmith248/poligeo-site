@@ -8,6 +8,9 @@
   .l2{position:absolute; left:0; right:0; top:55%; text-align:center;
     font-family:var(--display); font-size:44px; letter-spacing:0.1em; color:var(--gold-hi);
     text-shadow:0 0 40px rgba(201,165,74,0.3)}
+  .tgw{position:relative; display:inline-block; white-space:pre}
+  .tgg{visibility:hidden}
+  .tgl{position:absolute; left:0; top:0; white-space:pre}
 </style>
 <div class="stage">
   <h1 id="l1"></h1>
@@ -27,7 +30,8 @@
     l1.style.opacity=p1;
     l1.style.transform='translateY('+(-50+2.2*(1-p1))+'%)';
     var p2=Math.max(0,Math.min(1,(t-0.6)/0.65));
-    l2.textContent=F2.slice(0,Math.round(F2.length*p2));
+    l2.innerHTML='<span class="tgw"><span class="tgg">'+F2+'</span>'+
+      '<span class="tgl">'+F2.slice(0,Math.round(F2.length*p2))+'</span></span>';
   };
   window.__render(0);
 })();

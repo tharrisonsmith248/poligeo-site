@@ -126,10 +126,12 @@
     return p;
   }
   window.__render=function(t){
-    // cube spin: two-and-a-half fast turns decelerating into the lock over 2.3s
-    var sp=E(Math.min(1,t/2.15));
-    var ry=-34-900*(1-sp);
-    var scale=0.86+0.14*sp;
+    // cube spin: ONE slow full revolution, smoothstep pacing so the map faces
+    // and letters stay readable the whole way (no fast-spin smear)
+    var p=Math.max(0,Math.min(1,t/2.15));
+    var sp=p*p*(3-2*p);
+    var ry=-34-360*(1-sp);
+    var scale=0.9+0.1*sp;
     cube.style.transform='rotateX(-18deg) rotateY('+ry+'deg) scale('+scale+')';
     // at settle, the map-cube resolves into the actual mark
     var xf=E((t-2.15)/0.42);
