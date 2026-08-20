@@ -14,22 +14,23 @@
   .face{position:absolute; width:300px; height:300px; background-size:cover; background-position:center;
     border:2px solid #0a101f; box-shadow:inset 0 0 50px rgba(0,0,0,0.4);
     backface-visibility:hidden; -webkit-backface-visibility:hidden}
+  /* faces match the PG logo cube: vivid country shapes on bright blue ocean */
   .fmap{background:
-      radial-gradient(ellipse 34% 20% at 24% 30%,#3f63a8 0 60%,transparent 62%),
-      radial-gradient(ellipse 26% 38% at 66% 46%,#a04444 0 58%,transparent 61%),
-      radial-gradient(ellipse 40% 16% at 74% 76%,#4c8b62 0 58%,transparent 61%),
-      radial-gradient(ellipse 22% 30% at 38% 72%,#5f7fc0 0 58%,transparent 61%),
-      radial-gradient(ellipse 30% 14% at 10% 58%,#7d7250 0 56%,transparent 60%),
-      radial-gradient(ellipse 18% 26% at 88% 20%,#54689c 0 56%,transparent 60%),
-      linear-gradient(150deg,#20406e,#16294a)}
+      radial-gradient(ellipse 34% 20% at 24% 30%,#3fa06a 0 60%,transparent 62%),
+      radial-gradient(ellipse 26% 38% at 66% 46%,#d98a3f 0 58%,transparent 61%),
+      radial-gradient(ellipse 40% 16% at 74% 78%,#c04848 0 58%,transparent 61%),
+      radial-gradient(ellipse 22% 30% at 38% 72%,#8a6ab8 0 58%,transparent 61%),
+      radial-gradient(ellipse 30% 14% at 10% 58%,#3f9d9d 0 56%,transparent 60%),
+      radial-gradient(ellipse 18% 26% at 88% 18%,#57b06a 0 56%,transparent 60%),
+      linear-gradient(150deg,#2f6ab5,#1c4585)}
   .front{transform:translateZ(150px)}
   .right{transform:rotateY(90deg) translateZ(150px)}
   .back{transform:rotateY(180deg) translateZ(150px)}
   .left{transform:rotateY(270deg) translateZ(150px)}
   .top{transform:rotateX(90deg) translateZ(150px)}
   .pg{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    font-family:var(--display); font-weight:bold; font-size:168px; color:#d13b30;
-    -webkit-text-stroke:5px #0a0d12; text-shadow:0 5px 20px rgba(0,0,0,0.6); letter-spacing:0.04em}
+    font-family:var(--display); font-weight:bold; font-size:215px; color:#d13b30;
+    -webkit-text-stroke:7px #0a0d12; text-shadow:0 5px 20px rgba(0,0,0,0.6)}
   /* the real logo takes over at settle */
   .logoimg{position:absolute; left:50%; top:300px; transform:translate(-50%,-50%);
     width:340px; height:auto; filter:drop-shadow(0 0 44px rgba(201,165,74,0.32)); opacity:0}
@@ -69,10 +70,10 @@
   <div class="field" id="field" style="position:absolute;inset:0;opacity:0.5"></div>
   <div class="scene"><div class="cube3d" id="cube">
     <div class="face fmap top"></div>
-    <div class="face fmap left"></div>
-    <div class="face fmap back"></div>
-    <div class="face fmap right"></div>
-    <div class="face fmap front"><div class="pg">PG</div></div>
+    <div class="face fmap left"><div class="pg">G</div></div>
+    <div class="face fmap back"><div class="pg">P</div></div>
+    <div class="face fmap right"><div class="pg">G</div></div>
+    <div class="face fmap front"><div class="pg">P</div></div>
   </div></div>
   <img class="logoimg" id="logoimg" src="logo-cube.png" alt="PG — Politics &amp; Geography">
   <img class="wm" id="wm" src="../../assets/wordmark.png" alt="POLIGEO">

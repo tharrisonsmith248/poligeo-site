@@ -30,16 +30,15 @@
 <script>
 (function(){
   var line=document.querySelector('.line'), cur=document.querySelector('.cursor');
-  var pre='Define the Nation\u2019s ', gold='Future', post='.';
-  var total=pre.length+gold.length+post.length;
+  var pre='Define the Nation\u2019s ', gold='Future.';
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
     var kk=document.getElementById('kk'); if(kk) kk.style.opacity=Math.max(0,Math.min(1,(t-0.05)/0.4))*0.85;
-    var p=Math.max(0,Math.min(1,(t-0.12)/0.93)); var k=Math.round(p*total);
-    var html;
-    if(k<=pre.length) html=pre.slice(0,k);
-    else if(k<=pre.length+gold.length) html=pre+'<span class="g">'+gold.slice(0,k-pre.length)+'</span>';
-    else html=pre+'<span class="g">'+gold+'</span>'+post.slice(0,k-pre.length-gold.length);
-    line.innerHTML=html+'<span class="cursor" style="width:0.5em;height:0.95em;opacity:'+((t*2%1<0.55)?1:0.1)+'"></span>';
+    // plain text fades on; only the gold word types
+    var fp=E((t-0.1)/0.4);
+    var k=Math.round(Math.max(0,Math.min(1,(t-0.55)/0.5))*gold.length);
+    line.innerHTML='<span style="opacity:'+fp.toFixed(3)+'">'+pre+'</span><span class="g">'+gold.slice(0,k)+'</span>'+
+      '<span class="cursor" style="width:0.5em;height:0.95em;opacity:'+((t*2%1<0.55)?1:0.1)+'"></span>';
   };
   window.__render(0);
 })();

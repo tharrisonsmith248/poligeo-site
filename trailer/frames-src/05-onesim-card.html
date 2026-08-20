@@ -12,7 +12,7 @@
 <div class="stage">
   <h1 id="l1"></h1>
   <div class="l2" id="l2"></div>
-  <div class="disclaimer">INTERMISSION CARD · BOTH LINES TYPE IN · GOLD SECOND LINE</div>
+  <div class="disclaimer">INTERMISSION CARD · PLAIN LINE FADES · GOLD LINE TYPES</div>
   <div class="timecode">TEASER 02 · ONE SIMULATION</div>
   <div class="grade"></div>
 </div>
@@ -20,10 +20,13 @@
 (function(){
   var l1=document.getElementById('l1'), l2=document.getElementById('l2');
   var F1='One Simulation', F2='Computed in Real Time';
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
-    var p1=Math.max(0,Math.min(1,(t-0.1)/0.55));
-    l1.textContent=F1.slice(0,Math.round(F1.length*p1));
-    var p2=Math.max(0,Math.min(1,(t-0.65)/0.6));
+    var p1=E((t-0.1)/0.5);
+    l1.textContent=F1;
+    l1.style.opacity=p1;
+    l1.style.transform='translateY('+(-50+2.2*(1-p1))+'%)';
+    var p2=Math.max(0,Math.min(1,(t-0.6)/0.65));
     l2.textContent=F2.slice(0,Math.round(F2.length*p2));
   };
   window.__render(0);

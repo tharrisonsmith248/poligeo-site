@@ -39,12 +39,13 @@
   var FULL1='The Ultimate Geopolitical Simulator';
   var FULL2='Grand Strategy Set in the 21st Century';
   window.__render=function(t){
-    // the house style: text TYPES in
-    var p1=Math.max(0,Math.min(1,(t-0.15)/1.15));
-    l1.style.opacity=1;
-    l1.textContent=FULL1.slice(0,Math.round(FULL1.length*p1));
-    rl.style.transform='translateX(-50%) scaleX('+E((t-1.4)/0.35)+')';
-    var p2=Math.max(0,Math.min(1,(t-1.7)/0.95));
+    // house style: plain text lands by default, only accent (gold) text types
+    var p1=E((t-0.2)/0.7);
+    l1.textContent=FULL1;
+    l1.style.opacity=p1;
+    l1.style.transform='translateY('+(-50+1.6*(1-p1))+'%)';
+    rl.style.transform='translateX(-50%) scaleX('+E((t-0.85)/0.35)+')';
+    var p2=Math.max(0,Math.min(1,(t-1.25)/1.0));
     l2.style.opacity=1;
     l2.textContent=FULL2.slice(0,Math.round(FULL2.length*p2));
   };
