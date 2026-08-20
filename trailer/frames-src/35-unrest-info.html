@@ -26,8 +26,8 @@
 </style>
 <div class="stage">
   <div class="field" id="field"></div>
-  <div class="kick sysk" id="kk">The Simulation · Domestic</div>
-  <h1><span id="l1" style="opacity:0">Face unrest at home.</span><br><span class="g" id="l2" style="opacity:0">Master domestic politics.</span></h1>
+  <div class="kick sysk" id="kk">The Simulation · Politics</div>
+  <h1><span id="l1"></span><br><span class="g" id="l2"></span></h1>
   <div class="pillrow"><div class="pills" id="pills">
     <span class="spill">Crack Down</span><span class="spill">Hear Them Out</span><span class="spill">Wait It Out</span>
   </div></div>
@@ -53,8 +53,11 @@
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
     kk.style.opacity=E((t-0.1)/0.4)*0.85;
-    var p1=E((t-0.3)/0.5); l1.style.opacity=p1;
-    var p2=E((t-0.8)/0.5); l2.style.opacity=p2;
+    var F1='Maintain control at home.', F2='Dominate domestic politics.';
+    var p1=Math.max(0,Math.min(1,(t-0.25)/0.6));
+    l1.textContent=F1.slice(0,Math.round(F1.length*p1));
+    var p2=Math.max(0,Math.min(1,(t-0.9)/0.6));
+    l2.textContent=F2.slice(0,Math.round(F2.length*p2));
     // the game's decision pills: appear, highlight walks, lands on CRACK DOWN
     var pr=E((t-1.25)/0.35);
     pills.forEach(function(p,i){

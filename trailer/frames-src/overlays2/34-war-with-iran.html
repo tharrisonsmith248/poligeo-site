@@ -21,10 +21,10 @@
 </style>
 <div class="stage">
   <div class="syscard">
-    <div class="kick">The Simulation · Conflict</div>
-    <h1>Wage war. <span class="g">Or conduct diplomacy.</span></h1>
+    <div class="kick">The Simulation · Geography</div>
+    <h1>Maintain Diplomatic Order.<br><span class="g">Or wage war against the world.</span></h1>
     <div class="pills">
-      <span class="spill sel">Wage War</span><span class="spill">Conduct Diplomacy</span>
+      <span class="spill"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9.2"/><path d="M12 2.8v18.4M12 12l-6.4 6.6M12 12l6.4 6.6"/></svg>Conduct Diplomacy</span><span class="spill sel"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 3.5l13 13M3.5 3.5l3.6.4 9.8 9.8M14.8 18.2l3.4 3.4M13.2 16.6l-1.6 1.6 3.4 3.4M20.5 3.5l-13 13M20.5 3.5l-3.6.4-9.8 9.8M9.2 18.2l-3.4 3.4M10.8 16.6l1.6 1.6-3.4 3.4"/></svg>Wage War</span>
     </div>
   </div>
 </div>
@@ -32,8 +32,9 @@
   .syscard{position:absolute; left:0; right:0; top:40%; transform:translateY(-50%); text-align:center; z-index:50}
   .kick{font-family:var(--mono); font-size:16px; letter-spacing:0.5em; color:var(--gold);
     text-transform:uppercase; text-shadow:0 2px 14px rgba(0,0,0,0.95); margin-bottom:26px; opacity:0.9}
-  .syscard h1{font-family:var(--display); font-weight:400; font-size:72px; letter-spacing:0.04em;
+  .syscard h1{font-family:var(--display); font-weight:400; font-size:58px; letter-spacing:0.04em;
     color:var(--ivory); margin:0; text-shadow:0 4px 40px rgba(0,0,0,0.95)}
+  .spill .ic{width:19px; height:19px; vertical-align:-4px; margin-right:11px}
   .syscard .g{color:var(--gold-hi); text-shadow:0 4px 40px rgba(0,0,0,0.95), 0 0 60px rgba(201,165,74,0.35)}
   .pills{display:flex; gap:18px; justify-content:center; margin-top:38px}
   .spill{font-family:var(--mono); font-size:17px; letter-spacing:0.2em; color:#cfd4de;

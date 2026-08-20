@@ -1,0 +1,25 @@
+<!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
+<title>Card — resolve foreign wars</title>
+<style>
+  body{background:#06080f}
+  h1{position:absolute; left:0; right:0; top:47%; transform:translateY(-50%); margin:0;
+    text-align:center; font-family:var(--display); font-weight:400; font-size:80px;
+    letter-spacing:0.05em; color:var(--ivory); text-shadow:0 2px 30px rgba(4,7,14,0.9)}
+</style>
+<div class="stage">
+  <h1 id="l1"></h1>
+  <div class="disclaimer">STORY CARD · TYPES IN · PAIRS WITH "OR ESCALATE THEM" ON THE KREMLIN CHAT</div>
+  <div class="timecode">TEASER 02 · RESOLVE FOREIGN WARS</div>
+  <div class="grade"></div>
+</div>
+<script>
+(function(){
+  var l1=document.getElementById('l1');
+  var F='Resolve Foreign Wars';
+  window.__render=function(t){
+    var p=Math.max(0,Math.min(1,(t-0.12)/0.75));
+    l1.textContent=F.slice(0,Math.round(F.length*p));
+  };
+  window.__render(0);
+})();
+</script>

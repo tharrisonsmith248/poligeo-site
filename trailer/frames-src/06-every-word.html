@@ -53,7 +53,15 @@
   .composer .send{width:44px; height:44px; border-radius:50%; background:#2f56a8; flex:none;
     display:flex; align-items:center; justify-content:center}
   .composer .send svg{width:22px; height:22px; fill:#f1f4fc}
-  body.scope .phone{top:18px; height:900px}
+  body.scope .phone{top:8px; height:790px}
+
+  .storycap{position:absolute; left:0; right:0; text-align:center; z-index:60;
+    font-family:var(--display); font-weight:400; font-size:46px; letter-spacing:0.05em;
+    color:#c9cfda; text-shadow:0 2px 24px rgba(4,7,14,0.95), 0 0 34px rgba(160,170,190,0.25)}
+  .storycap .capcur{display:inline-block; width:5px; height:0.85em; background:var(--gold);
+    vertical-align:-3px; margin-left:8px}
+  .capshade{position:absolute; left:0; right:0; z-index:55; pointer-events:none;
+    background:linear-gradient(to top, rgba(4,7,14,0.85), transparent)}
 </style>
 <div class="stage">
   <div class="moscow" id="moscow">
@@ -124,6 +132,8 @@
   </div>
   <div class="disclaimer">LIVE CHAT · TYPING DOTS → MESSAGE → RESPONSE PICKED → SENT</div>
   <div class="timecode">TEASER 02 · THE KREMLIN CHANNEL</div>
+  <div class="capshade" style="bottom:0;height:170px"></div>
+  <div class="storycap" id="scap" style="bottom:40px"></div>
   <div class="grade"></div>
 </div>
 <script>
@@ -179,6 +189,20 @@
     if(c1){ c1.setAttribute('cx', 500+t*26); c2.setAttribute('cx', 1500-t*20);
       st.setAttribute('fill', 'rgb('+Math.round(176+40*Math.abs(Math.sin(t*2.2)))+',69,63)');
       var g=6+3*Math.abs(Math.sin(t*2.2)); st.setAttribute('r',g); }
+  };
+  window.__render(0);
+})();
+</script>
+<script>
+(function(){
+  var prev=window.__render;
+  var el=document.getElementById('scap');
+  var FULL='Or Escalate Them', T0=3.0, DUR=0.8;
+  window.__render=function(t){
+    if(prev) prev(t);
+    var p=Math.max(0,Math.min(1,(t-T0)/DUR));
+    var n=Math.round(FULL.length*p);
+    el.innerHTML=FULL.slice(0,n).replace(/&/g,'&amp;')+(p>0&&p<1?'<span class="capcur"></span>':'');
   };
   window.__render(0);
 })();

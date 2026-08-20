@@ -42,6 +42,10 @@
   .tagline{position:absolute; left:0; right:0; top:678px; text-align:center; opacity:0;
     font-family:var(--display); font-size:38px; letter-spacing:0.05em; color:var(--muted)}
   .tagline i{font-style:normal; color:var(--ivory)}
+  .gsline{position:absolute; left:0; right:0; top:730px; text-align:center; opacity:0;
+    font-family:var(--mono); font-size:19px; letter-spacing:0.4em; color:var(--gold);
+    text-shadow:0 0 20px rgba(201,165,74,0.3)}
+  body.scope .gsline{top:652px}
   .datecard{position:absolute; left:0; right:0; top:764px; text-align:center; opacity:0;
     font-family:var(--display); font-size:34px; letter-spacing:0.34em; color:var(--gold-hi)}
   .ctarow{position:absolute; left:0; right:0; top:836px; text-align:center; opacity:0}
@@ -73,7 +77,8 @@
   <img class="logoimg" id="logoimg" src="logo-cube.png" alt="PG — Politics &amp; Geography">
   <img class="wm" id="wm" src="../../assets/wordmark.png" alt="POLIGEO">
   <div class="rule" id="rule"></div>
-  <p class="tagline" id="tag">The Ultimate Geopolitical Simulator, <i>in real time</i>.</p>
+  <p class="tagline" id="tag">The Ultimate Geopolitical Simulator</p>
+  <div class="gsline" id="gsl">GRAND STRATEGY · REAL TIME</div>
   <div class="datecard" id="date">COMING TO STEAM · OCTOBER 2026</div>
   <div class="ctarow" id="ctarow"><span class="cta">
     <svg class="steam" viewBox="0 0 100 100" aria-label="Steam">
@@ -121,28 +126,29 @@
   }
   window.__render=function(t){
     // cube spin: two-and-a-half fast turns decelerating into the lock over 2.3s
-    var sp=E(Math.min(1,t/1.95));
+    var sp=E(Math.min(1,t/2.15));
     var ry=-34-900*(1-sp);
     var scale=0.86+0.14*sp;
     cube.style.transform='rotateX(-18deg) rotateY('+ry+'deg) scale('+scale+')';
     // at settle, the map-cube resolves into the actual mark
-    var xf=E((t-1.95)/0.4);
+    var xf=E((t-2.15)/0.42);
     scene.style.opacity=1-xf;
     logo.style.opacity=xf;
     logo.style.transform='translate(-50%,-50%) scale('+(0.94+0.06*xf)+')';
     // the stack lands piece by piece
-    fadeUp(wm,t,2.4);
-    fadeUp(rule,t,2.82);
-    fadeUp(tag,t,3.05);
+    fadeUp(wm,t,2.65);
+    fadeUp(rule,t,3.1);
+    fadeUp(tag,t,3.35);
+    var gp=E((t-3.8)/0.4); var gsl=document.getElementById('gsl'); gsl.style.opacity=gp; gsl.style.letterSpacing=(0.55-0.15*gp)+'em';
     // date letterspaces in
-    var dp=E((t-3.7)/0.45);
+    var dp=E((t-4.35)/0.45);
     date.style.opacity=dp;
     date.style.letterSpacing=(0.60-0.26*dp)+'em';
     // wishlist CTA lands last, with a pop
-    var cp=E((t-4.4)/0.35);
+    var cp=E((t-5.1)/0.35);
     ctarow.style.opacity=cp;
     ctarow.style.transform='scale('+(1.12-0.12*cp)+')';
-    fadeUp(links,t,4.95,14);
+    fadeUp(links,t,5.7,14);
   };
   window.__render(0);
 })();

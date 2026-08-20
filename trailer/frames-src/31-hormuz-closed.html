@@ -125,7 +125,7 @@
   });
   var tlab=el('text',{x:130,y:250,'font-family':'DejaVu Sans Mono','font-size':14,'letter-spacing':2,fill:'#5b647c'},'TANKERS HOLDING');
   el('text',{x:20,y:626,'font-family':'DejaVu Sans Mono','font-size':12,'letter-spacing':2,fill:'#3d4a6b'},'REAL COASTLINES \u00b7 NATURAL EARTH 50M');
-  var CLOSE=0.90;
+  var CLOSE=0.80;
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__hormuz=function(t){
     var march=Math.min(t,CLOSE)*38;
@@ -193,9 +193,9 @@
   window.__render=function(t){
     if(window.__hormuz) window.__hormuz(t);
     // candles sweep in left->right; the spike section lands after the close
-    var vis=Math.round(groups.length*Math.max(0,Math.min(1,(t-0.15)/1.8)));
+    var vis=Math.round(groups.length*Math.max(0,Math.min(1,(t-0.15)/1.5)));
     groups.forEach(function(g,i){ g.setAttribute('opacity', i<vis?1:0); });
-    var pp=E((t-0.9)/1.4);
+    var pp=E((t-0.85)/1.2);
     oilp.textContent=(84+34.6*pp).toFixed(2);
     oilpc.textContent=Math.round(41*pp);
     tk.style.transform='translateX('+(-t*210)+'px)';

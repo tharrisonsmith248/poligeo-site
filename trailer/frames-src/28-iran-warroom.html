@@ -130,11 +130,11 @@
     el.style.clipPath='inset(0 0 '+(100-100*p)+'% 0)';
   }
   window.__render=function(t){
-    slideIn(dcia,t,0.10,-60);
-    slideIn(dmil,t,0.40,60);
-    reveal(ciaParts[0],t,0.35); reveal(ciaParts[1],t,0.55); reveal(ciaParts[2],t,1.05);
-    reveal(milParts[0],t,0.65); reveal(milParts[1],t,0.85); reveal(milParts[2],t,1.45);
-    var cp=E((t-0.85)/0.9);
+    slideIn(dcia,t,0.08,-60);
+    slideIn(dmil,t,0.32,60);
+    reveal(ciaParts[0],t,0.28); reveal(ciaParts[1],t,0.44); reveal(ciaParts[2],t,0.84);
+    reveal(milParts[0],t,0.52); reveal(milParts[1],t,0.68); reveal(milParts[2],t,1.16);
+    var cp=E((t-0.68)/0.72);
     n1.textContent=Math.round(412*cp);
     n2.textContent=Math.round(178*cp);
     n3.textContent=Math.round(64*cp);

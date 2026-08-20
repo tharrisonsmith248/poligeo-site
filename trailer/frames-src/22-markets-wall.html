@@ -2,7 +2,7 @@
 <title>0:07.5 — Computed in real time · markets wall</title>
 <style>
   body{background:#05080f}
-  .wall{position:absolute; left:64px; right:64px; top:104px; bottom:150px;
+  .wall{position:absolute; left:64px; right:64px; top:104px; bottom:70px;
     display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(2,1fr); gap:20px}
   .scr{position:relative; background:var(--panel2); border:1px solid var(--line); overflow:hidden; border-radius:4px}
   .scr .hd{display:flex; justify-content:space-between; padding:14px 18px 8px;
@@ -17,7 +17,7 @@
   .sysk{font-family:var(--mono); font-size:14px; letter-spacing:0.44em; color:var(--gold); opacity:0; text-transform:uppercase; text-shadow:0 2px 12px rgba(0,0,0,0.8)}
 </style>
 <div class="stage">
-  <div style="position:absolute;left:0;right:0;top:52px;text-align:center;font-family:var(--mono);font-size:18px;letter-spacing:0.4em;color:var(--dim)">A STRONG ECONOMY · STABLE POLITICS · DAY 9</div>
+  <div style="position:absolute;left:0;right:0;top:52px;text-align:center;font-family:var(--mono);font-size:18px;letter-spacing:0.4em;color:var(--dim)">SITUATION BRIEF · A STRONG ECONOMY · STABLE POLITICS</div>
   <div class="wall">
     <div class="scr"><div class="hd"><span>S&amp;P 500 · 1D</span><span class="up">5,931 ▲ 1.4%</span></div>
       <svg id="c1" width="560" height="230" viewBox="0 0 560 230"></svg></div>
@@ -49,9 +49,7 @@
         <div class="rw"><span>CABINET UNITY</span><b class="up">HIGH</b></div>
       </div></div>
   </div>
-  <div class="sysk" id="kk22" style="position:absolute;left:0;right:0;bottom:132px;text-align:center">The Simulation · Markets</div>
-  <p class="card" style="bottom:64px">COMPUTED IN <span class="g">REAL TIME</span>.</p>
-  <div class="card-rule" style="bottom:38px"></div>
+
   <div class="disclaimer" style="bottom:20px">EVERY PANEL TICKS LIVE · CANDLES PRINT ONE PER FRAME</div>
   <div class="timecode" style="bottom:20px">TEASER 02 · 0:11</div>
   <div class="grade"></div>
@@ -96,7 +94,7 @@ candles('c3', 55, 46, true,  false);   // DXY up
 (function(){
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   var scrs=[].slice.call(document.querySelectorAll('.scr'));
-  var PT=[0.15,0.40,0.65,0.90,1.15,1.40];             // panel land times
+  var PT=[0.10,0.26,0.42,0.58,0.74,0.90];             // panel land times
   // group candle elements pairwise (wick+body) per candle for sweep
   var charts=['c1','c2','c3'].map(function(id){
     var svg=document.getElementById(id);
@@ -107,7 +105,7 @@ candles('c3', 55, 46, true,  false);   // DXY up
   var chartPanel=[0,1,4];                              // scr index for c1,c2,c3
   var heatCells=[].slice.call(document.querySelectorAll('.heat div'));
   var rowEls=[].slice.call(document.querySelectorAll('.rows .rw'));
-  var card=document.querySelector('.card'), rule=document.querySelector('.card-rule');
+  
   window.__render=function(t){
     scrs.forEach(function(s,i){
       var p=E((t-PT[i])/0.32);
@@ -116,7 +114,7 @@ candles('c3', 55, 46, true,  false);   // DXY up
     });
     charts.forEach(function(groups,ci){
       var t0=PT[chartPanel[ci]]+0.22;
-      var vis=Math.round(groups.length*Math.max(0,Math.min(1,(t-t0)/1.15)));
+      var vis=Math.round(groups.length*Math.max(0,Math.min(1,(t-t0)/0.85)));
       groups.forEach(function(g,i){ var on=i<vis?1:0; g.forEach(function(el){ if(el) el.setAttribute('opacity',on) }); });
     });
     heatCells.forEach(function(c,i){
@@ -129,10 +127,7 @@ candles('c3', 55, 46, true,  false);   // DXY up
       var p=E((t-(PT[pi]+0.25+ri*0.12))/0.3);
       r.style.opacity=p;
     });
-    var cp=E((t-2.15)/0.35);
-    var kk=document.getElementById('kk22'); if(kk) kk.style.opacity=cp*0.85;
-    card.style.opacity=cp; rule.style.opacity=cp;
-    card.style.transform='translateY('+(18*(1-cp))+'px)';
+
   };
   window.__render(0);
 })();

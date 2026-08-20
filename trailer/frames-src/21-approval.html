@@ -1,121 +1,182 @@
 <!doctype html><meta charset="utf-8"><link rel="stylesheet" href="frame.css"><link rel="stylesheet" href="anim.css"><script src="anim.js"></script>
-<title>The Mandate — approval, cohorts, polling</title>
+<title>Situation Brief — Inauguration Day</title>
 <style>
   body{background:#080d18}
-  .tag{position:absolute; left:0; right:0; top:44px; text-align:center;
+  .tag{position:absolute; left:0; right:0; top:36px; text-align:center;
     font-family:var(--mono); font-size:18px; letter-spacing:0.4em; color:var(--dim)}
-  .grid{position:absolute; left:100px; right:100px; top:104px; bottom:96px;
-    display:grid; grid-template-columns:420px 1fr 470px; grid-template-rows:1fr 300px; gap:22px}
+  .grid{position:absolute; left:96px; right:96px; top:86px; bottom:56px;
+    display:grid; grid-template-columns:340px 1fr 470px; grid-template-rows:286px 316px 1fr; gap:15px}
   .panel{border:1px solid var(--line-soft); border-radius:8px; background:rgba(10,16,31,0.85);
-    padding:24px 28px; font-family:var(--mono); position:relative; overflow:hidden; opacity:0}
-  .pl{display:flex; justify-content:space-between; font-size:14px; letter-spacing:0.2em;
-    color:var(--muted); margin-bottom:14px; text-transform:uppercase}
+    padding:18px 24px; font-family:var(--mono); position:relative; overflow:hidden; opacity:0}
+  .pl{display:flex; justify-content:space-between; font-size:13.5px; letter-spacing:0.18em;
+    color:var(--muted); margin-bottom:10px; text-transform:uppercase}
   .pl .hm{color:#7fb896}
-  /* big number */
   .bignum{display:flex; flex-direction:column; justify-content:center}
-  .bignum .n{font-size:150px; color:var(--gold-hi); line-height:1;
+  .bignum .n{font-size:128px; color:var(--gold-hi); line-height:1;
     text-shadow:0 0 60px rgba(227,192,106,0.22); font-variant-numeric:tabular-nums}
-  .bignum .n small{font-size:64px; color:var(--gold)}
-  .bignum .lab{font-size:17px; letter-spacing:0.3em; color:var(--muted); margin-top:18px}
-  .bignum .d{font-size:18px; color:#7fb896; margin-top:12px; white-space:nowrap}
-  /* trend spans two rows on the right? no: top-middle+top-right = trend; simpler: */
+  .bignum .n small{font-size:56px; color:var(--gold)}
+  .bignum .lab{font-size:16px; letter-spacing:0.28em; color:var(--muted); margin-top:16px}
+  .bignum .d{font-size:16px; color:#7fb896; margin-top:10px; white-space:nowrap}
   .trend{grid-column:2 / 4}
-  /* cohort bars */
-  .bars .row{display:grid; grid-template-columns:96px 1fr 64px; align-items:center; gap:14px; margin:17px 0}
-  .bars .bl{font-size:14.5px; letter-spacing:0.12em; color:var(--muted)}
-  .bars .track{display:block; height:20px; background:#0a101f; border:1px solid var(--line-soft); border-radius:3px; overflow:hidden}
+  .mappanel{grid-row:2}
+  .bars .row{display:grid; grid-template-columns:92px 1fr 62px; align-items:center; gap:12px; margin:14px 0}
+  .bars .bl{font-size:14px; letter-spacing:0.1em; color:var(--muted)}
+  .bars .track{display:block; height:18px; background:#0a101f; border:1px solid var(--line-soft); border-radius:3px; overflow:hidden}
   .bars .fill{display:block; height:100%; width:0; background:linear-gradient(90deg,#8a6f2e,var(--gold-hi)); border-radius:2px}
-  .bars .bv{font-size:19px; color:var(--ivory); text-align:right; font-variant-numeric:tabular-nums}
+  .bars .bv{font-size:18px; color:var(--ivory); text-align:right; font-variant-numeric:tabular-nums}
   .bars.party .fill.dem{background:linear-gradient(90deg,#2c4a86,#5f7fc0)}
   .bars.party .fill.ind{background:linear-gradient(90deg,#5c5f6b,#9aa0ae)}
   .bars.party .fill.rep{background:linear-gradient(90deg,#7e3335,#c05a56)}
+  /* house seat bar */
+  .seatbar{position:relative; height:44px; border-radius:5px; overflow:hidden; background:#0a101f;
+    border:1px solid var(--line-soft); margin-top:18px}
+  .seatbar .rep{position:absolute; left:0; top:0; bottom:0; width:0; background:linear-gradient(90deg,#7e3335,#b1524e)}
+  .seatbar .dem{position:absolute; right:0; top:0; bottom:0; width:0; background:linear-gradient(270deg,#2c4a86,#5474b8)}
+  .seatbar .maj{position:absolute; left:50.11%; top:-6px; bottom:-6px; width:2.5px; background:var(--gold-hi);
+    box-shadow:0 0 10px rgba(227,192,106,0.8)}
+  .seatnums{display:flex; justify-content:space-between; margin-top:14px; font-size:15px; color:var(--muted)}
+  .seatnums b{color:var(--ivory); font-weight:normal; font-size:26px; font-variant-numeric:tabular-nums}
+  .seatnums .r b{color:#d98a8a} .seatnums .d2 b{color:#8fa8d8}
+  .majlab{text-align:center; font-size:12.5px; letter-spacing:0.2em; color:var(--gold); margin-top:12px}
 </style>
 <div class="stage">
-  <div class="tag">DAY 9 OF THE TERM · APPROVAL &amp; POLLING · CONTINUOUS</div>
+  <div class="tag">SITUATION BRIEF · JANUARY 20 2025 · INAUGURATION DAY</div>
   <div class="grid">
     <div class="panel bignum" id="p1">
       <div class="n"><span id="apn">0</span><small>%</small></div>
       <div class="lab">JOB APPROVAL</div>
-      <div class="d">▲ +9 SINCE ELECTION DAY · HIGHEST ON RECORD</div>
+      <div class="d">▲ +10 SINCE ELECTION · HIGHEST ON RECORD</div>
     </div>
     <div class="panel trend" id="p2">
-      <div class="pl"><span>APPROVAL · ELECTION NIGHT → DAY 9</span><span class="hm">HONEYMOON</span></div>
-      <svg id="ch" width="100%" height="290" viewBox="0 0 1240 290" preserveAspectRatio="none"></svg>
+      <div class="pl"><span>APPROVAL RATING</span><span class="hm">DAILY TRACKING POLL · 30 DAYS</span></div>
+      <svg id="ch" width="100%" height="212" viewBox="0 0 1240 212" preserveAspectRatio="none"></svg>
     </div>
-    <div class="panel bars" id="p3">
+    <div class="panel mappanel" id="p3">
+      <div class="pl"><span>APPROVAL BY STATE</span></div>
+      <svg id="usmap" width="100%" height="238" viewBox="128 306 452 258"></svg>
+    </div>
+    <div class="panel" id="p4">
+      <div class="pl"><span>HOUSE OF REPRESENTATIVES</span><span>435 SEATS</span></div>
+      <div class="seatbar"><span class="rep" id="sr"></span><span class="dem" id="sd"></span><span class="maj"></span></div>
+      <div class="seatnums">
+        <span class="r"><b id="repn">0</b>&nbsp; REP</span>
+        <span class="d2">DEM &nbsp;<b id="demn">0</b></span>
+      </div>
+      <div class="majlab">218 FOR MAJORITY · REP CONTROL +14</div>
+    </div>
+    <div class="panel bars" id="p5">
       <div class="pl"><span>APPROVAL BY AGE COHORT</span></div>
       <div class="row"><span class="bl">18–29</span><span class="track"><span class="fill" data-v="44"></span></span><span class="bv"><span class="cv" data-to="44">0</span>%</span></div>
       <div class="row"><span class="bl">30–44</span><span class="track"><span class="fill" data-v="52"></span></span><span class="bv"><span class="cv" data-to="52">0</span>%</span></div>
       <div class="row"><span class="bl">45–64</span><span class="track"><span class="fill" data-v="61"></span></span><span class="bv"><span class="cv" data-to="61">0</span>%</span></div>
       <div class="row"><span class="bl">65+</span><span class="track"><span class="fill" data-v="66"></span></span><span class="bv"><span class="cv" data-to="66">0</span>%</span></div>
     </div>
-    <div class="panel bars party" id="p4" style="grid-column:1 / 3">
-      <div class="pl"><span>BY PARTY ID</span><span>GALLUP-STYLE TRACKER</span></div>
+    <div class="panel bars party" id="p6" style="grid-column:1 / 3">
+      <div class="pl"><span>BY PARTY ID</span><span>TRACKER</span></div>
       <div class="row"><span class="bl">REP</span><span class="track"><span class="fill rep" data-v="91"></span></span><span class="bv"><span class="cv" data-to="91">0</span>%</span></div>
       <div class="row"><span class="bl">IND</span><span class="track"><span class="fill ind" data-v="55"></span></span><span class="bv"><span class="cv" data-to="55">0</span>%</span></div>
       <div class="row"><span class="bl">DEM</span><span class="track"><span class="fill dem" data-v="24"></span></span><span class="bv"><span class="cv" data-to="24">0</span>%</span></div>
     </div>
-    <div class="panel bars" id="p5">
-      <div class="pl"><span>THE COUNTRY'S MOOD</span></div>
-      <div class="row"><span class="bl">RIGHT TRACK</span><span class="track"><span class="fill" data-v="58"></span></span><span class="bv"><span class="cv" data-to="58">0</span>%</span></div>
-      <div class="row"><span class="bl">ECON CONF.</span><span class="track"><span class="fill" data-v="61"></span></span><span class="bv"><span class="cv" data-to="61">0</span>%</span></div>
-      <div class="row"><span class="bl">TURNOUT '24</span><span class="track"><span class="fill" data-v="67"></span></span><span class="bv"><span class="cv" data-to="67">0</span>%</span></div>
+    <div class="panel bars" id="p7">
+      <div class="pl"><span>IMMIGRATION · TOP ORIGINS 2024</span></div>
+      <div class="row"><span class="bl">MEXICO</span><span class="track"><span class="fill" data-v="92"></span></span><span class="bv"><span class="cv" data-to="165">0</span>K</span></div>
+      <div class="row"><span class="bl">INDIA</span><span class="track"><span class="fill" data-v="71"></span></span><span class="bv"><span class="cv" data-to="127">0</span>K</span></div>
+      <div class="row"><span class="bl">CHINA</span><span class="track"><span class="fill" data-v="48"></span></span><span class="bv"><span class="cv" data-to="86">0</span>K</span></div>
     </div>
   </div>
-  <div class="disclaimer">PANELS LAND IN SEQUENCE · LINE DRAWS · EVERY BAR GROWS · EVERY NUMBER COUNTS</div>
-  <div class="timecode">TEASER 02 · THE MANDATE</div>
+  <div class="disclaimer">SITUATION BRIEF · 30-DAY DAILY POLL RISES 47→57 · STATE CHOROPLETH · HOUSE SEATS · IMMIGRATION</div>
+  <div class="timecode">TEASER 02 · SITUATION BRIEF</div>
   <div class="grade"></div>
 </div>
+<script src="us-states.js"></script>
 <script>
 (function(){
   var NS='http://www.w3.org/2000/svg';
+  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
+  // ---- trend chart: 30 daily polls, 47 -> 57 with per-poll wobble; fully inside the panel ----
   var svg=document.getElementById('ch');
-  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);svg.appendChild(e);return e}
-  el('line',{x1:0,y1:252,x2:1240,y2:252,stroke:'#1a2742'});
-  el('line',{x1:0,y1:140,x2:1240,y2:140,stroke:'#1a2742','stroke-dasharray':'4 6'});
-  var t50=el('text',{x:8,y:132,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#5b647c'}); t50.textContent='50%';
-  el('line',{x1:430,y1:252,x2:430,y2:30,stroke:'#243352','stroke-dasharray':'3 5'});
-  var tj=el('text',{x:444,y:46,'font-family':'DejaVu Sans Mono','font-size':14,fill:'#5b647c'}); tj.textContent='JAN 20 · SWORN IN';
-  var PTS=[[0,168],[95,170],[190,163],[285,165],[370,158],[430,152],[510,134],[610,125],[720,108],[830,97],[940,82],[1050,68],[1140,58],[1240,48]];
-  var path=el('path',{d:PTS.map(function(p,i){return (i?'L':'M')+p[0]+','+p[1]}).join(' '),
-    fill:'none',stroke:'#e3c06a','stroke-width':4,'stroke-linecap':'round'});
+  function el(s,n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);s.appendChild(e);return e}
+  var W=1240,H=212, PAD=14, AX=H-30;
+  el(svg,'line',{x1:0,y1:AX,x2:W,y2:AX,stroke:'#1a2742'});
+  [45,50,55].forEach(function(v){
+    var y=AX-(v-44)/(59-44)*(AX-PAD);
+    el(svg,'line',{x1:0,y1:y,x2:W,y2:y,stroke:'#151f38','stroke-dasharray':'4 6'});
+    var t=el(svg,'text',{x:6,y:y-5,'font-family':'DejaVu Sans Mono','font-size':13,fill:'#5b647c'}); t.textContent=v+'%';
+  });
+  // x axis dates: DEC 22 -> JAN 20 (30 days)
+  [['DEC 22',0],['DEC 29',7],['JAN 5',14],['JAN 12',21],['JAN 20',29]].forEach(function(d){
+    var x=30+d[1]/29*(W-70);
+    var t=el(svg,'text',{x:x,y:H-8,'font-family':'DejaVu Sans Mono','font-size':13.5,fill:'#5b647c','text-anchor':'middle'});
+    t.textContent=d[0];
+    el(svg,'line',{x1:x,y1:AX,x2:x,y2:AX+4,stroke:'#2a3throw'.replace('throw','a54')});
+  });
+  function rnd(s){return function(){s=(s*1103515245+12345)%2147483648;return s/2147483648}}
+  var r=rnd(17), pts=[];
+  for(var i=0;i<30;i++){
+    var base=47+10*(i/29);
+    var v=base+(r()-0.5)*1.5;
+    if(i===0) v=47.0;
+    if(i===29) v=57.0;
+    var x=30+i/29*(W-70), y=AX-(v-44)/(59-44)*(AX-PAD);
+    pts.push([x,y,v]);
+  }
+  var path=el(svg,'path',{d:pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)}).join(' '),
+    fill:'none',stroke:'#e3c06a','stroke-width':3.5,'stroke-linecap':'round','stroke-linejoin':'round'});
   var LEN=path.getTotalLength();
   path.setAttribute('stroke-dasharray',LEN); path.setAttribute('stroke-dashoffset',LEN);
-  var dot=el('circle',{r:7,fill:'#e3c06a',cx:0,cy:168});
-  var pl=el('text',{x:0,y:0,'font-family':'DejaVu Sans Mono','font-size':18,fill:'#e3c06a','text-anchor':'end'});
+  var dots=pts.map(function(p){ return el(svg,'circle',{cx:p[0],cy:p[1],r:3.4,fill:'#e3c06a',opacity:0}) });
+  var head=el(svg,'circle',{r:6.5,fill:'#e3c06a',cx:pts[0][0],cy:pts[0][1]});
+  var pl=el(svg,'text',{x:0,y:0,'font-family':'DejaVu Sans Mono','font-size':17,fill:'#e3c06a','text-anchor':'end'});
+  // ---- state choropleth ----
+  var us=document.getElementById('usmap');
+  var r2=rnd(31);
+  function mix(p){ // navy -> gold ramp
+    var a=[44,58,86], b=[227,192,106];
+    return 'rgb('+Math.round(a[0]+(b[0]-a[0])*p)+','+Math.round(a[1]+(b[1]-a[1])*p)+','+Math.round(a[2]+(b[2]-a[2])*p)+')';
+  }
+  var stpaths=US_STATES.map(function(d,i){
+    var appr=0.25+0.65*r2();
+    return el(us,'path',{d:d, fill:mix(appr), stroke:'#0b1424','stroke-width':0.8, opacity:0});
+  });
+  // ---- panels + counters ----
   var apn=document.getElementById('apn');
-  var panels=['p1','p2','p3','p4','p5'].map(function(i){return document.getElementById(i)});
-  var PT=[0.10,0.30,0.85,1.25,1.65];
+  var repn=document.getElementById('repn'), demn=document.getElementById('demn');
+  var sr=document.getElementById('sr'), sd=document.getElementById('sd');
+  var panels=['p1','p2','p3','p4','p5','p6','p7'].map(function(i){return document.getElementById(i)});
+  var PT=[0.10,0.28,0.85,1.15,1.45,1.75,2.00];
   var fills=[].slice.call(document.querySelectorAll('.fill'));
   var cvs=[].slice.call(document.querySelectorAll('.cv'));
-  function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   window.__render=function(t){
     panels.forEach(function(p,i){
-      var pp=E((t-PT[i])/0.35);
-      p.style.opacity=pp; p.style.transform='translateY('+(24*(1-pp))+'px)';
+      var pp=E((t-PT[i])/0.32);
+      p.style.opacity=pp; p.style.transform='translateY('+(22*(1-pp))+'px)';
     });
     apn.textContent=Math.round(57*E((t-0.25)/1.0));
-    var lp=E((t-0.45)/1.25);
+    var lp=E((t-0.40)/1.5);
     path.setAttribute('stroke-dashoffset',LEN*(1-lp));
+    dots.forEach(function(d,i){ d.setAttribute('opacity', (i/29)<=lp?0.85:0) });
     var pt=path.getPointAtLength(LEN*lp);
-    dot.setAttribute('cx',pt.x); dot.setAttribute('cy',pt.y);
+    head.setAttribute('cx',pt.x); head.setAttribute('cy',pt.y);
     pl.setAttribute('x',pt.x-12); pl.setAttribute('y',pt.y-14);
-    pl.textContent=(46+11.2*lp).toFixed(1)+'%';
-    // every bar grows with its panel, staggered inside
+    pl.textContent=(47+10*lp).toFixed(1)+'%';
+    // choropleth states resolve in a sweep
+    stpaths.forEach(function(sp,i){
+      var d=E((t-(PT[2]+0.15+ (i%17)*0.03))/0.3);
+      sp.setAttribute('opacity',d);
+    });
+    // house seats
+    var hp=E((t-(PT[3]+0.2))/0.8);
+    repn.textContent=Math.round(232*hp); demn.textContent=Math.round(203*hp);
+    sr.style.width=(232/435*100*hp)+'%'; sd.style.width=(203/435*100*hp)+'%';
     fills.forEach(function(f){
-      var panel=f.closest('.panel');
-      var pi=panels.indexOf(panel);
-      var rows=[].slice.call(panel.querySelectorAll('.fill'));
-      var ri=rows.indexOf(f);
-      var bp=E((t-(PT[pi]+0.25+ri*0.14))/0.55);
-      f.style.width=(+f.getAttribute('data-v'))*bp+'%';
+      var panel=f.closest('.panel'); var pi=panels.indexOf(panel);
+      var rows=[].slice.call(panel.querySelectorAll('.fill')); var ri=rows.indexOf(f);
+      f.style.width=(+f.getAttribute('data-v'))*E((t-(PT[pi]+0.22+ri*0.13))/0.5)+'%';
     });
     cvs.forEach(function(c){
-      var panel=c.closest('.panel');
-      var pi=panels.indexOf(panel);
-      var rows=[].slice.call(panel.querySelectorAll('.cv'));
-      var ri=rows.indexOf(c);
-      c.textContent=Math.round((+c.getAttribute('data-to'))*E((t-(PT[pi]+0.25+ri*0.14))/0.55));
+      var panel=c.closest('.panel'); var pi=panels.indexOf(panel);
+      var rows=[].slice.call(panel.querySelectorAll('.cv')); var ri=rows.indexOf(c);
+      c.textContent=Math.round((+c.getAttribute('data-to'))*E((t-(PT[pi]+0.22+ri*0.13))/0.5));
     });
   };
   window.__render(0);

@@ -22,9 +22,11 @@
 <div class="stage">
   <div class="cctv">
     <div class="c-tl"><span class="rec">●</span> REC &nbsp;02:14:36</div>
-    <div class="c-tr">CAM 07 · RESIDENCE — OFFICE</div>
-    <div class="c-bl">MINSK STATION · INTERCEPTED FEED</div>
-    <div class="c-br">02 · 14 · 37&nbsp;&nbsp;02:14 AM</div>
+    <div class="c-tr">HELMET CAM · ALPHA 1 — LEAD</div>
+    <div class="c-bl">ENTRY TEAM · RESIDENCE — OFFICE</div>
+    <div class="c-br">53°54′N 27°33′E · MINSK</div>
+    <div class="compass">300 &nbsp;·&nbsp; NW &nbsp;·&nbsp; 330 &nbsp;·&nbsp; <b>▾ N ▾</b> &nbsp;·&nbsp; 030 &nbsp;·&nbsp; NE &nbsp;·&nbsp; 060</div>
+    <div class="ret"></div>
     <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
   </div>
   <div class="bcast">
@@ -41,6 +43,14 @@
   .c-tl{left:120px; top:110px} .c-tr{right:120px; top:110px}
   .c-bl{left:120px; bottom:190px} .c-br{right:120px; bottom:190px}
   .rec{color:#ff5f52}
+  .compass{left:0; right:0; top:104px; text-align:center; font-size:17px!important;
+    letter-spacing:0.22em!important; color:rgba(220,227,238,0.85)}
+  .compass b{color:#e8d9a8; font-weight:normal}
+  .ret{left:50%; top:47%; width:78px; height:78px; transform:translate(-50%,-50%);
+    border:1.5px solid rgba(220,227,238,0.35); border-radius:50%}
+  .ret::before,.ret::after{content:""; position:absolute; background:rgba(220,227,238,0.45)}
+  .ret::before{left:50%; top:-12px; bottom:-12px; width:1.5px; margin-left:-0.75px}
+  .ret::after{top:50%; left:-12px; right:-12px; height:1.5px; margin-top:-0.75px}
   .corner{position:absolute; width:56px; height:56px; border:2.5px solid rgba(220,227,238,0.65)}
   .corner.tl{left:96px; top:96px; border-right:none; border-bottom:none}
   .corner.tr{right:96px; top:96px; border-left:none; border-bottom:none}
