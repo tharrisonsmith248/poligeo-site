@@ -31,18 +31,11 @@
   .pg{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     font-family:var(--display); font-weight:bold; font-size:215px; color:#d13b30;
     -webkit-text-stroke:3px #0a0d12; text-shadow:0 5px 20px rgba(0,0,0,0.6)}
-  /* true 3D cube wearing the logo's own painted faces */
-  .face{background-size:100% 100%; background-position:center}
-  .ffront{background-image:url(pgtex-p.png)}
-  .fback{background-image:url(pgtex-p.png)}
-  .fright{background-image:url(pgtex-g.png)}
-  .fleft{background-image:url(pgtex-g.png)}
-  .ftop{background-image:url(pgtex-top.png)}
-  .ffront{transform:translateZ(150px)}
-  .fright{transform:rotateY(90deg) translateZ(150px)}
-  .fback{transform:rotateY(180deg) translateZ(150px)}
-  .fleft{transform:rotateY(270deg) translateZ(150px)}
-  .ftop{transform:rotateX(90deg) translateZ(150px)}
+  /* the spin is pre-rendered offline (exact 3D fit to the logo's geometry):
+     constant scale, constant resolution, settle frame == the logo's cube */
+  .spinstack{position:absolute; left:50%; top:300px; transform:translate(-50%,-50%);
+    width:520px; height:420px}
+  .spinstack img{position:absolute; left:0; top:0; width:520px; height:420px; opacity:0}
   /* the full mark (with the arc text) takes over at settle */
   .logoimg{position:absolute; left:50%; top:300px; transform:translate(-50%,-50%);
     width:352px; height:auto; filter:drop-shadow(0 0 44px rgba(201,165,74,0.32)); opacity:0}
@@ -69,7 +62,7 @@
   .steam{width:38px; height:38px}
   .links{position:absolute; left:0; right:0; top:952px; text-align:center; opacity:0;
     font-family:var(--mono); font-size:18px; letter-spacing:0.3em; color:var(--muted)}
-  body.scope .scene, body.scope .logoimg{top:258px}
+  body.scope .spinstack, body.scope .logoimg{top:258px}
   body.scope .wm{top:448px}
   body.scope .rule{top:578px}
   body.scope .tagline{top:606px}
@@ -80,13 +73,7 @@
 <div class="stage">
   <div class="halo"></div>
   <div class="field" id="field" style="position:absolute;inset:0;opacity:0.5"></div>
-  <div class="scene"><div class="cube3d" id="cube">
-    <div class="face ftop"></div>
-    <div class="face fleft"></div>
-    <div class="face fback"></div>
-    <div class="face fright"></div>
-    <div class="face ffront"></div>
-  </div></div>
+  <div class="spinstack" id="spinstack"></div>
   <img class="logoimg" id="logoimg" src="logo-cube.png" alt="PG — Politics &amp; Geography">
   <img class="wm" id="wm" src="../../assets/wordmark.png" alt="POLIGEO">
   <div class="rule" id="rule"></div>
@@ -126,7 +113,13 @@
 })();
 (function(){
   var $=function(id){return document.getElementById(id)};
-  var cube=$('cube'), scene=document.querySelector('.scene'), logo=$('logoimg');
+  var logo=$('logoimg');
+  var stack=$('spinstack'), sframes=[];
+  for(var i=0;i<66;i++){
+    var im=document.createElement('img');
+    im.src='spin/spin_'+(i<10?'0':'')+i+'.png';
+    stack.appendChild(im); sframes.push(im);
+  }
   var wm=$('wm'), rule=$('rule'), tag=$('tag'), date=$('date'), ctarow=$('ctarow'), links=$('links');
   function E(p){p=Math.max(0,Math.min(1,p));return 1-Math.pow(1-p,3)}
   function fadeUp(el,t,t0,dy){
@@ -138,18 +131,12 @@
     return p;
   }
   window.__render=function(t){
-    // true 3D cube in the logo's own paint: one slow revolution, settles at
-    // the mark's angle, then the full logo (arc text included) takes over
-    var p=Math.max(0,Math.min(1,t/2.15));
-    var sp=p*p*(3-2*p);
-    var ry=-46-360*(1-sp);
-    var cs=(0.570+0.044*sp).toFixed(4);
-    // scale3d: plain scale() leaves Z untouched and turns the cube into a deep box
-    cube.style.transform='translate(4px,-14px) rotateX(-19deg) rotateY('+ry+'deg) scale3d('+cs+','+cs+','+cs+')';
+    // pre-rendered spin: easing is baked into the frames, so time maps linearly
+    var idx=Math.min(65,Math.round(Math.max(0,Math.min(1,t/2.15))*65));
+    for(var k=0;k<66;k++) sframes[k].style.opacity=(k===idx)?1:0;
+    // the full mark (arc text) fades over the settled cube; geometry is identical
     var xf=E((t-2.2)/0.4);
-    scene.style.opacity=1-xf;
     logo.style.opacity=xf;
-    logo.style.transform='translate(-50%,-50%) scale('+(0.96+0.04*xf)+')';
     // the stack lands piece by piece
     fadeUp(wm,t,2.65);
     fadeUp(rule,t,3.1);
