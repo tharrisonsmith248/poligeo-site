@@ -130,12 +130,15 @@
   // ---- state choropleth ----
   var us=document.getElementById('usmap');
   var r2=rnd(31);
-  function mix(p){ // navy -> gold ramp
-    var a=[44,58,86], b=[227,192,106];
-    return 'rgb('+Math.round(a[0]+(b[0]-a[0])*p)+','+Math.round(a[1]+(b[1]-a[1])*p)+','+Math.round(a[2]+(b[2]-a[2])*p)+')';
+  function mix(p){ // in-game diverging ramp: blue = disapprove, red = approve
+    var B=[58,95,174], M=[62,66,88], R=[176,74,74];
+    var a,b,f;
+    if(p<0.5){ a=B; b=M; f=p*2; } else { a=M; b=R; f=(p-0.5)*2; }
+    return 'rgb('+Math.round(a[0]+(b[0]-a[0])*f)+','+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+')';
   }
   var stpaths=US_STATES.map(function(d,i){
-    var appr=0.25+0.65*r2();
+    // 57% national approval: the map leans red, with solid-blue holdouts
+    var appr=0.18+0.74*r2();
     return el(us,'path',{d:d, fill:mix(appr), stroke:'#0b1424','stroke-width':0.8, opacity:0});
   });
   // ---- panels + counters ----

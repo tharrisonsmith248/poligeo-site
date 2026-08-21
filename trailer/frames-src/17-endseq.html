@@ -143,7 +143,9 @@
     var p=Math.max(0,Math.min(1,t/2.15));
     var sp=p*p*(3-2*p);
     var ry=-46-360*(1-sp);
-    cube.style.transform='translate(4px,-14px) rotateX(-19deg) rotateY('+ry+'deg) scale('+(0.570+0.044*sp)+')';
+    var cs=(0.570+0.044*sp).toFixed(4);
+    // scale3d: plain scale() leaves Z untouched and turns the cube into a deep box
+    cube.style.transform='translate(4px,-14px) rotateX(-19deg) rotateY('+ry+'deg) scale3d('+cs+','+cs+','+cs+')';
     var xf=E((t-2.2)/0.4);
     scene.style.opacity=1-xf;
     logo.style.opacity=xf;
