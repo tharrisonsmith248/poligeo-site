@@ -141,20 +141,39 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
      brand takes the left with margin-right:auto, and Community and Wishlist
      are pushed hard against the right of the top row. */
   @media (max-width:900px){
-    .nav-in{height:auto;flex-wrap:wrap;gap:0;padding-top:11px;padding-bottom:0}
+    /* .wrap sets `padding:0 18px` in the 700 block below, and a shorthand
+       resets all four sides, so a bare `.nav-in` padding-top loses to it and
+       the buttons sat flush against the top of the bar. Two class names beat
+       one, so the gutter can keep changing per breakpoint without taking the
+       vertical rhythm with it. The 10px here answers the 10px of margin under
+       the button row, so the row sits evenly between the top of the bar and
+       the divider. */
+    .wrap.nav-in{height:auto;flex-wrap:wrap;gap:0;padding-top:10px;padding-bottom:0}
     .brandmark{order:1;margin-right:auto}
-    /* Vertical padding is the tap target: as a bare inline link Community was
-       13px tall. 13px either side matches the button's height, so the row
-       does not grow to pay for it. */
+    /* Community carries a 14px icon and Wishlist does not, so on padding alone
+       the two boxes came out 1.5px apart in height and neither top nor bottom
+       edge lined up. One explicit height on both, with the content centred in
+       it, aligns the pair and leaves equal space above and below the label.
+       40px is what the taller of the two already measured, so the bar does not
+       grow, and it stays a thumb-sized target. */
     .nav-com{order:2;flex:none;margin-right:10px}
-    .nav-cta{order:3;flex:none;white-space:nowrap}
+    .nav-cta{
+      order:3;flex:none;white-space:nowrap;
+      height:40px;padding-top:0;padding-bottom:0;justify-content:center;
+    }
+    /* width:100% is 100% of the CONTENT box, so the negative margins moved the
+       strip left without widening it and the divider stopped a gutter short of
+       the right edge. A 100% basis still forces the wrap onto its own row, and
+       growing into the free space the negative margins open up carries the
+       border the last 2 gutters across — at whatever the gutter happens to be. */
     .nav-links{
-      order:4;width:100%;margin:10px -24px 0;padding:0 24px;gap:0;
-      justify-content:flex-end;
+      order:4;flex:1 0 100%;margin:10px -24px 0;padding:0 24px;gap:0;
+      justify-content:flex-start;
       border-top:1px solid var(--line-soft);
     }
     .nav-links a{display:block;flex:none;padding:12px 13px;white-space:nowrap}
-    .nav-links a:last-child{padding-right:0}
+    /* Left-aligned, so it is the FIRST item that sits flush with the gutter and
+       under the brand. .drop-btn already carries no left padding. */
     .drop-btn{padding:12px 13px 12px 0}
     .drop-menu{left:0;transform:none}
   }
@@ -553,6 +572,11 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
   /* ── section scaffolding ─────────────────────────── */
   section{padding:88px 0;border-bottom:1px solid var(--line);scroll-margin-top:60px}
+  /* Below 900 the bar is two rows, not one, so an anchor landing on the offset
+     the desktop nav needs would put the section heading under it. This has to
+     sit after the rule above, not up in the nav block, or it loses the cascade
+     on equal specificity. */
+  @media (max-width:900px){section{scroll-margin-top:110px}}
   .sec-head{margin-bottom:50px;max-width:40em}
   h2{font-size:clamp(28px,3.6vw,40px);margin:0 0 12px;line-height:1.12;text-wrap:balance}
   .sec-head p{color:var(--muted);margin:0;font-size:17px}
@@ -650,7 +674,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
      than it is to the prose.                                              */
   @media (max-width:700px){
     .wrap{padding:0 18px}
-    section{padding:54px 0;scroll-margin-top:100px}
+    section{padding:54px 0}
     .sec-head{margin-bottom:30px}
     .demo-band{margin:6px 0 44px}
     .demo-full{margin-top:26px}
@@ -660,7 +684,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
        scrolls if it has to. */
     .brandmark .wordmark{height:21px}
     .nav-com{margin-right:10px}
-    .nav-cta{padding:12px 13px;font-size:12.5px}
+    .nav-cta{padding:0 11px;font-size:12.5px}
     .nav-cta .ric{width:14px;height:14px}
     .nav-links{margin-left:-18px;margin-right:-18px;padding:0 18px}
     .nav-links a{padding:14px 13px;font-size:13.5px}
@@ -733,17 +757,21 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     .card{padding:22px 20px}
   }
 
-  /* Narrow phones. Brand plus Community plus the button needs about 300px and
-     a 320px screen offers 284, so the button wrapped onto its own line. The
-     row keeps its shape by shrinking its parts rather than dropping any.
+  /* Narrow phones. Brand plus Community plus the button needs about 373px, so
+     the button wrapped onto its own line below that. The row keeps its shape
+     by shrinking its parts rather than dropping any.
+     The cut-off was 370px, which left 371-380 — an iPhone SE, a 12 or 13 mini —
+     in the gap between the two sizes, wrapping on the size the shrink exists to
+     rescue. It runs to 380 now, and it shrinks far enough that a 320px screen
+     (284px between the gutters) holds the row as well.
      .wrap padding is deliberately untouched: the full-bleed offsets below are
      measured against 18px. */
-  @media (max-width:370px){
+  @media (max-width:380px){
     .brandmark{gap:8px}
     .brandmark .mark{width:34px}
-    .brandmark .wordmark{height:17px}
+    .brandmark .wordmark{height:16px}
     .nav-com{margin-right:6px}
-    .nav-cta{padding:10px 9px;font-size:11.5px}
+    .nav-cta{padding:0 8px;font-size:11.5px}
     .nav-cta .ric{width:13px;height:13px}
     .nav-links a{padding:14px 9px;font-size:13px}
     .drop-btn{font-size:13px;padding:14px 9px 14px 0}
