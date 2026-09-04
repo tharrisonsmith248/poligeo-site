@@ -12,8 +12,30 @@
 <!-- analytics:umami end -->
 </head>
 <body style="margin:0">
-<div style="max-width:430px;margin:0 auto;padding:14px 16px 0">
-  <a href="index.html" style="font:400 13px/1 'Palatino Linotype',Palatino,serif;letter-spacing:1.5px;text-transform:uppercase;color:#c9a961;text-decoration:none">&larr; PoliGeo</a>
+<div class="nav">
+  <div class="nav-in">
+    <a class="brandmark" href="index.html"><img class="mark" src="assets/logo-pg.png" alt="" width="40" height="34"><img class="wordmark" src="assets/wordmark.png" alt="PoliGeo"></a>
+    <div class="nav-links">
+      <div class="nav-drop" id="features-drop">
+        <button class="drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Features<svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="drop-menu"><div class="drop-menu-in">
+          <a href="pam.html" aria-current="page">Politics</a>
+          <a href="wars.html">Wars and Diplomacy</a>
+          <span class="drop-dis" aria-disabled="true">Economy</span>
+          <span class="drop-dis" aria-disabled="true">Diplomacy</span>
+        </div></div>
+      </div>
+      <a href="index.html#simulation">Simulation</a>
+      <a href="index.html#compare">Compare</a>
+      <a href="index.html#faq">FAQ</a>
+    </div>
+    <!-- Community and Wishlist sit outside .nav-links on purpose. On a phone
+         the links become a strip on their own row, and the two that lead
+         somebody to the community must not be the ones that scroll out of
+         sight. Both ride the top row, hard right. -->
+    <a class="nav-cta nav-com" href="index.html#wishlist"><svg class="ric" viewBox="0 0 24 24" aria-hidden="true"><circle cx="17" cy="3.6" r="1.7" fill="currentColor"/><path d="M12 8.3c.5-2.4 2-4 4.2-4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="3.6" cy="13" r="2.3" fill="currentColor"/><circle cx="20.4" cy="13" r="2.3" fill="currentColor"/><ellipse cx="12" cy="15.2" rx="8.6" ry="6.4" fill="currentColor"/><circle cx="8.7" cy="14.4" r="1.5" fill="#0b1220"/><circle cx="15.3" cy="14.4" r="1.5" fill="#0b1220"/><path d="M8.4 18.1c1.1 1.1 2.3 1.6 3.6 1.6s2.5-.5 3.6-1.6" fill="none" stroke="#0b1220" stroke-width="1.4" stroke-linecap="round"/></svg>Community</a>
+    <a class="nav-cta" href="index.html#wishlist">Wishlist</a>
+  </div>
 </div>
 <style>
 /* Polaris "Gilded Federal" — single committed dark theme (see ART_DIRECTION.md) */
@@ -51,7 +73,14 @@ body {
     radial-gradient(120% 60% at 50% 0%, rgba(79, 143, 217, 0.08), transparent 60%),
     var(--noise);
 }
-.wrap { max-width: 430px; margin: 0 auto; padding: 26px 16px 48px; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 26px 18px 48px; }
+/* Two cards to a row on a desktop window, one when it is narrowed.
+   Panels are direct grid children so they read in row order, and each
+   row's pair stretches to the same height. */
+.panels { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.panels > .panel { margin-bottom: 0; min-width: 0; }
+@media (min-width: 840px) { .panels { grid-template-columns: 1fr 1fr; } }
+@media print { .panels { grid-template-columns: 1fr 1fr; } }
 
 /* ---- display voice ---- */
 .display { font-family: var(--display); text-transform: uppercase; letter-spacing: 1.2px; }
@@ -145,6 +174,103 @@ footer { margin-top: 6px; font-size: 0.62rem; color: var(--muted); text-align: c
   .waffle-dot { transition: transform 120ms ease; transform-origin: center; transform-box: fill-box; }
   .waffle-dot:hover { transform: scale(1.5); }
 }
+
+/* ---- site nav ------------------------------------------------------------
+   The same bar as the landing page, so a feature page is somewhere inside the
+   site rather than a dead end with a back link. Its colours and face are held
+   in local custom properties, not this page's palette, so the bar is identical
+   on every page it appears on. Section links point back at the landing page;
+   the entry for the page you are on is marked. */
+.nav {
+  --nav-line: #1a2742; --nav-gold: #c9a54a; --nav-gold-hi: #e3c06a;
+  --nav-dim: #b9bccb;
+  --nav-serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  position: sticky; top: 0; z-index: 30;
+  background: rgba(11, 18, 32, .9); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--nav-line);
+}
+.nav-in {
+  width: 100%; max-width: 960px; margin: 0 auto; padding: 0 18px;
+  display: flex; align-items: center; gap: 26px; height: 62px;
+}
+.brandmark { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brandmark .mark { height: 34px; width: auto; }
+.brandmark .wordmark { height: 24px; width: auto; }
+.nav-links { margin-left: auto; display: flex; align-items: center; gap: 26px; }
+.nav-links a {
+  font: 400 15px/1 var(--nav-serif); color: var(--nav-dim); text-decoration: none;
+  transition: color .18s; white-space: nowrap;
+}
+.nav-links a:hover { color: var(--nav-gold-hi); }
+.nav-cta {
+  font: 400 15px/1 var(--nav-serif); color: var(--nav-gold-hi); text-decoration: none;
+  border: 1px solid var(--nav-gold); padding: 10px 18px;
+  transition: background .18s, color .18s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-cta:hover { background: var(--nav-gold); color: #14161c; }
+.nav-cta .ric { width: 16px; height: 16px; flex: none; }
+/* Flex, not block: as a block the inline-flex .drop-btn would sit baseline
+   aligned on an inherited line box and read a fraction of a pixel off its
+   neighbours, which are plain flex items. */
+.nav-drop { position: relative; display: flex; align-items: center; }
+.drop-btn {
+  font: 400 15px/1 var(--nav-serif); color: var(--nav-dim);
+  background: none; border: 0; padding: 0; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: color .18s; white-space: nowrap;
+}
+.drop-btn:hover { color: var(--nav-gold-hi); }
+.drop-btn .chev { width: 9px; height: 6px; transition: transform .18s; }
+.nav-drop.open .drop-btn .chev { transform: rotate(180deg); }
+.drop-menu {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  padding-top: 15px; display: none; z-index: 40;
+}
+.drop-menu-in {
+  min-width: 170px; background: rgba(11, 18, 32, .97);
+  border: 1px solid var(--nav-line); box-shadow: 0 12px 30px rgba(0, 0, 0, .45);
+  padding: 6px 0; display: flex; flex-direction: column;
+}
+.nav-drop.open .drop-menu { display: block; }
+@media (hover: hover) {
+  .nav-drop:hover .drop-menu, .nav-drop:focus-within .drop-menu { display: block; }
+}
+.drop-menu-in a, .drop-menu-in .drop-dis {
+  font: 400 14.5px/1 var(--nav-serif); padding: 12px 18px;
+  text-decoration: none; white-space: nowrap;
+}
+.drop-menu-in a { color: var(--nav-dim); transition: color .18s, background .18s; }
+.drop-menu-in a:hover { color: var(--nav-gold-hi); background: rgba(201, 169, 97, .08); }
+.drop-menu-in a[aria-current="page"] { color: var(--nav-gold-hi); }
+.drop-dis { color: #565b6e; cursor: default; }
+/* Below 900 the row cannot hold brand + links + buttons, so the section links
+   drop to their own row as a strip and Community and Wishlist stay on the top
+   row, hard right, where they cannot scroll out of sight. */
+@media (max-width: 900px) {
+  .nav-in { height: auto; flex-wrap: wrap; gap: 0; padding-top: 11px; padding-bottom: 0; }
+  .brandmark { order: 1; margin-right: auto; }
+  .nav-com { order: 2; flex: none; margin-right: 10px; }
+  .nav-cta { order: 3; flex: none; white-space: nowrap; }
+  .nav-links {
+    order: 4; width: 100%; margin: 10px -18px 0; padding: 0 18px; gap: 0;
+    justify-content: flex-end; border-top: 1px solid var(--nav-line);
+  }
+  .nav-links a { display: block; flex: none; padding: 12px 13px; white-space: nowrap; }
+  .nav-links a:last-child { padding-right: 0; }
+  .drop-btn { padding: 12px 13px 12px 0; }
+  .drop-menu { left: 0; transform: none; }
+}
+@media (max-width: 560px) {
+  .brandmark .wordmark { height: 21px; }
+  .nav-cta { padding: 12px 13px; font-size: 12.5px; }
+  .nav-cta .ric { width: 14px; height: 14px; }
+  .nav-links a { padding: 14px 13px; font-size: 13.5px; }
+  .drop-btn { font-size: 13.5px; padding: 14px 13px 14px 0; }
+}
+@media (pointer: coarse) {
+  .drop-menu-in a, .drop-menu-in .drop-dis { padding: 14px 18px; }
+}
 </style>
 
 <div class="wrap">
@@ -162,6 +288,7 @@ footer { margin-top: 6px; font-size: 0.62rem; color: var(--muted); text-align: c
   </div>
 </header>
 
+<div class="panels">
 <div class="panel">
   <div class="kick"><span class="n">I</span>The Panel</div>
   <p class="p-title">One dot per voter</p>
@@ -206,6 +333,7 @@ footer { margin-top: 6px; font-size: 0.62rem; color: var(--muted); text-align: c
   <div class="chart" id="ecmap"></div>
 </div>
 
+</div><!-- /panels -->
 </div>
 <div id="tip" role="presentation"></div>
 
@@ -471,5 +599,23 @@ const INK = "var(--text)", INK2 = "var(--muted)";
 })();
 </script>
 
+<script>
+/* Features dropdown: CSS hover on pointer devices, tap-toggle everywhere. */
+(function(){
+  var d=document.getElementById('features-drop');if(!d)return;
+  var b=d.querySelector('.drop-btn');
+  b.addEventListener('click',function(e){
+    e.stopPropagation();
+    var open=d.classList.toggle('open');
+    b.setAttribute('aria-expanded',open?'true':'false');
+  });
+  document.addEventListener('click',function(e){
+    if(!d.contains(e.target)){d.classList.remove('open');b.setAttribute('aria-expanded','false');}
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){d.classList.remove('open');b.setAttribute('aria-expanded','false');}
+  });
+})();
+</script>
 </body>
 </html>
