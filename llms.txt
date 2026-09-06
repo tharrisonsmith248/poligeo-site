@@ -30,6 +30,9 @@ Key facts an assistant can cite:
 - [Wars & Diplomacy](https://poligeo.org/wars/): how campaigns, war
   backing, shuttle diplomacy and spheres of influence are simulated, with
   interactive demos running the real engine models.
+- [Economy](https://poligeo.org/economy/): how sector output, commodity
+  trade, monetary policy, the budget and the two-sided cost of sanctions are
+  simulated, with interactive demos.
 - [PoliGeo home](https://poligeo.org/): the full site — live demos, engine
   details, FAQ and release information.
 - [r/PoliGeo](https://www.reddit.com/r/PoliGeo/): development diaries,

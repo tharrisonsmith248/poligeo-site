@@ -1,0 +1,968 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Economy &mdash; PoliGeo</title>
+<meta name="description" content="How PoliGeo simulates the economy: sector output, commodity trade, monetary policy, the budget and the two-sided cost of sanctions.">
+<link rel="canonical" href="https://poligeo.org/economy/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://poligeo.org/economy/">
+<meta property="og:title" content="Economy &mdash; PoliGeo">
+<meta property="og:description" content="How PoliGeo simulates the economy: sector output, commodity trade, monetary policy, the budget and the two-sided cost of sanctions.">
+<meta property="og:image" content="https://poligeo.org/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/favicon-64.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<!-- analytics:umami start (managed by site/add_analytics.py) -->
+<script defer src="https://cloud.umami.is/script.js"
+        data-website-id="41c46aa5-f91d-4054-828e-0f9dd128e3f4"
+        data-domains="poligeo.org"></script>
+<!-- analytics:umami end -->
+</head>
+<body style="margin:0">
+<div class="nav">
+  <div class="nav-in">
+    <a class="brandmark" href="/"><img class="mark" src="/assets/logo-pg.png" alt="" width="40" height="34"><img class="wordmark" src="/assets/wordmark.png" alt="PoliGeo"></a>
+    <div class="nav-links">
+      <div class="nav-drop" id="features-drop">
+        <button class="drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Features<svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="drop-menu"><div class="drop-menu-in">
+          <a href="/pam/">Politics</a>
+          <a href="/wars/">Wars and Diplomacy</a>
+          <a href="/economy/" aria-current="page">Economy</a>
+        </div></div>
+      </div>
+      <a href="/#simulation">Simulation</a>
+      <a href="/#faq">FAQ</a>
+    </div>
+    <!-- Community and Wishlist sit outside .nav-links on purpose. On a phone
+         the links become a strip on their own row, and the two that lead
+         somebody to the community must not be the ones that scroll out of
+         sight. Both ride the top row, hard right. -->
+    <a class="nav-cta nav-com" href="/#wishlist"><svg class="ric" viewBox="0 0 24 24" aria-hidden="true"><circle cx="17" cy="3.6" r="1.7" fill="currentColor"/><path d="M12 8.3c.5-2.4 2-4 4.2-4.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="3.6" cy="13" r="2.3" fill="currentColor"/><circle cx="20.4" cy="13" r="2.3" fill="currentColor"/><ellipse cx="12" cy="15.2" rx="8.6" ry="6.4" fill="currentColor"/><circle cx="8.7" cy="14.4" r="1.5" fill="#0b1220"/><circle cx="15.3" cy="14.4" r="1.5" fill="#0b1220"/><path d="M8.4 18.1c1.1 1.1 2.3 1.6 3.6 1.6s2.5-.5 3.6-1.6" fill="none" stroke="#0b1220" stroke-width="1.4" stroke-linecap="round"/></svg>Community</a>
+    <a class="nav-cta" href="/#wishlist">Wishlist</a>
+  </div>
+</div>
+<style>
+/* Polaris "Gilded Federal" — single committed dark theme (see ART_DIRECTION.md) */
+:root {
+  --bg: #0a0e1a;
+  --panel: rgba(19, 26, 46, 0.92);
+  --panel-2: #1b2440;
+  --border: #2b3358;
+  --border-gilt: rgba(201, 169, 97, 0.28);
+  --text: #eae4d2;
+  --muted: #98937f;
+  --grid-ln: #232c4a;
+  --baseline: #3d4674;
+  --accent: #4f8fd9;
+  --accent-2: #74aae6;
+  --bad: #e05a6d;
+  --gold: #c9a961;
+  --gold-hi: #e8cf8e;
+  --gold-dk: #8a6d35;
+  --dem: #4f8fd9;
+  --ind: #c49a30;
+  --gop: #e05a6d;
+  --s-amber: #cf8f2c;
+  --s-steel: #5f9ad9;
+  --s-red: #e05a6d;
+  --display: 'Marcellus', 'Palatino Linotype', Palatino, 'Times New Roman', serif;
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 13.5px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  background-image:
+    radial-gradient(120% 60% at 50% 0%, rgba(79, 143, 217, 0.08), transparent 60%),
+    var(--noise);
+}
+.wrap { max-width: 960px; margin: 0 auto; padding: 26px 18px 48px; }
+/* Two cards to a row on a desktop window, one when it is narrowed.
+   Panels are direct grid children so they read in row order, and each
+   row's pair stretches to the same height. */
+.panels { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.panels > .panel { margin-bottom: 0; min-width: 0; }
+@media (min-width: 840px) { .panels { grid-template-columns: 1fr 1fr; } }
+@media print { .panels { grid-template-columns: 1fr 1fr; } }
+
+/* ---- display voice ---- */
+.display { font-family: var(--display); text-transform: uppercase; letter-spacing: 1.2px; }
+.eyebrow {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 2.2px;
+  font-size: 0.62rem; color: var(--gold); text-align: center; margin: 0 0 6px;
+}
+h1 {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 1.5px;
+  font-weight: 500; text-align: center; font-size: 1.5rem; line-height: 1.2; margin: 0 0 10px;
+  background: linear-gradient(160deg, var(--gold-hi) 0%, var(--gold) 45%, var(--gold-dk) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.lede { text-align: center; color: var(--muted); font-size: 0.82rem; margin: 0 auto 16px; max-width: 340px; }
+.lede strong { color: var(--text); font-weight: 600; }
+
+/* gold ornament divider */
+.orn { display: flex; align-items: center; gap: 8px; margin: 4px 0 16px; }
+.orn::before, .orn::after { content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-gilt)); }
+.orn::after { background: linear-gradient(90deg, var(--border-gilt), transparent); }
+.orn svg { flex: none; }
+
+/* HUD stat cells */
+.chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 16px; }
+.chip { text-align: center; padding: 8px 2px 7px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--panel-2); }
+.chip b {
+  display: block; font-family: var(--display); font-size: 1.15rem; letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums; color: var(--gold-hi); font-weight: 500;
+}
+.chip span {
+  font-size: 0.56rem; letter-spacing: 1.3px; text-transform: uppercase; color: var(--muted);
+}
+
+/* ---- glass panels, engraved edge ---- */
+.panel {
+  background: var(--panel); background-image: var(--noise);
+  border: 1px solid var(--border-gilt); border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 1px rgba(8, 11, 22, 0.85),
+    inset 0 1px 0 rgba(232, 207, 142, 0.10),
+    0 8px 28px rgba(0, 0, 0, 0.40);
+  padding: 14px 14px 12px; margin-bottom: 14px;
+}
+.kick {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: 1.8px;
+  font-size: 0.6rem; color: var(--gold); margin-bottom: 3px;
+}
+.kick .n { color: var(--muted); margin-right: 6px; }
+.p-title { font-size: 0.92rem; font-weight: 600; margin: 0 0 2px; color: var(--text); }
+.p-sub { font-size: 0.73rem; color: var(--muted); margin: 0 0 10px; line-height: 1.45; }
+.p-sub code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.68rem;
+  background: var(--panel-2); border: 1px solid var(--border); border-radius: 4px;
+  padding: 0.05em 0.3em; color: var(--text);
+}
+.chart { width: 100%; }
+.chart svg { display: block; width: 100%; height: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; }
+.legend { display: flex; flex-wrap: wrap; gap: 3px 12px; font-size: 0.68rem; color: var(--muted); margin-bottom: 8px; }
+.legend .key { display: inline-flex; align-items: center; gap: 5px; }
+.sw { width: 8px; height: 8px; border-radius: 2.5px; display: inline-block; }
+details.tbl { margin-top: 8px; font-size: 0.68rem; }
+details.tbl summary { cursor: pointer; color: var(--accent-2); font-weight: 600; }
+details.tbl table { border-collapse: collapse; margin-top: 6px; font-variant-numeric: tabular-nums; }
+details.tbl th, details.tbl td { text-align: left; padding: 2px 10px 2px 0; border-bottom: 1px solid var(--border); color: var(--muted); }
+details.tbl th { color: var(--text); font-weight: 600; }
+
+/* facts */
+.facts { display: flex; flex-direction: column; }
+.fact { display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  border-bottom: 1px solid var(--border); padding: 6px 0; }
+.fact:last-child { border-bottom: 0; }
+.fact .k { font-size: 0.73rem; color: var(--muted); }
+.fact .v { font-family: var(--display); font-size: 0.95rem; letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums; color: var(--gold-hi); white-space: nowrap; }
+.fact .v small { font-family: -apple-system, system-ui, sans-serif; color: var(--muted); font-size: 0.65rem; letter-spacing: 0; }
+
+#tip {
+  position: fixed; pointer-events: none; z-index: 50; display: none;
+  background: #060910; color: var(--text); font-size: 0.72rem; line-height: 1.45;
+  border: 1px solid var(--border-gilt); border-radius: 8px; padding: 6px 9px; max-width: 230px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+#tip .t-strong { font-weight: 600; color: var(--gold-hi); }
+
+footer { margin-top: 6px; font-size: 0.62rem; color: var(--muted); text-align: center; letter-spacing: 0.3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+@media (prefers-reduced-motion: no-preference) {
+  .waffle-dot { transition: transform 120ms ease; transform-origin: center; transform-box: fill-box; }
+  .waffle-dot:hover { transform: scale(1.5); }
+}
+
+/* ---- site nav ------------------------------------------------------------
+   The same bar as the landing page, so a feature page is somewhere inside the
+   site rather than a dead end with a back link. Its colours and face are held
+   in local custom properties, not this page's palette, so the bar is identical
+   on every page it appears on. Section links point back at the landing page;
+   the entry for the page you are on is marked. */
+.nav {
+  --nav-line: #1a2742; --nav-gold: #c9a54a; --nav-gold-hi: #e3c06a;
+  --nav-dim: #b9bccb;
+  --nav-serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  position: sticky; top: 0; z-index: 30;
+  background: rgba(11, 18, 32, .9); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--nav-line);
+}
+.nav-in {
+  width: 100%; max-width: 960px; margin: 0 auto; padding: 0 18px;
+  display: flex; align-items: center; gap: 26px; height: 62px;
+}
+.brandmark { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brandmark .mark { height: 34px; width: auto; }
+.brandmark .wordmark { height: 24px; width: auto; }
+.nav-links { margin-left: auto; display: flex; align-items: center; gap: 26px; }
+.nav-links a {
+  font: 400 15px/1 var(--nav-serif); color: var(--nav-dim); text-decoration: none;
+  transition: color .18s; white-space: nowrap;
+}
+.nav-links a:hover { color: var(--nav-gold-hi); }
+.nav-cta {
+  font: 400 15px/1 var(--nav-serif); color: var(--nav-gold-hi); text-decoration: none;
+  border: 1px solid var(--nav-gold); padding: 10px 18px;
+  transition: background .18s, color .18s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.nav-cta:hover { background: var(--nav-gold); color: #14161c; }
+.nav-cta .ric { width: 16px; height: 16px; flex: none; }
+/* Flex, not block: as a block the inline-flex .drop-btn would sit baseline
+   aligned on an inherited line box and read a fraction of a pixel off its
+   neighbours, which are plain flex items. */
+.nav-drop { position: relative; display: flex; align-items: center; }
+.drop-btn {
+  font: 400 15px/1 var(--nav-serif); color: var(--nav-dim);
+  background: none; border: 0; padding: 0; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: color .18s; white-space: nowrap;
+}
+.drop-btn:hover { color: var(--nav-gold-hi); }
+.drop-btn .chev { width: 9px; height: 6px; transition: transform .18s; }
+.nav-drop.open .drop-btn .chev { transform: rotate(180deg); }
+.drop-menu {
+  position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  padding-top: 15px; display: none; z-index: 40;
+}
+.drop-menu-in {
+  min-width: 170px; background: rgba(11, 18, 32, .97);
+  border: 1px solid var(--nav-line); box-shadow: 0 12px 30px rgba(0, 0, 0, .45);
+  padding: 6px 0; display: flex; flex-direction: column;
+}
+.nav-drop.open .drop-menu { display: block; }
+@media (hover: hover) {
+  .nav-drop:hover .drop-menu, .nav-drop:focus-within .drop-menu { display: block; }
+}
+.drop-menu-in a, .drop-menu-in .drop-dis {
+  font: 400 14.5px/1 var(--nav-serif); padding: 12px 18px;
+  text-decoration: none; white-space: nowrap;
+}
+.drop-menu-in a { color: var(--nav-dim); transition: color .18s, background .18s; }
+.drop-menu-in a:hover { color: var(--nav-gold-hi); background: rgba(201, 169, 97, .08); }
+.drop-menu-in a[aria-current="page"] { color: var(--nav-gold-hi); }
+.drop-dis { color: #565b6e; cursor: default; }
+/* Below 900 the row cannot hold brand + links + buttons, so the section links
+   drop to their own row as a strip and Community and Wishlist stay on the top
+   row, hard right, where they cannot scroll out of sight. */
+@media (max-width: 900px) {
+  .nav-in { height: auto; flex-wrap: wrap; gap: 0; padding-top: 11px; padding-bottom: 0; }
+  .brandmark { order: 1; margin-right: auto; }
+  .nav-com { order: 2; flex: none; margin-right: 10px; }
+  .nav-cta { order: 3; flex: none; white-space: nowrap; }
+  .nav-links {
+    order: 4; width: 100%; margin: 10px -18px 0; padding: 0 18px; gap: 0;
+    justify-content: flex-end; border-top: 1px solid var(--nav-line);
+  }
+  .nav-links a { display: block; flex: none; padding: 12px 13px; white-space: nowrap; }
+  .nav-links a:last-child { padding-right: 0; }
+  .drop-btn { padding: 12px 13px 12px 0; }
+  .drop-menu { left: 0; transform: none; }
+}
+@media (max-width: 560px) {
+  .brandmark .wordmark { height: 21px; }
+  .nav-cta { padding: 12px 13px; font-size: 12.5px; }
+  .nav-cta .ric { width: 14px; height: 14px; }
+  .nav-links a { padding: 14px 13px; font-size: 13.5px; }
+  .drop-btn { font-size: 13.5px; padding: 14px 13px 14px 0; }
+}
+@media (pointer: coarse) {
+  .drop-menu-in a, .drop-menu-in .drop-dis { padding: 14px 18px; }
+}
+/* ---- economy page additions ------------------------------------------- */
+/* Controls. A row of pill buttons or a labelled select, sized so a coarse
+   pointer gets a real target without the panel growing to pay for it. */
+.ctl { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.pill {
+  font: 600 0.68rem/1 -apple-system, system-ui, sans-serif; letter-spacing: 0.04em;
+  color: var(--muted); background: var(--panel-2); border: 1px solid var(--border);
+  border-radius: 999px; padding: 7px 12px; cursor: pointer; transition: color .15s, border-color .15s, background .15s;
+}
+.pill:hover { color: var(--text); border-color: var(--border-gilt); }
+.pill[aria-pressed="true"] { color: #10131f; background: var(--gold); border-color: var(--gold); }
+.ctl-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.ctl-row label { font-size: 0.68rem; color: var(--muted); white-space: nowrap; }
+.ctl-row output {
+  font-family: var(--display); font-size: 0.95rem; color: var(--gold-hi);
+  font-variant-numeric: tabular-nums; margin-left: auto; white-space: nowrap;
+}
+input[type=range] {
+  -webkit-appearance: none; appearance: none; flex: 1; min-width: 0;
+  height: 3px; border-radius: 2px; background: var(--border); outline-offset: 6px;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 15px; height: 15px; border-radius: 50%;
+  background: var(--gold); border: 2px solid #10131f; cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  width: 15px; height: 15px; border-radius: 50%; background: var(--gold);
+  border: 2px solid #10131f; cursor: pointer;
+}
+/* Readout strip under a chart: three or four numbers that change with it. */
+.reads { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+.reads.three { grid-template-columns: repeat(3, 1fr); }
+.read { border: 1px solid var(--border); border-radius: 7px; background: var(--panel-2); padding: 7px 8px; min-width: 0; }
+.read .k { font-size: 0.55rem; letter-spacing: 1.1px; text-transform: uppercase; color: var(--muted); display: block; }
+.read .v {
+  font-family: var(--display); font-size: 0.92rem; letter-spacing: 0.4px; color: var(--gold-hi);
+  font-variant-numeric: tabular-nums; display: block; margin-top: 2px; white-space: nowrap;
+}
+.read .v.up { color: var(--bad); }
+.read .v.down { color: var(--accent-2); }
+@media (max-width: 420px) { .reads { grid-template-columns: repeat(2, 1fr); } }
+/* The shock chain animates one hop at a time; reduced-motion gets it at once. */
+.hop { opacity: 0; transition: opacity .3s ease; }
+.hop.on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .hop { transition: none; } }
+.note { font-size: 0.62rem; color: var(--muted); margin: 8px 0 0; line-height: 1.5; }
+</style>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Poligeo &middot; Systems</p>
+  <h1>The<br>Economy</h1>
+  <div class="chips">
+    <div class="chip"><b>19</b><span>sectors</span></div>
+    <div class="chip"><b>199</b><span>economies</span></div>
+    <div class="chip"><b>34</b><span>traded goods</span></div>
+  </div>
+  <div class="orn" aria-hidden="true">
+    <svg width="46" height="10" viewBox="0 0 46 10"><path d="M23 1 L27 5 L23 9 L19 5 Z" fill="none" stroke="#c9a961" stroke-width="1"/><path d="M0 5 H17 M29 5 H46" stroke="#c9a961" stroke-width="0.5" opacity="0.5"/></svg>
+  </div>
+</header>
+
+<div class="panels">
+
+<!-- ═══ I · THE LOOP ═══ -->
+<div class="panel">
+  <div class="kick"><span class="n">I</span>Interconnected System</div>
+  <p class="p-title">All variables interconnected</p>
+  <p class="p-sub">A shock enters at one point and the engine prices it through every market it touches. Pick one and follow it.</p>
+  <div class="ctl" id="shock-ctl" role="group" aria-label="Choose a shock"></div>
+  <div class="chart" id="chain"></div>
+  <div class="reads" id="chain-reads"></div>
+</div>
+
+<!-- ═══ II · SECTORS ═══ -->
+<div class="panel">
+  <div class="kick"><span class="n">II</span>Sectors</div>
+  <p class="p-title">The economy is composed of sectors</p>
+  <p class="p-sub">Each has its own inputs, workforce and exposure. Output is what they add up to. Hover a sector.</p>
+  <div class="legend">
+    <span class="key"><i class="sw" style="background:#4f8fd9"></i>growing</span>
+    <span class="key"><i class="sw" style="background:#2b3358"></i>flat</span>
+    <span class="key"><i class="sw" style="background:#e05a6d"></i>contracting</span>
+  </div>
+  <div class="chart" id="treemap"></div>
+</div>
+
+<!-- ═══ III · TRADE ═══ -->
+<div class="panel">
+  <div class="kick"><span class="n">III</span>Trade</div>
+  <p class="p-title">Trade on the global market</p>
+  <p class="p-sub">Published export and import shares; the engine pairs them and works out who is short when a route closes.</p>
+  <div class="ctl" id="trade-ctl" role="group" aria-label="Choose a commodity"></div>
+  <div class="chart" id="flows"></div>
+</div>
+
+<!-- ═══ IV · THE CENTRAL BANK ═══ -->
+<div class="panel">
+  <div class="kick"><span class="n">IV</span>The Central Bank</div>
+  <p class="p-title">Raise rates and someone pays</p>
+  <p class="p-sub">Set the policy rate. The engine runs inflation, unemployment and growth forward eight quarters.</p>
+  <div class="ctl-row">
+    <label for="rate">Policy rate</label>
+    <input type="range" id="rate" min="0" max="800" step="25" value="425" aria-describedby="rate-out">
+    <output id="rate-out" for="rate">4.25%</output>
+  </div>
+  <div class="legend">
+    <span class="key"><i class="sw" style="background:#e05a6d"></i>inflation</span>
+    <span class="key"><i class="sw" style="background:#5f9ad9"></i>unemployment</span>
+    <span class="key"><i class="sw" style="background:#c9a961"></i>growth</span>
+  </div>
+  <div class="chart" id="cb"></div>
+  <div class="reads three" id="cb-reads"></div>
+</div>
+
+<!-- ═══ V · THE BUDGET ═══ -->
+<div class="panel">
+  <div class="kick"><span class="n">V</span>The Budget</div>
+  <p class="p-title">Every promise has a price</p>
+  <p class="p-sub">Move tax and spending. The deficit, the debt and the cost of borrowing move with it.</p>
+  <div class="ctl-row">
+    <label for="b-inc">Income tax</label>
+    <input type="range" id="b-inc" min="-30" max="30" step="1" value="0">
+    <output id="b-inc-out">base</output>
+  </div>
+  <div class="ctl-row">
+    <label for="b-corp">Corporate tax</label>
+    <input type="range" id="b-corp" min="-30" max="30" step="1" value="0">
+    <output id="b-corp-out">base</output>
+  </div>
+  <div class="ctl-row">
+    <label for="b-disc">Spending</label>
+    <input type="range" id="b-disc" min="-30" max="30" step="1" value="0">
+    <output id="b-disc-out">base</output>
+  </div>
+  <div class="chart" id="budget"></div>
+  <div class="reads three" id="budget-reads"></div>
+</div>
+
+<!-- ═══ VI · SANCTIONS ═══ -->
+<div class="panel">
+  <div class="kick"><span class="n">VI</span>Sanctions</div>
+  <p class="p-title">Sanctions cut both ways</p>
+  <p class="p-sub">Cut a country off and the engine prices the damage to them and the blowback to you, sector by sector.</p>
+  <div class="ctl" id="sanc-target" role="group" aria-label="Choose a target"></div>
+  <div class="ctl" id="sanc-pkg" role="group" aria-label="Choose a package"></div>
+  <div class="legend">
+    <span class="key"><i class="sw" style="background:#e05a6d"></i>their loss</span>
+    <span class="key"><i class="sw" style="background:#cf8f2c"></i>your cost</span>
+  </div>
+  <div class="chart" id="sanctions"></div>
+  <div class="reads" id="sanc-reads"></div>
+</div>
+
+</div><!-- /panels -->
+
+<p class="note">Figures are sample engine runs shown to illustrate how each system behaves, not forecasts. Sector shares and trade routes follow real published data; the responses to a shock, a rate change or a sanctions package are the engine's own.</p>
+<footer>PoliGeo &middot; Politics &amp; Geography</footer>
+</div>
+<div id="tip" role="presentation"></div>
+<script>
+(function () {
+"use strict";
+const NS = "http://www.w3.org/2000/svg";
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Small SVG helpers. Every chart here is hand-built so the page carries no
+   charting library, matching the other two systems pages. */
+function el(tag, attrs, parent) {
+  const n = document.createElementNS(NS, tag);
+  for (const k in attrs) if (attrs[k] !== undefined && attrs[k] !== null) n.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(n);
+  return n;
+}
+function svg(host, w, h) {
+  host.textContent = "";
+  return el("svg", { viewBox: `0 0 ${w} ${h}`, role: "img" }, host);
+}
+function txt(parent, x, y, s, attrs) {
+  const t = el("text", Object.assign({ x, y, fill: "#98937f", "font-size": 9 }, attrs || {}), parent);
+  t.textContent = s;
+  return t;
+}
+const fmt = (n, d) => n.toLocaleString("en-US", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 });
+const signed = (n, d) => (n > 0 ? "+" : n < 0 ? "−" : "") + fmt(Math.abs(n), d);
+
+/* Shared tooltip, same element and behaviour as the politics page. */
+const tip = document.getElementById("tip");
+function showTip(e, html) {
+  tip.innerHTML = html;
+  tip.style.display = "block";
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX + 14, y = e.clientY + 14;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14;
+  if (y + r.height > innerHeight - 8) y = e.clientY - r.height - 14;
+  tip.style.left = x + "px";
+  tip.style.top = y + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+
+/* Pill button groups. Returns a setter so a group can be driven from code. */
+function pills(host, items, onPick, startIndex) {
+  const btns = items.map((it, i) => {
+    const b = document.createElement("button");
+    b.className = "pill";
+    b.type = "button";
+    b.textContent = it.label;
+    b.setAttribute("aria-pressed", i === (startIndex || 0) ? "true" : "false");
+    b.addEventListener("click", () => {
+      btns.forEach(o => o.setAttribute("aria-pressed", "false"));
+      b.setAttribute("aria-pressed", "true");
+      onPick(it, i);
+    });
+    host.appendChild(b);
+    return b;
+  });
+  return btns;
+}
+function reads(host, rows) {
+  host.textContent = "";
+  rows.forEach(r => {
+    const d = document.createElement("div");
+    d.className = "read";
+    const k = document.createElement("span"); k.className = "k"; k.textContent = r.k;
+    const v = document.createElement("span"); v.className = "v" + (r.dir ? " " + r.dir : ""); v.textContent = r.v;
+    d.appendChild(k); d.appendChild(v); host.appendChild(d);
+  });
+}
+
+/* ══ I · INTERCONNECTED SYSTEM ════════════════════════════════════════════════════════
+   One shock, walked through the chain it sets off. The five stages are the
+   same every time because the mechanism is the same; only the magnitudes
+   change. Values are sample engine runs. */
+const SHOCKS = [
+  { label: "Hormuz closed", stages: [
+      { k: "Strait of Hormuz closed", v: "20% of seaborne crude" },
+      { k: "Brent crude", v: "$83.81 → $115.60", d: "+37.9%", dir: "up" },
+      { k: "Headline CPI", v: "2.8% → 4.0%", d: "+1.2 pt", dir: "up" },
+      { k: "Real wages", v: "−0.8% in two quarters", d: "−0.8%", dir: "down" },
+      { k: "Approval", v: "47.0% → 42.9%", d: "−4.1 pt", dir: "down" } ],
+    reads: [ { k: "Brent", v: "$115.60", dir: "up" }, { k: "CPI", v: "4.0%", dir: "up" },
+             { k: "Gas / gal", v: "$4.36", dir: "up" }, { k: "Approval", v: "42.9%", dir: "down" } ] },
+  { label: "Grain export ban", stages: [
+      { k: "Black Sea grain ban", v: "two exporters, one season" },
+      { k: "Wheat", v: "$5.90 → $8.14 / bu", d: "+38.0%", dir: "up" },
+      { k: "Food CPI", v: "2.4% → 5.1%", d: "+2.7 pt", dir: "up" },
+      { k: "Import-dependent states", v: "11 economies destabilised", d: "11", dir: "up" },
+      { k: "Unrest risk", v: "moderate → elevated", d: "+2 tiers", dir: "up" } ],
+    reads: [ { k: "Wheat", v: "$8.14", dir: "up" }, { k: "Food CPI", v: "5.1%", dir: "up" },
+             { k: "States at risk", v: "11", dir: "up" }, { k: "Aid demand", v: "$4.2B", dir: "up" } ] },
+  { label: "100bp rate hike", stages: [
+      { k: "Policy rate", v: "4.25% → 5.25%" },
+      { k: "10-year yield", v: "4.10% → 4.68%", d: "+58 bp", dir: "up" },
+      { k: "Housing starts", v: "−14% year on year", d: "−14%", dir: "down" },
+      { k: "Unemployment", v: "4.1% → 4.9%", d: "+0.8 pt", dir: "up" },
+      { k: "Approval", v: "47.0% → 44.2%", d: "−2.8 pt", dir: "down" } ],
+    reads: [ { k: "10y yield", v: "4.68%", dir: "up" }, { k: "Unemployment", v: "4.9%", dir: "up" },
+             { k: "CPI in 4q", v: "2.1%", dir: "down" }, { k: "Approval", v: "44.2%", dir: "down" } ] }
+];
+
+const chainHost = document.getElementById("chain");
+const chainReads = document.getElementById("chain-reads");
+let chainTimers = [];
+
+function drawChain(shock) {
+  chainTimers.forEach(clearTimeout);
+  chainTimers = [];
+  const W = 340, rowH = 46, padT = 4;
+  const H = padT + SHOCKS[0].stages.length * rowH;
+  const s = svg(chainHost, W, H);
+  s.setAttribute("aria-label", "Shock propagation chain");
+
+  shock.stages.forEach((st, i) => {
+    const y = padT + i * rowH;
+    const g = el("g", { class: "hop" }, s);
+
+    // the connector from the previous stage
+    if (i > 0) {
+      el("path", { d: `M18 ${y - rowH + 30} L18 ${y + 4}`, stroke: "#3d4674", "stroke-width": 1, fill: "none" }, g);
+      el("path", { d: `M15 ${y - 1} L18 ${y + 4} L21 ${y - 1}`, stroke: "#3d4674", "stroke-width": 1, fill: "none" }, g);
+    }
+    // the node marker: the first stage is the shock itself, so it is gold
+    el("circle", { cx: 18, cy: y + 12, r: i === 0 ? 5 : 3.5,
+      fill: i === 0 ? "#c9a961" : "#131a2e", stroke: i === 0 ? "#c9a961" : "#3d4674", "stroke-width": 1.2 }, g);
+
+    txt(g, 32, y + 10, st.k, { fill: "#eae4d2", "font-size": 10.5, "font-weight": 600 });
+    txt(g, 32, y + 24, st.v, { fill: "#98937f", "font-size": 9.5 });
+    if (st.d) {
+      txt(g, W - 4, y + 16, st.d, { fill: st.dir === "up" ? "#e05a6d" : "#5f9ad9",
+        "font-size": 11, "font-weight": 600, "text-anchor": "end" });
+    }
+    if (REDUCED) g.classList.add("on");
+    else chainTimers.push(setTimeout(() => g.classList.add("on"), 90 + i * 240));
+  });
+
+  if (REDUCED) reads(chainReads, shock.reads);
+  else chainTimers.push(setTimeout(() => reads(chainReads, shock.reads), 90 + shock.stages.length * 240));
+}
+pills(document.getElementById("shock-ctl"), SHOCKS, s => drawChain(s), 0);
+drawChain(SHOCKS[0]);
+
+/* ══ II · SECTORS ════════════════════════════════════════════════════════
+   Squarified treemap. Tiles are sized by share of output and tinted by
+   growth, so the shape of the economy and its direction read at once. */
+const SECTORS = [
+  { n: "Real estate",            s: 13.3, g:  1.1, e: "2.4M" },
+  { n: "Professional services",  s: 13.0, g:  2.8, e: "22.1M" },
+  { n: "Government",             s: 11.4, g:  0.4, e: "23.4M" },
+  { n: "Manufacturing",          s: 10.3, g: -1.6, e: "13.0M" },
+  { n: "Finance & insurance",    s:  8.5, g:  2.1, e: "6.8M" },
+  { n: "Health care",            s:  7.8, g:  3.2, e: "22.6M" },
+  { n: "Retail trade",           s:  5.9, g:  0.6, e: "15.6M" },
+  { n: "Wholesale trade",        s:  5.7, g: -0.3, e: "6.1M" },
+  { n: "Information",            s:  5.5, g:  4.4, e: "3.0M" },
+  { n: "Construction",           s:  4.3, g: -2.2, e: "8.2M" },
+  { n: "Transport & warehousing",s:  3.3, g:  1.4, e: "6.6M" },
+  { n: "Accommodation & food",   s:  3.1, g:  2.0, e: "13.9M" },
+  { n: "Admin & waste",          s:  3.0, g:  0.2, e: "9.0M" },
+  { n: "Other services",         s:  2.0, g:  0.7, e: "5.8M" },
+  { n: "Utilities",              s:  1.5, g:  0.9, e: "0.6M" },
+  { n: "Mining & energy",        s:  1.4, g: -3.8, e: "0.6M" },
+  { n: "Education",              s:  1.2, g:  1.0, e: "3.9M" },
+  { n: "Arts & recreation",      s:  1.1, g:  2.6, e: "2.6M" },
+  { n: "Agriculture",            s:  0.9, g: -1.1, e: "2.2M" }
+];
+
+/* Growth to colour: blue for expansion, red for contraction, with the panel
+   ground showing through where a sector is flat. */
+function growthFill(g) {
+  const t = Math.max(-1, Math.min(1, g / 4));
+  if (t >= 0) {
+    const a = 0.16 + t * 0.52;
+    return `rgba(79,143,217,${a.toFixed(3)})`;
+  }
+  const a = 0.16 + (-t) * 0.52;
+  return `rgba(224,90,109,${a.toFixed(3)})`;
+}
+
+/* Squarified treemap (Bruls, Huizing & van Wijk). Keeps tiles close to
+   square, which is what makes the labels fit and the areas comparable. */
+function squarify(items, x, y, w, h) {
+  const out = [];
+  const total = items.reduce((a, b) => a + b.s, 0);
+  let list = items.map(d => ({ d, v: d.s / total * w * h }));
+  function worst(row, len) {
+    const s = row.reduce((a, b) => a + b.v, 0);
+    const mx = Math.max(...row.map(r => r.v)), mn = Math.min(...row.map(r => r.v));
+    return Math.max((len * len * mx) / (s * s), (s * s) / (len * len * mn));
+  }
+  function layout(row, len, horiz) {
+    const s = row.reduce((a, b) => a + b.v, 0);
+    const thick = s / len;
+    let off = horiz ? x : y;
+    row.forEach(r => {
+      const side = r.v / thick;
+      out.push(horiz ? { d: r.d, x: off, y, w: side, h: thick }
+                     : { d: r.d, x, y: off, w: thick, h: side });
+      off += side;
+    });
+    if (horiz) { y += thick; h -= thick; } else { x += thick; w -= thick; }
+  }
+  let row = [];
+  while (list.length) {
+    const horiz = w >= h;
+    const len = horiz ? w : h;
+    const next = list[0];
+    if (!row.length || worst(row.concat(next), len) <= worst(row, len)) {
+      row.push(next); list.shift();
+      if (!list.length) layout(row, len, horiz);
+    } else {
+      layout(row, len, horiz);
+      row = [];
+    }
+  }
+  return out;
+}
+
+(function drawTreemap() {
+  const host = document.getElementById("treemap");
+  const W = 340, H = 232;
+  const s = svg(host, W, H);
+  s.setAttribute("aria-label", "Output by sector, sized by share and tinted by growth");
+  squarify(SECTORS, 0, 0, W, H).forEach(t => {
+    const g = el("g", {}, s);
+    el("rect", { x: t.x + 0.5, y: t.y + 0.5, width: Math.max(0, t.w - 1), height: Math.max(0, t.h - 1),
+      rx: 2, fill: growthFill(t.d.g), stroke: "#0a0e1a", "stroke-width": 1 }, g);
+    // Only label a tile with room for the text, so nothing overflows its box.
+    if (t.w > 62 && t.h > 26) {
+      const words = t.d.n.split(" ");
+      let line = t.d.n;
+      if (t.w < 96 && words.length > 1) line = words[0];
+      txt(g, t.x + 5, t.y + 14, line, { fill: "#eae4d2", "font-size": 9, "font-weight": 600 });
+      if (t.h > 38) txt(g, t.x + 5, t.y + 25, t.d.s.toFixed(1) + "%", { "font-size": 8.5 });
+    }
+    g.style.cursor = "default";
+    g.addEventListener("mousemove", e => showTip(e,
+      `<span class="t-strong">${t.d.n}</span><br>${t.d.s.toFixed(1)}% of output<br>` +
+      `${signed(t.d.g, 1)}% growth<br>${t.d.e} employed`));
+    g.addEventListener("mouseleave", hideTip);
+  });
+})();
+
+/* ══ III · TRADE ═════════════════════════════════════════════════════════
+   Exporters on the left, importers on the right, ribbons sized by volume.
+   Shares are of world seaborne trade in each good. */
+const TRADE = {
+  "Crude oil": {
+    unit: "of world crude exports",
+    from: [ ["Saudi Arabia", 17], ["Russia", 13], ["United States", 11], ["Canada", 10], ["Iraq", 9], ["UAE", 7] ],
+    to:   [ ["China", 26], ["Europe", 20], ["India", 13], ["United States", 11], ["Japan", 7], ["Korea", 6] ]
+  },
+  "Natural gas": {
+    unit: "of world LNG and pipeline gas",
+    from: [ ["United States", 21], ["Qatar", 19], ["Russia", 14], ["Australia", 13], ["Norway", 8], ["Algeria", 5] ],
+    to:   [ ["Europe", 31], ["China", 19], ["Japan", 15], ["Korea", 11], ["India", 6], ["Turkey", 4] ]
+  },
+  "Wheat": {
+    unit: "of world wheat exports",
+    from: [ ["Russia", 24], ["European Union", 17], ["Australia", 12], ["Canada", 11], ["United States", 10], ["Ukraine", 9] ],
+    to:   [ ["North Africa", 22], ["Southeast Asia", 18], ["Middle East", 17], ["Sub-Saharan Africa", 14], ["South Asia", 9], ["Latin America", 7] ]
+  },
+  "Semiconductors": {
+    unit: "of advanced logic capacity",
+    from: [ ["Taiwan", 46], ["Korea", 19], ["United States", 12], ["Japan", 9], ["China", 8], ["Europe", 6] ],
+    to:   [ ["China", 28], ["United States", 24], ["Europe", 16], ["Japan", 10], ["Korea", 8], ["Rest of world", 14] ]
+  }
+};
+
+function drawFlows(name) {
+  const host = document.getElementById("flows");
+  const d = TRADE[name];
+  const W = 340, H = 226, padT = 16, padB = 10, colW = 96, gap = 3;
+  const s = svg(host, W, H);
+  s.setAttribute("aria-label", name + " flows from exporters to importers");
+  const avail = H - padT - padB;
+
+  function stack(rows, x, anchor) {
+    const total = rows.reduce((a, b) => a + b[1], 0);
+    const space = avail - gap * (rows.length - 1);
+    let y = padT;
+    return rows.map(r => {
+      const h = (r[1] / total) * space;
+      const box = { name: r[0], v: r[1], x, y, h };
+      y += h + gap;
+      return box;
+    });
+  }
+  const left = stack(d.from, 0), right = stack(d.to, W - 8);
+
+  // ribbons first, so the end bars sit on top of them
+  const totalL = d.from.reduce((a, b) => a + b[1], 0);
+  const totalR = d.to.reduce((a, b) => a + b[1], 0);
+  const offL = left.map(() => 0), offR = right.map(() => 0);
+  left.forEach((L, i) => {
+    right.forEach((R, j) => {
+      // proportional split: each exporter feeds each importer by its share
+      const share = (L.v / totalL) * (R.v / totalR);
+      const hl = share * totalL / L.v * L.h, hr = share * totalR / R.v * R.h;
+      const y1 = L.y + offL[i], y2 = R.y + offR[j];
+      offL[i] += hl; offR[j] += hr;
+      // Six exporters against six importers is thirty-six ribbons, which at
+      // this width reads as crosshatch rather than trade. Only the routes
+      // that carry real volume are drawn; the rest still occupy their slot
+      // on each bar, so the bars stay proportional.
+      if (share * 100 < 1.4) return;
+      const x1 = colW, x2 = W - colW, mid = (x1 + x2) / 2;
+      const p = el("path", {
+        d: `M${x1} ${y1} C${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}` +
+           ` L${x2} ${y2 + hr} C${mid} ${y2 + hr}, ${mid} ${y1 + hl}, ${x1} ${y1 + hl} Z`,
+        fill: "#4f8fd9", opacity: 0.2
+      }, s);
+      p.addEventListener("mousemove", e => {
+        p.setAttribute("opacity", 0.55);
+        showTip(e, `<span class="t-strong">${L.name} → ${R.name}</span><br>${(share * 100).toFixed(1)}% ${d.unit}`);
+      });
+      p.addEventListener("mouseleave", () => { p.setAttribute("opacity", 0.2); hideTip(); });
+    });
+  });
+
+  [[left, 0, "start", colW - 6], [right, W - 4, "end", W - colW + 6]].forEach(([rows, bx, anchor, lx]) => {
+    rows.forEach(r => {
+      el("rect", { x: bx === 0 ? 0 : W - 4, y: r.y, width: 4, height: Math.max(1, r.h), rx: 1.5, fill: "#c9a961" }, s);
+      const t = txt(s, anchor === "start" ? 8 : W - 8, r.y + r.h / 2 + 3, r.name,
+        { "font-size": 8.5, "text-anchor": anchor === "start" ? "start" : "end", fill: "#eae4d2" });
+      if (r.h < 9) t.setAttribute("opacity", 0.5);
+    });
+  });
+  txt(s, 0, 9, "EXPORTERS", { "font-size": 7.5, "letter-spacing": 1.2, fill: "#98937f" });
+  txt(s, W, 9, "IMPORTERS", { "font-size": 7.5, "letter-spacing": 1.2, "text-anchor": "end", fill: "#98937f" });
+}
+pills(document.getElementById("trade-ctl"),
+  Object.keys(TRADE).map(k => ({ label: k })), it => drawFlows(it.label), 0);
+drawFlows("Crude oil");
+
+/* ══ IV · THE CENTRAL BANK ═══════════════════════════════════════════════
+   A small forward model, not a lookup table, so the curves respond to any
+   rate the slider can produce. Rates above neutral pull inflation down and
+   push unemployment up, both with a lag; growth follows the gap. */
+const NEUTRAL = 2.75, Q = 8;
+function project(rate) {
+  const gap = rate - NEUTRAL;
+  // Each series converges toward the steady state its rate gap implies rather
+  // than drifting by a fixed step each quarter, which is what keeps eight
+  // quarters of a high rate from running inflation off the bottom of the axis.
+  const piStar = 2.40 - 0.42 * gap;
+  const uStar  = 4.00 + 0.22 * gap;
+  const grStar = 2.00 - 0.40 * gap;
+  const infl = [], unem = [], grow = [];
+  let pi = 2.8, u = 4.1, gr = 2.2;
+  for (let q = 0; q < Q; q++) {
+    const lag = Math.min(1, (q + 1) / 4);   // policy bites over about a year
+    pi += (piStar - pi) * 0.34 * lag;
+    u  += (uStar  - u)  * 0.26 * lag;
+    gr += (grStar - gr) * 0.38 * lag;
+    infl.push(pi); unem.push(Math.max(2.8, u)); grow.push(gr);
+  }
+  return { infl, unem, grow };
+}
+
+function drawCB(rate) {
+  const host = document.getElementById("cb");
+  const W = 340, H = 150, L = 26, R = 8, T = 8, B = 18;
+  const s = svg(host, W, H);
+  s.setAttribute("aria-label", "Inflation, unemployment and growth projected eight quarters");
+  const p = project(rate);
+  const all = p.infl.concat(p.unem, p.grow);
+  const lo = Math.min(0, Math.floor(Math.min(...all))), hi = Math.ceil(Math.max(...all)) + 0.5;
+  const X = i => L + (i / (Q - 1)) * (W - L - R);
+  const Y = v => T + (1 - (v - lo) / (hi - lo)) * (H - T - B);
+
+  for (let v = Math.ceil(lo); v <= hi; v++) {
+    el("line", { x1: L, x2: W - R, y1: Y(v), y2: Y(v), stroke: "#232c4a", "stroke-width": 1 }, s);
+    txt(s, L - 5, Y(v) + 3, v + "%", { "font-size": 8, "text-anchor": "end" });
+  }
+  for (let q = 0; q < Q; q += 2) txt(s, X(q), H - 5, "Q" + (q + 1), { "font-size": 8, "text-anchor": "middle" });
+
+  [["infl", "#e05a6d"], ["unem", "#5f9ad9"], ["grow", "#c9a961"]].forEach(([k, col]) => {
+    const d = p[k].map((v, i) => (i ? "L" : "M") + X(i) + " " + Y(v)).join(" ");
+    el("path", { d, fill: "none", stroke: col, "stroke-width": 1.8, "stroke-linejoin": "round" }, s);
+    el("circle", { cx: X(Q - 1), cy: Y(p[k][Q - 1]), r: 2.6, fill: col }, s);
+  });
+
+  reads(document.getElementById("cb-reads"), [
+    { k: "Inflation in 8q", v: p.infl[Q - 1].toFixed(1) + "%", dir: p.infl[Q - 1] > 2.8 ? "up" : "down" },
+    { k: "Unemployment", v: p.unem[Q - 1].toFixed(1) + "%", dir: p.unem[Q - 1] > 4.1 ? "up" : "down" },
+    { k: "Growth", v: p.grow[Q - 1].toFixed(1) + "%", dir: p.grow[Q - 1] < 2.2 ? "up" : "down" }
+  ]);
+}
+const rateEl = document.getElementById("rate"), rateOut = document.getElementById("rate-out");
+function onRate() {
+  const r = rateEl.value / 100;
+  rateOut.textContent = r.toFixed(2) + "%";
+  drawCB(r);
+}
+rateEl.addEventListener("input", onRate);
+onRate();
+
+/* ══ V · THE BUDGET ══════════════════════════════════════════════════════
+   Revenue against outlays. Tax changes move receipts but also drag on the
+   base they are levied against, so the second half of a rise does not
+   collect what the first half did. */
+const BASE = {
+  rev: [ ["Income tax", 2426], ["Payroll", 1614], ["Corporate", 530], ["Other", 385] ],
+  out: [ ["Social Security", 1466], ["Health", 1712], ["Defence", 874], ["Interest", 881], ["Other", 1481] ]
+};
+const BASE_DEF = BASE.out.reduce((a, b) => a + b[1], 0) - BASE.rev.reduce((a, b) => a + b[1], 0);
+function budget(inc, corp, disc) {
+  const dragI = 1 - Math.abs(inc) / 100 * 0.30;
+  const dragC = 1 - Math.abs(corp) / 100 * 0.45;
+  const rev = BASE.rev.map(([n, v]) => {
+    if (n === "Income tax") return [n, v * (1 + inc / 100 * dragI)];
+    if (n === "Corporate") return [n, v * (1 + corp / 100 * dragC)];
+    return [n, v];
+  });
+  const out = BASE.out.map(([n, v]) => (n === "Other" || n === "Defence") ? [n, v * (1 + disc / 100)] : [n, v]);
+  const R = rev.reduce((a, b) => a + b[1], 0);
+  let O = out.reduce((a, b) => a + b[1], 0);
+  const deficit = O - R;
+  // Borrowing more raises the price of borrowing, which raises interest cost.
+  const yld = 4.10 + (deficit - BASE_DEF) / 1000 * (deficit > BASE_DEF ? 0.42 : 0.30);
+  const debt = 97.8 + (deficit - BASE_DEF) / 1000 * 1.6;
+  return { rev, out, R, O, deficit, yld, debt };
+}
+
+function drawBudget(b) {
+  const host = document.getElementById("budget");
+  const W = 340, H = 116, T = 14, barH = 30, gapY = 20, L = 0;
+  const s = svg(host, W, H);
+  s.setAttribute("aria-label", "Revenue against outlays");
+  const max = Math.max(b.R, b.O);
+  const scale = v => (v / max) * (W - 4);
+  const REVC = ["#4f8fd9", "#5f9ad9", "#74aae6", "#3d4674"];
+  const OUTC = ["#c9a961", "#cf8f2c", "#8a6d35", "#e05a6d", "#3d4674"];
+
+  [[b.rev, T, REVC, "REVENUE", b.R], [b.out, T + barH + gapY, OUTC, "OUTLAYS", b.O]].forEach(([rows, y, cols, label, tot]) => {
+    txt(s, 0, y - 4, label, { "font-size": 7.5, "letter-spacing": 1.2 });
+    txt(s, W, y - 4, "$" + fmt(tot / 1000, 2) + "T", { "font-size": 8.5, "text-anchor": "end", fill: "#eae4d2", "font-weight": 600 });
+    let x = L;
+    rows.forEach((r, i) => {
+      const w = scale(r[1]);
+      const rect = el("rect", { x, y, width: Math.max(0, w - 1), height: barH, rx: 2, fill: cols[i % cols.length] }, s);
+      rect.addEventListener("mousemove", e => showTip(e,
+        `<span class="t-strong">${r[0]}</span><br>$${fmt(r[1] / 1000, 2)}T`));
+      rect.addEventListener("mouseleave", hideTip);
+      if (w > 46) txt(s, x + 5, y + barH / 2 + 3, r[0].split(" ")[0], { "font-size": 8, fill: "#0a0e1a", "font-weight": 600 });
+      x += w;
+    });
+  });
+}
+function onBudget() {
+  const inc = +document.getElementById("b-inc").value;
+  const corp = +document.getElementById("b-corp").value;
+  const disc = +document.getElementById("b-disc").value;
+  const lbl = v => v === 0 ? "base" : signed(v, 0) + "%";
+  document.getElementById("b-inc-out").textContent = lbl(inc);
+  document.getElementById("b-corp-out").textContent = lbl(corp);
+  document.getElementById("b-disc-out").textContent = lbl(disc);
+  const b = budget(inc, corp, disc);
+  drawBudget(b);
+  reads(document.getElementById("budget-reads"), [
+    { k: "Deficit", v: "$" + fmt(b.deficit / 1000, 2) + "T", dir: b.deficit > BASE_DEF ? "up" : "down" },
+    { k: "Debt / GDP", v: b.debt.toFixed(1) + "%", dir: b.debt > 97.8 ? "up" : "down" },
+    { k: "10-year yield", v: b.yld.toFixed(2) + "%", dir: b.yld > 4.10 ? "up" : "down" }
+  ]);
+}
+["b-inc", "b-corp", "b-disc"].forEach(id => document.getElementById(id).addEventListener("input", onBudget));
+onBudget();
+
+/* ══ VI · SANCTIONS ══════════════════════════════════════════════════════
+   Damage to the target against blowback to the sender, by sector. The
+   blowback multiplier is what a package costs you for every point it costs
+   them, and it rises the more you are entangled with the target. */
+const TARGETS = {
+  "Russia": { entangle: 0.22, sectors: [ ["Energy", 42], ["Finance", 31], ["Defence industry", 24], ["Metals", 19], ["Consumer goods", 12] ] },
+  "China":  { entangle: 0.71, sectors: [ ["Electronics", 38], ["Manufacturing", 34], ["Finance", 21], ["Shipping", 18], ["Consumer goods", 26] ] },
+  "Iran":   { entangle: 0.06, sectors: [ ["Energy", 47], ["Finance", 36], ["Shipping", 22], ["Petrochemicals", 29], ["Consumer goods", 9] ] },
+  "Venezuela": { entangle: 0.11, sectors: [ ["Energy", 54], ["Finance", 28], ["Mining", 17], ["Shipping", 14], ["Consumer goods", 8] ] }
+};
+const PACKAGES = {
+  "Targeted": 0.35, "Sectoral": 0.72, "Full embargo": 1.0
+};
+let sancT = "Russia", sancP = "Sectoral";
+
+function drawSanctions() {
+  const host = document.getElementById("sanctions");
+  const t = TARGETS[sancT], mult = PACKAGES[sancP];
+  const rows = t.sectors.map(([n, v]) => ({
+    n, them: v * mult, you: v * mult * t.entangle
+  }));
+  const W = 340, rowH = 26, T = 14, MID = 128, H = T + rows.length * rowH + 4;
+  const s = svg(host, W, H);
+  s.setAttribute("aria-label", "Sanctions damage to target against cost to sender");
+  const max = Math.max(...rows.map(r => Math.max(r.them, r.you)));
+  const scale = v => (v / max) * (W - MID - 46);
+
+  txt(s, MID - 6, 8, "THEIR LOSS", { "font-size": 7, "letter-spacing": 1.1, "text-anchor": "end" });
+  txt(s, MID + 6, 8, "YOUR COST", { "font-size": 7, "letter-spacing": 1.1 });
+  rows.forEach((r, i) => {
+    const y = T + i * rowH;
+    txt(s, 0, y + 15, r.n, { "font-size": 9, fill: "#eae4d2" });
+    const wThem = scale(r.them), wYou = scale(r.you);
+    el("rect", { x: MID - wThem, y: y + 5, width: wThem, height: 11, rx: 2, fill: "#e05a6d", opacity: 0.85 }, s);
+    el("rect", { x: MID + 1, y: y + 5, width: wYou, height: 11, rx: 2, fill: "#cf8f2c", opacity: 0.85 }, s);
+    txt(s, MID - wThem - 4, y + 14, r.them.toFixed(0) + "%", { "font-size": 8, "text-anchor": "end", fill: "#e05a6d" });
+    txt(s, MID + wYou + 5, y + 14, r.you.toFixed(1) + "%", { "font-size": 8, fill: "#cf8f2c" });
+  });
+  el("line", { x1: MID, x2: MID, y1: 10, y2: H - 2, stroke: "#3d4674", "stroke-width": 1 }, s);
+
+  const them = rows.reduce((a, r) => a + r.them, 0) / rows.length;
+  const you = rows.reduce((a, r) => a + r.you, 0) / rows.length;
+  reads(document.getElementById("sanc-reads"), [
+    { k: "Their loss", v: them.toFixed(1) + "%", dir: "up" },
+    { k: "Your cost", v: you.toFixed(1) + "%", dir: "up" },
+    { k: "Blowback", v: (t.entangle * 100).toFixed(0) + "c / $1" },
+    { k: "Third parties", v: sancP === "Full embargo" ? "certain" : sancP === "Sectoral" ? "likely" : "few" }
+  ]);
+}
+pills(document.getElementById("sanc-target"),
+  Object.keys(TARGETS).map(k => ({ label: k })), it => { sancT = it.label; drawSanctions(); }, 0);
+pills(document.getElementById("sanc-pkg"),
+  Object.keys(PACKAGES).map(k => ({ label: k })), it => { sancP = it.label; drawSanctions(); }, 1);
+drawSanctions();
+
+})();
+</script>
+</body>
+</html>
