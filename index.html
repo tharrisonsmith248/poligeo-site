@@ -568,6 +568,12 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   .sec-head{margin-bottom:34px;max-width:40em}
   h2{font-size:clamp(28px,3.6vw,40px);margin:0 0 12px;line-height:1.12;text-wrap:balance}
   .sec-head p{color:var(--muted);margin:0;font-size:17px}
+  /* The purpose headline is 62 characters. At the 40px the other section
+     headlines use it needs 1171px and the column is 924px, so it is sized to
+     hold one line across a desktop row and left to wrap below roughly 900px,
+     where no readable size fits it on one. */
+  #purpose .sec-head{max-width:none}
+  #purpose h2{font-size:clamp(26px,3.1vw,31px)}
 
   /* ── 2 · consequence explorer ── */
   .levers{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
@@ -588,7 +594,6 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   .chip .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:18px;margin-top:3px}
   .chip .d{font-family:var(--mono);font-size:12px;min-height:16px;margin-top:2px}
   .d.up{color:var(--crimson)} .d.dn{color:var(--green)} .d.upg{color:var(--green)} .d.dng{color:var(--crimson)}
-  .exp-note{color:var(--muted);font-size:12px;letter-spacing:.05em;margin-top:18px}
   .exp-flavor{color:var(--gold-hi);font-size:14px;font-style:italic;margin:16px 0 0;min-height:22px;max-width:46em}
 
   /* ── 3 · timeline scrubber ── */
@@ -723,7 +728,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     .who small,.chat-day,.b .meta,.ctag{font-size:10.5px}
     .chips .chip .l{font-size:11px;letter-spacing:.12em}
     .chips .chip .d{font-size:12.5px}
-    .exp-note,.disc{font-size:12.5px}
+    .disc{font-size:12.5px}
     .demo-cell p.dsub{font-size:14px}
     .tl-stats{font-size:12.5px}
     .tl-stats b{font-size:15px}
@@ -862,7 +867,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   <div class="wrap">
     <div class="sec-head">
       <div class="eyebrow">Purpose</div>
-      <h2>The present world, with no limits to the simulation.</h2>
+      <h2>PoliGeo simulates political systems and geopolitical strategy.</h2>
     </div>
     <div class="prose">
       <p class="lead-para">
@@ -978,11 +983,10 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
         </div>
         <div class="chips" id="chips"></div>
         <p class="exp-flavor" id="exp-flavor"></p>
-        <p class="exp-note">ILLUSTRATIVE MAGNITUDES FROM ENGINE TEST RUNS. SIMULATIONS OCCUR IN ISOLATION.</p>
       </div>
     </div>
 
-    <div class="prose" style="margin-top:36px">
+    <div class="prose" style="margin-top:20px">
       <p class="lead-para">
         One deterministic engine ticks forward in real time. No turns. The
         economy, the legislature and every foreign leader keep calculating
