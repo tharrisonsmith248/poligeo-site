@@ -320,10 +320,7 @@ input[type=range]::-moz-range-thumb {
 .read .v.up { color: var(--bad); }
 .read .v.down { color: var(--accent-2); }
 @media (max-width: 420px) { .reads { grid-template-columns: repeat(2, 1fr); } }
-/* The shock chain animates one hop at a time; reduced-motion gets it at once. */
-.hop { opacity: 0; transition: opacity .3s ease; }
-.hop.on { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .hop { transition: none; } }
+.chart.bal { margin-top: 4px; }
 .note { font-size: 0.62rem; color: var(--muted); margin: 8px 0 0; line-height: 1.5; }
 </style>
 <div class="wrap">
@@ -334,7 +331,7 @@ input[type=range]::-moz-range-thumb {
   <div class="chips">
     <div class="chip"><b>19</b><span>sectors</span></div>
     <div class="chip"><b>199</b><span>economies</span></div>
-    <div class="chip"><b>34</b><span>traded goods</span></div>
+    <div class="chip"><b>9</b><span>budget lines</span></div>
   </div>
   <div class="orn" aria-hidden="true">
     <svg width="46" height="10" viewBox="0 0 46 10"><path d="M23 1 L27 5 L23 9 L19 5 Z" fill="none" stroke="#c9a961" stroke-width="1"/><path d="M0 5 H17 M29 5 H46" stroke="#c9a961" stroke-width="0.5" opacity="0.5"/></svg>
@@ -342,20 +339,35 @@ input[type=range]::-moz-range-thumb {
 </header>
 
 <div class="panels">
-
-<!-- ═══ I · THE LOOP ═══ -->
+<!-- ═══ I · THE BUDGET ═══ -->
 <div class="panel">
-  <div class="kick"><span class="n">I</span>Interconnected System</div>
-  <p class="p-title">All variables interconnected</p>
-  <p class="p-sub">A shock enters at one point and the engine prices it through every market it touches. Pick one and follow it.</p>
-  <div class="ctl" id="shock-ctl" role="group" aria-label="Choose a shock"></div>
-  <div class="chart" id="chain"></div>
-  <div class="reads" id="chain-reads"></div>
+  <div class="kick"><span class="n">I</span>The Budget</div>
+  <p class="p-title">Every promise has a price</p>
+  <p class="p-sub">Set the tax side. Both cards feed one budget, so what you do here lands in the card beside it too.</p>
+  <div class="ctl-row"><label for="t-inc">Income tax</label><input type="range" id="t-inc" min="-30" max="30" step="1" value="0"><output id="t-inc-out">base</output></div>
+  <div class="ctl-row"><label for="t-pay">Payroll tax</label><input type="range" id="t-pay" min="-30" max="30" step="1" value="0"><output id="t-pay-out">base</output></div>
+  <div class="ctl-row"><label for="t-corp">Corporate tax</label><input type="range" id="t-corp" min="-30" max="30" step="1" value="0"><output id="t-corp-out">base</output></div>
+  <div class="ctl-row"><label for="t-oth">Other receipts</label><input type="range" id="t-oth" min="-30" max="30" step="1" value="0"><output id="t-oth-out">base</output></div>
+  <div class="chart" id="rev-bar"></div>
+  <div class="chart bal" id="bal-a"></div>
+  <div class="reads three" id="rev-reads"></div>
 </div>
-
-<!-- ═══ II · SECTORS ═══ -->
+<!-- ═══ II · EXPENDITURE ═══ -->
 <div class="panel">
-  <div class="kick"><span class="n">II</span>Sectors</div>
+  <div class="kick"><span class="n">II</span>Expenditure</div>
+  <p class="p-title">Every cut has a constituency</p>
+  <p class="p-sub">Set the spending side. Interest is not yours to set: it follows the deficit the two cards make together.</p>
+  <div class="ctl-row"><label for="s-ss">Social Security</label><input type="range" id="s-ss" min="-30" max="30" step="1" value="0"><output id="s-ss-out">base</output></div>
+  <div class="ctl-row"><label for="s-hlth">Health</label><input type="range" id="s-hlth" min="-30" max="30" step="1" value="0"><output id="s-hlth-out">base</output></div>
+  <div class="ctl-row"><label for="s-def">Defence</label><input type="range" id="s-def" min="-30" max="30" step="1" value="0"><output id="s-def-out">base</output></div>
+  <div class="ctl-row"><label for="s-oth">Other programmes</label><input type="range" id="s-oth" min="-30" max="30" step="1" value="0"><output id="s-oth-out">base</output></div>
+  <div class="chart" id="out-bar"></div>
+  <div class="chart bal" id="bal-b"></div>
+  <div class="reads three" id="out-reads"></div>
+</div>
+<!-- ═══ III · SECTORS ═══ -->
+<div class="panel">
+  <div class="kick"><span class="n">III</span>Sectors</div>
   <p class="p-title">The economy is composed of sectors</p>
   <p class="p-sub">Each has its own inputs, workforce and exposure. Output is what they add up to. Hover a sector.</p>
   <div class="legend">
@@ -364,15 +376,6 @@ input[type=range]::-moz-range-thumb {
     <span class="key"><i class="sw" style="background:#e05a6d"></i>contracting</span>
   </div>
   <div class="chart" id="treemap"></div>
-</div>
-
-<!-- ═══ III · TRADE ═══ -->
-<div class="panel">
-  <div class="kick"><span class="n">III</span>Trade</div>
-  <p class="p-title">Trade on the global market</p>
-  <p class="p-sub">Published export and import shares; the engine pairs them and works out who is short when a route closes.</p>
-  <div class="ctl" id="trade-ctl" role="group" aria-label="Choose a commodity"></div>
-  <div class="chart" id="flows"></div>
 </div>
 
 <!-- ═══ IV · THE CENTRAL BANK ═══ -->
@@ -394,33 +397,9 @@ input[type=range]::-moz-range-thumb {
   <div class="reads three" id="cb-reads"></div>
 </div>
 
-<!-- ═══ V · THE BUDGET ═══ -->
+<!-- ═══ V · SANCTIONS ═══ -->
 <div class="panel">
-  <div class="kick"><span class="n">V</span>The Budget</div>
-  <p class="p-title">Every promise has a price</p>
-  <p class="p-sub">Move tax and spending. The deficit, the debt and the cost of borrowing move with it.</p>
-  <div class="ctl-row">
-    <label for="b-inc">Income tax</label>
-    <input type="range" id="b-inc" min="-30" max="30" step="1" value="0">
-    <output id="b-inc-out">base</output>
-  </div>
-  <div class="ctl-row">
-    <label for="b-corp">Corporate tax</label>
-    <input type="range" id="b-corp" min="-30" max="30" step="1" value="0">
-    <output id="b-corp-out">base</output>
-  </div>
-  <div class="ctl-row">
-    <label for="b-disc">Spending</label>
-    <input type="range" id="b-disc" min="-30" max="30" step="1" value="0">
-    <output id="b-disc-out">base</output>
-  </div>
-  <div class="chart" id="budget"></div>
-  <div class="reads three" id="budget-reads"></div>
-</div>
-
-<!-- ═══ VI · SANCTIONS ═══ -->
-<div class="panel">
-  <div class="kick"><span class="n">VI</span>Sanctions</div>
+  <div class="kick"><span class="n">V</span>Sanctions</div>
   <p class="p-title">Sanctions cut both ways</p>
   <p class="p-sub">Cut a country off and the engine prices the damage to them and the blowback to you, sector by sector.</p>
   <div class="ctl" id="sanc-target" role="group" aria-label="Choose a target"></div>
@@ -432,7 +411,6 @@ input[type=range]::-moz-range-thumb {
   <div class="chart" id="sanctions"></div>
   <div class="reads" id="sanc-reads"></div>
 </div>
-
 </div><!-- /panels -->
 
 <p class="note">Figures are sample engine runs shown to illustrate how each system behaves, not forecasts. Sector shares and trade routes follow real published data; the responses to a shock, a rate change or a sanctions package are the engine's own.</p>
@@ -443,7 +421,6 @@ input[type=range]::-moz-range-thumb {
 (function () {
 "use strict";
 const NS = "http://www.w3.org/2000/svg";
-const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /* Small SVG helpers. Every chart here is hand-built so the page carries no
    charting library, matching the other two systems pages. */
@@ -508,79 +485,128 @@ function reads(host, rows) {
   });
 }
 
-/* ══ I · INTERCONNECTED SYSTEM ════════════════════════════════════════════════════════
-   One shock, walked through the chain it sets off. The five stages are the
-   same every time because the mechanism is the same; only the magnitudes
-   change. Values are sample engine runs. */
-const SHOCKS = [
-  { label: "Hormuz closed", stages: [
-      { k: "Strait of Hormuz closed", v: "20% of seaborne crude" },
-      { k: "Brent crude", v: "$83.81 → $115.60", d: "+37.9%", dir: "up" },
-      { k: "Headline CPI", v: "2.8% → 4.0%", d: "+1.2 pt", dir: "up" },
-      { k: "Real wages", v: "−0.8% in two quarters", d: "−0.8%", dir: "down" },
-      { k: "Approval", v: "47.0% → 42.9%", d: "−4.1 pt", dir: "down" } ],
-    reads: [ { k: "Brent", v: "$115.60", dir: "up" }, { k: "CPI", v: "4.0%", dir: "up" },
-             { k: "Gas / gal", v: "$4.36", dir: "up" }, { k: "Approval", v: "42.9%", dir: "down" } ] },
-  { label: "Grain export ban", stages: [
-      { k: "Black Sea grain ban", v: "two exporters, one season" },
-      { k: "Wheat", v: "$5.90 → $8.14 / bu", d: "+38.0%", dir: "up" },
-      { k: "Food CPI", v: "2.4% → 5.1%", d: "+2.7 pt", dir: "up" },
-      { k: "Import-dependent states", v: "11 economies destabilised", d: "11", dir: "up" },
-      { k: "Unrest risk", v: "moderate → elevated", d: "+2 tiers", dir: "up" } ],
-    reads: [ { k: "Wheat", v: "$8.14", dir: "up" }, { k: "Food CPI", v: "5.1%", dir: "up" },
-             { k: "States at risk", v: "11", dir: "up" }, { k: "Aid demand", v: "$4.2B", dir: "up" } ] },
-  { label: "100bp rate hike", stages: [
-      { k: "Policy rate", v: "4.25% → 5.25%" },
-      { k: "10-year yield", v: "4.10% → 4.68%", d: "+58 bp", dir: "up" },
-      { k: "Housing starts", v: "−14% year on year", d: "−14%", dir: "down" },
-      { k: "Unemployment", v: "4.1% → 4.9%", d: "+0.8 pt", dir: "up" },
-      { k: "Approval", v: "47.0% → 44.2%", d: "−2.8 pt", dir: "down" } ],
-    reads: [ { k: "10y yield", v: "4.68%", dir: "up" }, { k: "Unemployment", v: "4.9%", dir: "up" },
-             { k: "CPI in 4q", v: "2.1%", dir: "down" }, { k: "Approval", v: "44.2%", dir: "down" } ] }
-];
 
-const chainHost = document.getElementById("chain");
-const chainReads = document.getElementById("chain-reads");
-let chainTimers = [];
+/* ══ I & II · ONE BUDGET, TWO CARDS ══════════════════════════════════════
+   Revenue answers the tax dials, programme outlays answer the spending
+   dials, and interest answers neither: it follows the deficit the two of
+   them make together, which in turn is part of what interest pays for.
+   That circle is solved by iterating to a fixed point, which is also the
+   reason the two cards cannot be read apart. Balancing is the objective;
+   taxes alone or cuts alone can just about do it, a mix does it comfortably. */
+const REV0  = [["Income tax", 2426, 0.30], ["Payroll", 1614, 0.20],
+               ["Corporate", 530, 0.45],   ["Other", 385, 0.25]];
+const PROG0 = [["Social Security", 1466], ["Health", 1712],
+               ["Defence", 874],          ["Other", 1481]];
+const INT0 = 881, YLD0 = 4.10, DEBT0 = 97.8, GDP = 29200;
+const R0 = REV0.reduce((a, b) => a + b[1], 0);
+const P0 = PROG0.reduce((a, b) => a + b[1], 0);
+const BASE_DEF = P0 + INT0 - R0;
 
-function drawChain(shock) {
-  chainTimers.forEach(clearTimeout);
-  chainTimers = [];
-  const W = 340, rowH = 46, padT = 4;
-  const H = padT + SHOCKS[0].stages.length * rowH;
-  const s = svg(chainHost, W, H);
-  s.setAttribute("aria-label", "Shock propagation chain");
+const FISCAL = { tax: [0, 0, 0, 0], spend: [0, 0, 0, 0] };
 
-  shock.stages.forEach((st, i) => {
-    const y = padT + i * rowH;
-    const g = el("g", { class: "hop" }, s);
-
-    // the connector from the previous stage
-    if (i > 0) {
-      el("path", { d: `M18 ${y - rowH + 30} L18 ${y + 4}`, stroke: "#3d4674", "stroke-width": 1, fill: "none" }, g);
-      el("path", { d: `M15 ${y - 1} L18 ${y + 4} L21 ${y - 1}`, stroke: "#3d4674", "stroke-width": 1, fill: "none" }, g);
-    }
-    // the node marker: the first stage is the shock itself, so it is gold
-    el("circle", { cx: 18, cy: y + 12, r: i === 0 ? 5 : 3.5,
-      fill: i === 0 ? "#c9a961" : "#131a2e", stroke: i === 0 ? "#c9a961" : "#3d4674", "stroke-width": 1.2 }, g);
-
-    txt(g, 32, y + 10, st.k, { fill: "#eae4d2", "font-size": 10.5, "font-weight": 600 });
-    txt(g, 32, y + 24, st.v, { fill: "#98937f", "font-size": 9.5 });
-    if (st.d) {
-      txt(g, W - 4, y + 16, st.d, { fill: st.dir === "up" ? "#e05a6d" : "#5f9ad9",
-        "font-size": 11, "font-weight": 600, "text-anchor": "end" });
-    }
-    if (REDUCED) g.classList.add("on");
-    else chainTimers.push(setTimeout(() => g.classList.add("on"), 90 + i * 240));
+function solve() {
+  // A tax rise collects less than its headline, because the base it is
+  // levied on shrinks as the rate climbs, and shrinks faster for the more
+  // mobile bases. Corporate gives way soonest, payroll least.
+  const rev = REV0.map(([n, v, k], i) => {
+    const p = FISCAL.tax[i] / 100;
+    return [n, v * (1 + p * (1 - Math.abs(p) * k))];
   });
-
-  if (REDUCED) reads(chainReads, shock.reads);
-  else chainTimers.push(setTimeout(() => reads(chainReads, shock.reads), 90 + shock.stages.length * 240));
+  const prog = PROG0.map(([n, v], i) => [n, v * (1 + FISCAL.spend[i] / 100)]);
+  const R = rev.reduce((a, b) => a + b[1], 0);
+  const P = prog.reduce((a, b) => a + b[1], 0);
+  // Borrow more and the price of borrowing rises, which is itself an outlay.
+  // The loop gain here is about 0.08, so this settles in a handful of passes.
+  let intr = INT0, yld = YLD0, def = BASE_DEF;
+  for (let i = 0; i < 60; i++) {
+    def = P + intr - R;
+    yld = Math.max(2.20, YLD0 + (def - BASE_DEF) / 1000 * 0.35);
+    intr = INT0 * (yld / YLD0);
+  }
+  return { rev, prog, R, P, intr, yld, def, O: P + intr,
+           debt: DEBT0 + (def - BASE_DEF) / GDP * 100 };
 }
-pills(document.getElementById("shock-ctl"), SHOCKS, s => drawChain(s), 0);
-drawChain(SHOCKS[0]);
 
-/* ══ II · SECTORS ════════════════════════════════════════════════════════
+const T$ = v => (v < 0 ? "−$" : "$") + fmt(Math.abs(v) / 1000, 2) + "T";
+
+/* Stacked bar of one side of the ledger. Interest is drawn with a gilt edge
+   on the outlay bar because it is the one segment no slider sets. */
+function stackBar(host, rows, total, label, cols, markLast) {
+  const W = 340, H = 44, y = 14;
+  const s = svg(host, W, H);
+  s.setAttribute("aria-label", label + " " + T$(total));
+  txt(s, 0, 9, label, { "font-size": 7.5, "letter-spacing": 1.2 });
+  txt(s, W, 9, T$(total), { "font-size": 9, "text-anchor": "end", fill: "#eae4d2", "font-weight": 600 });
+  let x = 0;
+  const max = rows.reduce((a, b) => a + b[1], 0);
+  rows.forEach((r, i) => {
+    const w = (r[1] / max) * W;
+    const last = markLast && i === rows.length - 1;
+    const rect = el("rect", { x, y, width: Math.max(0, w - 1), height: 26, rx: 2,
+      fill: cols[i % cols.length], stroke: last ? "#e8cf8e" : "none", "stroke-width": last ? 1 : 0 }, s);
+    rect.addEventListener("mousemove", e => showTip(e,
+      `<span class="t-strong">${r[0]}</span><br>${T$(r[1])}` + (last ? "<br>set by the deficit, not by you" : "")));
+    rect.addEventListener("mouseleave", hideTip);
+    if (w > 52) txt(s, x + 5, y + 17, r[0].split(" ")[0], { "font-size": 8, fill: "#0a0e1a", "font-weight": 600 });
+    x += w;
+  });
+}
+
+/* The balance meter. Both cards draw the same one from the same number, so
+   a dial moved in either card visibly moves the other. */
+function drawMeter(host, def) {
+  const W = 340, H = 40, mid = W / 2, SPAN = 2200, y = 16, h = 12;
+  const s = svg(host, W, H);
+  const balanced = Math.abs(def) < 50;
+  s.setAttribute("aria-label", balanced ? "Budget balanced" : "Balance " + T$(-def));
+  el("rect", { x: 0, y, width: W, height: h, rx: 6, fill: "#131a2e", stroke: "#2b3358", "stroke-width": 1 }, s);
+  const frac = Math.max(-1, Math.min(1, -def / SPAN));
+  const w = Math.abs(frac) * (W / 2 - 3);
+  el("rect", { x: frac < 0 ? mid - w : mid, y: y + 1, width: Math.max(1, w), height: h - 2, rx: 5,
+    fill: balanced ? "#c9a961" : frac < 0 ? "#e05a6d" : "#5f9ad9" }, s);
+  el("line", { x1: mid, x2: mid, y1: y - 4, y2: y + h + 4, stroke: "#e8cf8e", "stroke-width": 1.2 }, s);
+  txt(s, 0, 9, "DEFICIT", { "font-size": 7, "letter-spacing": 1.1 });
+  txt(s, W, 9, "SURPLUS", { "font-size": 7, "letter-spacing": 1.1, "text-anchor": "end" });
+  txt(s, mid, H - 2, balanced ? "BALANCED" : T$(-def),
+    { "font-size": 9.5, "text-anchor": "middle", "font-weight": 600,
+      fill: balanced ? "#e8cf8e" : frac < 0 ? "#e05a6d" : "#5f9ad9" });
+}
+
+const TAX_IDS = ["t-inc", "t-pay", "t-corp", "t-oth"];
+const SPEND_IDS = ["s-ss", "s-hlth", "s-def", "s-oth"];
+const REVC = ["#4f8fd9", "#5f9ad9", "#74aae6", "#3d4674"];
+const OUTC = ["#c9a961", "#cf8f2c", "#8a6d35", "#3d4674", "#e05a6d"];
+
+function renderFiscal() {
+  const lbl = v => v === 0 ? "base" : signed(v, 0) + "%";
+  TAX_IDS.forEach((id, i) => { document.getElementById(id + "-out").textContent = lbl(FISCAL.tax[i]); });
+  SPEND_IDS.forEach((id, i) => { document.getElementById(id + "-out").textContent = lbl(FISCAL.spend[i]); });
+
+  const b = solve();
+  stackBar(document.getElementById("rev-bar"), b.rev, b.R, "REVENUE", REVC, false);
+  stackBar(document.getElementById("out-bar"), b.prog.concat([["Interest", b.intr]]), b.O, "OUTLAYS", OUTC, true);
+  drawMeter(document.getElementById("bal-a"), b.def);
+  drawMeter(document.getElementById("bal-b"), b.def);
+
+  reads(document.getElementById("rev-reads"), [
+    { k: "Revenue", v: T$(b.R), dir: b.R > R0 ? "down" : "up" },
+    { k: "Vs. base", v: signed((b.R - R0) / 1000, 2) + "T", dir: b.R > R0 ? "down" : "up" },
+    { k: "10-year yield", v: b.yld.toFixed(2) + "%", dir: b.yld > YLD0 ? "up" : "down" }
+  ]);
+  reads(document.getElementById("out-reads"), [
+    { k: "Outlays", v: T$(b.O), dir: b.O > P0 + INT0 ? "up" : "down" },
+    { k: "Interest", v: T$(b.intr), dir: b.intr > INT0 ? "up" : "down" },
+    { k: "Debt / GDP", v: b.debt.toFixed(1) + "%", dir: b.debt > DEBT0 ? "up" : "down" }
+  ]);
+}
+TAX_IDS.forEach((id, i) => document.getElementById(id).addEventListener("input", e => {
+  FISCAL.tax[i] = +e.target.value; renderFiscal();
+}));
+SPEND_IDS.forEach((id, i) => document.getElementById(id).addEventListener("input", e => {
+  FISCAL.spend[i] = +e.target.value; renderFiscal();
+}));
+renderFiscal();
+/* ══ III · SECTORS ════════════════════════════════════════════════════════
    Squarified treemap. Tiles are sized by share of output and tinted by
    growth, so the shape of the economy and its direction read at once. */
 const SECTORS = [
@@ -681,98 +707,6 @@ function squarify(items, x, y, w, h) {
   });
 })();
 
-/* ══ III · TRADE ═════════════════════════════════════════════════════════
-   Exporters on the left, importers on the right, ribbons sized by volume.
-   Shares are of world seaborne trade in each good. */
-const TRADE = {
-  "Crude oil": {
-    unit: "of world crude exports",
-    from: [ ["Saudi Arabia", 17], ["Russia", 13], ["United States", 11], ["Canada", 10], ["Iraq", 9], ["UAE", 7] ],
-    to:   [ ["China", 26], ["Europe", 20], ["India", 13], ["United States", 11], ["Japan", 7], ["Korea", 6] ]
-  },
-  "Natural gas": {
-    unit: "of world LNG and pipeline gas",
-    from: [ ["United States", 21], ["Qatar", 19], ["Russia", 14], ["Australia", 13], ["Norway", 8], ["Algeria", 5] ],
-    to:   [ ["Europe", 31], ["China", 19], ["Japan", 15], ["Korea", 11], ["India", 6], ["Turkey", 4] ]
-  },
-  "Wheat": {
-    unit: "of world wheat exports",
-    from: [ ["Russia", 24], ["European Union", 17], ["Australia", 12], ["Canada", 11], ["United States", 10], ["Ukraine", 9] ],
-    to:   [ ["North Africa", 22], ["Southeast Asia", 18], ["Middle East", 17], ["Sub-Saharan Africa", 14], ["South Asia", 9], ["Latin America", 7] ]
-  },
-  "Semiconductors": {
-    unit: "of advanced logic capacity",
-    from: [ ["Taiwan", 46], ["Korea", 19], ["United States", 12], ["Japan", 9], ["China", 8], ["Europe", 6] ],
-    to:   [ ["China", 28], ["United States", 24], ["Europe", 16], ["Japan", 10], ["Korea", 8], ["Rest of world", 14] ]
-  }
-};
-
-function drawFlows(name) {
-  const host = document.getElementById("flows");
-  const d = TRADE[name];
-  const W = 340, H = 226, padT = 16, padB = 10, colW = 96, gap = 3;
-  const s = svg(host, W, H);
-  s.setAttribute("aria-label", name + " flows from exporters to importers");
-  const avail = H - padT - padB;
-
-  function stack(rows, x, anchor) {
-    const total = rows.reduce((a, b) => a + b[1], 0);
-    const space = avail - gap * (rows.length - 1);
-    let y = padT;
-    return rows.map(r => {
-      const h = (r[1] / total) * space;
-      const box = { name: r[0], v: r[1], x, y, h };
-      y += h + gap;
-      return box;
-    });
-  }
-  const left = stack(d.from, 0), right = stack(d.to, W - 8);
-
-  // ribbons first, so the end bars sit on top of them
-  const totalL = d.from.reduce((a, b) => a + b[1], 0);
-  const totalR = d.to.reduce((a, b) => a + b[1], 0);
-  const offL = left.map(() => 0), offR = right.map(() => 0);
-  left.forEach((L, i) => {
-    right.forEach((R, j) => {
-      // proportional split: each exporter feeds each importer by its share
-      const share = (L.v / totalL) * (R.v / totalR);
-      const hl = share * totalL / L.v * L.h, hr = share * totalR / R.v * R.h;
-      const y1 = L.y + offL[i], y2 = R.y + offR[j];
-      offL[i] += hl; offR[j] += hr;
-      // Six exporters against six importers is thirty-six ribbons, which at
-      // this width reads as crosshatch rather than trade. Only the routes
-      // that carry real volume are drawn; the rest still occupy their slot
-      // on each bar, so the bars stay proportional.
-      if (share * 100 < 1.4) return;
-      const x1 = colW, x2 = W - colW, mid = (x1 + x2) / 2;
-      const p = el("path", {
-        d: `M${x1} ${y1} C${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}` +
-           ` L${x2} ${y2 + hr} C${mid} ${y2 + hr}, ${mid} ${y1 + hl}, ${x1} ${y1 + hl} Z`,
-        fill: "#4f8fd9", opacity: 0.2
-      }, s);
-      p.addEventListener("mousemove", e => {
-        p.setAttribute("opacity", 0.55);
-        showTip(e, `<span class="t-strong">${L.name} → ${R.name}</span><br>${(share * 100).toFixed(1)}% ${d.unit}`);
-      });
-      p.addEventListener("mouseleave", () => { p.setAttribute("opacity", 0.2); hideTip(); });
-    });
-  });
-
-  [[left, 0, "start", colW - 6], [right, W - 4, "end", W - colW + 6]].forEach(([rows, bx, anchor, lx]) => {
-    rows.forEach(r => {
-      el("rect", { x: bx === 0 ? 0 : W - 4, y: r.y, width: 4, height: Math.max(1, r.h), rx: 1.5, fill: "#c9a961" }, s);
-      const t = txt(s, anchor === "start" ? 8 : W - 8, r.y + r.h / 2 + 3, r.name,
-        { "font-size": 8.5, "text-anchor": anchor === "start" ? "start" : "end", fill: "#eae4d2" });
-      if (r.h < 9) t.setAttribute("opacity", 0.5);
-    });
-  });
-  txt(s, 0, 9, "EXPORTERS", { "font-size": 7.5, "letter-spacing": 1.2, fill: "#98937f" });
-  txt(s, W, 9, "IMPORTERS", { "font-size": 7.5, "letter-spacing": 1.2, "text-anchor": "end", fill: "#98937f" });
-}
-pills(document.getElementById("trade-ctl"),
-  Object.keys(TRADE).map(k => ({ label: k })), it => drawFlows(it.label), 0);
-drawFlows("Crude oil");
-
 /* ══ IV · THE CENTRAL BANK ═══════════════════════════════════════════════
    A small forward model, not a lookup table, so the curves respond to any
    rate the slider can produce. Rates above neutral pull inflation down and
@@ -836,78 +770,7 @@ function onRate() {
 rateEl.addEventListener("input", onRate);
 onRate();
 
-/* ══ V · THE BUDGET ══════════════════════════════════════════════════════
-   Revenue against outlays. Tax changes move receipts but also drag on the
-   base they are levied against, so the second half of a rise does not
-   collect what the first half did. */
-const BASE = {
-  rev: [ ["Income tax", 2426], ["Payroll", 1614], ["Corporate", 530], ["Other", 385] ],
-  out: [ ["Social Security", 1466], ["Health", 1712], ["Defence", 874], ["Interest", 881], ["Other", 1481] ]
-};
-const BASE_DEF = BASE.out.reduce((a, b) => a + b[1], 0) - BASE.rev.reduce((a, b) => a + b[1], 0);
-function budget(inc, corp, disc) {
-  const dragI = 1 - Math.abs(inc) / 100 * 0.30;
-  const dragC = 1 - Math.abs(corp) / 100 * 0.45;
-  const rev = BASE.rev.map(([n, v]) => {
-    if (n === "Income tax") return [n, v * (1 + inc / 100 * dragI)];
-    if (n === "Corporate") return [n, v * (1 + corp / 100 * dragC)];
-    return [n, v];
-  });
-  const out = BASE.out.map(([n, v]) => (n === "Other" || n === "Defence") ? [n, v * (1 + disc / 100)] : [n, v]);
-  const R = rev.reduce((a, b) => a + b[1], 0);
-  let O = out.reduce((a, b) => a + b[1], 0);
-  const deficit = O - R;
-  // Borrowing more raises the price of borrowing, which raises interest cost.
-  const yld = 4.10 + (deficit - BASE_DEF) / 1000 * (deficit > BASE_DEF ? 0.42 : 0.30);
-  const debt = 97.8 + (deficit - BASE_DEF) / 1000 * 1.6;
-  return { rev, out, R, O, deficit, yld, debt };
-}
-
-function drawBudget(b) {
-  const host = document.getElementById("budget");
-  const W = 340, H = 116, T = 14, barH = 30, gapY = 20, L = 0;
-  const s = svg(host, W, H);
-  s.setAttribute("aria-label", "Revenue against outlays");
-  const max = Math.max(b.R, b.O);
-  const scale = v => (v / max) * (W - 4);
-  const REVC = ["#4f8fd9", "#5f9ad9", "#74aae6", "#3d4674"];
-  const OUTC = ["#c9a961", "#cf8f2c", "#8a6d35", "#e05a6d", "#3d4674"];
-
-  [[b.rev, T, REVC, "REVENUE", b.R], [b.out, T + barH + gapY, OUTC, "OUTLAYS", b.O]].forEach(([rows, y, cols, label, tot]) => {
-    txt(s, 0, y - 4, label, { "font-size": 7.5, "letter-spacing": 1.2 });
-    txt(s, W, y - 4, "$" + fmt(tot / 1000, 2) + "T", { "font-size": 8.5, "text-anchor": "end", fill: "#eae4d2", "font-weight": 600 });
-    let x = L;
-    rows.forEach((r, i) => {
-      const w = scale(r[1]);
-      const rect = el("rect", { x, y, width: Math.max(0, w - 1), height: barH, rx: 2, fill: cols[i % cols.length] }, s);
-      rect.addEventListener("mousemove", e => showTip(e,
-        `<span class="t-strong">${r[0]}</span><br>$${fmt(r[1] / 1000, 2)}T`));
-      rect.addEventListener("mouseleave", hideTip);
-      if (w > 46) txt(s, x + 5, y + barH / 2 + 3, r[0].split(" ")[0], { "font-size": 8, fill: "#0a0e1a", "font-weight": 600 });
-      x += w;
-    });
-  });
-}
-function onBudget() {
-  const inc = +document.getElementById("b-inc").value;
-  const corp = +document.getElementById("b-corp").value;
-  const disc = +document.getElementById("b-disc").value;
-  const lbl = v => v === 0 ? "base" : signed(v, 0) + "%";
-  document.getElementById("b-inc-out").textContent = lbl(inc);
-  document.getElementById("b-corp-out").textContent = lbl(corp);
-  document.getElementById("b-disc-out").textContent = lbl(disc);
-  const b = budget(inc, corp, disc);
-  drawBudget(b);
-  reads(document.getElementById("budget-reads"), [
-    { k: "Deficit", v: "$" + fmt(b.deficit / 1000, 2) + "T", dir: b.deficit > BASE_DEF ? "up" : "down" },
-    { k: "Debt / GDP", v: b.debt.toFixed(1) + "%", dir: b.debt > 97.8 ? "up" : "down" },
-    { k: "10-year yield", v: b.yld.toFixed(2) + "%", dir: b.yld > 4.10 ? "up" : "down" }
-  ]);
-}
-["b-inc", "b-corp", "b-disc"].forEach(id => document.getElementById(id).addEventListener("input", onBudget));
-onBudget();
-
-/* ══ VI · SANCTIONS ══════════════════════════════════════════════════════
+/* ══ V · SANCTIONS ══════════════════════════════════════════════════════
    Damage to the target against blowback to the sender, by sector. The
    blowback multiplier is what a package costs you for every point it costs
    them, and it rises the more you are entangled with the target. */
