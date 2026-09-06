@@ -196,15 +196,15 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
      ::before and ::after on a shrink-wrapping inline-block, which is what
      keeps the banner exactly as wide as its own text. */
   .hero-banner{
-    display:inline-block;margin:0 0 20px;
+    display:block;width:100%;max-width:30rem;margin:0 0 20px;
     border:1px solid rgba(201,165,74,.4);
     background:rgba(9,14,26,.72);
     box-shadow:0 6px 22px rgba(0,0,0,.45);
   }
   .hero-banner span{
-    display:block;padding:10px 22px;
+    display:block;padding:11px 22px;text-align:center;
     font:600 clamp(12px,1.35vw,15px)/1 var(--mono);
-    letter-spacing:.28em;text-transform:uppercase;color:var(--gold-hi);
+    letter-spacing:.32em;text-indent:.32em;text-transform:uppercase;color:var(--gold-hi);
   }
   .hero-banner::before,.hero-banner::after{
     content:"";display:block;height:8px;
