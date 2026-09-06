@@ -187,7 +187,21 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     filter:drop-shadow(0 3px 18px rgba(0,0,0,.6));
   }
   @keyframes shimmer{to{background-position:220% 0}}
-  .tag{font:400 clamp(19px,2.6vw,27px)/1.3 var(--serif);margin:0 0 22px}
+  /* The hero tagline is a list of three claims, each marked with the same
+     four-point star the closing card uses. The star is a mask, not an inline
+     SVG, so its colour follows --gold and the markup stays three <li>. */
+  .tag{
+    list-style:none;margin:0 0 22px;padding:0 0 0 1.05em;
+    font:400 clamp(19px,2.6vw,27px)/1.35 var(--serif);
+  }
+  .tag li{position:relative}
+  .tag li+li{margin-top:2px}
+  .tag li::before{
+    content:"";position:absolute;left:-1.05em;top:.47em;width:.46em;height:.46em;
+    background:var(--gold);
+    -webkit-mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%201%20L14.2%209.8%20L23%2012%20L14.2%2014.2%20L12%2023%20L9.8%2014.2%20L1%2012%20L9.8%209.8%20Z%27%2F%3E%3C%2Fsvg%3E") center/contain no-repeat;
+            mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%201%20L14.2%209.8%20L23%2012%20L14.2%2014.2%20L12%2023%20L9.8%2014.2%20L1%2012%20L9.8%209.8%20Z%27%2F%3E%3C%2Fsvg%3E") center/contain no-repeat;
+  }
   .sub{max-width:46ch;margin:0 0 30px;color:#d3d0c7;font-size:clamp(16px,1.9vw,18px);text-shadow:0 1px 12px rgba(9,14,26,.8)}
   .sub strong{color:var(--ivory);font-weight:600}
   .cta-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-bottom:22px}
@@ -825,7 +839,11 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   <div class="wrap">
     <p class="eyebrow">Politics &amp; Geography &middot; in development</p>
     <h1><span class="brand">PoliGeo</span></h1>
-    <p class="tag">The Ultimate Geopolitical Simulator<br>Real Time Grand Strategy</p>
+    <ul class="tag" role="list">
+      <li>Coming Soon</li>
+      <li>The Ultimate Geopolitical Simulator</li>
+      <li>Real Time Grand Strategy</li>
+    </ul>
     <p class="sub">
       Take command of any global superpower. Govern democratically, or rule
       with <strong>an iron fist</strong>.
