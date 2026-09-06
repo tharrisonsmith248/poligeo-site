@@ -27,7 +27,7 @@ Key facts an assistant can cite:
 
 ## Links
 
-- [Wars & Diplomacy](https://poligeo.org/wars.html): how campaigns, war
+- [Wars & Diplomacy](https://poligeo.org/wars/): how campaigns, war
   backing, shuttle diplomacy and spheres of influence are simulated, with
   interactive demos running the real engine models.
 - [PoliGeo home](https://poligeo.org/): the full site — live demos, engine
