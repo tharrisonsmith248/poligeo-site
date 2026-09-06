@@ -438,7 +438,9 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   .card p{color:#c5c2b9;margin:0;font-size:15.5px}
 
   .fin{text-align:center;border-bottom:0}
-  .fin h2{max-width:20ch;margin-inline:auto}
+  /* No ch cap here: the closing headline is meant to hold one line on a
+     desktop row and wrap on its own only when the viewport is too narrow. */
+  .fin h2{margin-inline:auto}
   .fin p{color:var(--muted);max-width:54ch;margin:0 auto 26px}
   .fin .cta-row{justify-content:center}
   .fin .orn{margin-bottom:22px}
@@ -799,7 +801,6 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
           <a href="pam.html">Politics</a>
           <a href="wars.html">Wars and Diplomacy</a>
           <span class="drop-dis" aria-disabled="true">Economy</span>
-          <span class="drop-dis" aria-disabled="true">Diplomacy</span>
         </div></div>
       </div>
       <a href="#simulation">Simulation</a>
