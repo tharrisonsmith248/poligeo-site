@@ -416,7 +416,7 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   .rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
   .rec{background:var(--panel);border:1px solid var(--line);padding:26px 24px}
   .rec .n{font:500 11px/1 var(--mono);color:var(--gold);letter-spacing:.2em;margin-bottom:12px}
-  .rec h4{margin:0 0 10px;font:400 19px/1.25 var(--serif)}
+  .rec h4{margin:0;font:600 19px/1.25 var(--serif)}
   .rec p{margin:0;color:var(--muted);font-size:14.5px}
 
   /* ---- compare + FAQ ----------------------------------------------- */
@@ -1084,21 +1084,6 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       <span>Civilian deaths <b id="fs-civ">12,300</b></span>
       <span>Refugees <b id="fs-ref">6.5M</b></span>
     </div>
-    <p class="disc">
-      The January 2025 oblast percentages are the engine's seeded values, and
-      they match DeepState's assessment for that month to within two points.
-      Earlier months are a monthly reconstruction anchored on the documented
-      turning points of the war &mdash; the withdrawal from Kyiv, Mariupol,
-      Lysychansk, the Kharkiv counteroffensive and the liberation of Kherson
-      &mdash; and the headline percentage is computed from the oblast shares
-      against real oblast areas, not stated separately. Which individual tiles
-      fall on the Russian side is resolved by the engine at runtime, so here
-      they are laid along each oblast's real front axis by area until the
-      occupied share matches. Casualty and refugee totals are cumulative
-      and approximate: civilian deaths follow the UN OHCHR verified count and
-      refugees the UNHCR total recorded in Europe, while the military figures
-      are contested and shown as the midpoint of published Western estimates.
-    </p>
   </div>
 </section>
 
@@ -1107,38 +1092,32 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     <div class="sec-head">
       <div class="eyebrow">No limits</div>
       <h2>Power is unbounded.</h2>
-      <p>PoliGeo simulates the world's sharpest edges the way it simulates everything else: with consequences, not censors. The game never moralizes. The world keeps score.</p>
+      <p>PoliGeo simulates the outcome.</p>
     </div>
     <div class="rec-grid">
       <div class="rec">
         <div class="n">NUCLEAR</div>
-        <h4>The ladder to the unthinkable</h4>
-        <p>Arsenals, postures, standoffs, retaliation tiers. Rattle the saber, blockade a nuclear state, order the decapitation strike. Then live with whatever climbs back down the ladder at you.</p>
+        <h4>Nuclear Escalation Ladder</h4>
       </div>
       <div class="rec">
         <div class="n">COVERT</div>
-        <h4>The orders you don't sign</h4>
-        <p>Deniable raids, sabotage, snatch and grab operations against foreign leaders. A captured president simply goes missing until you decide what the world learns. When a covert op blows up, it blows up loud.</p>
+        <h4>Conduct Covert Operations</h4>
       </div>
       <div class="rec">
         <div class="n">REGIME CHANGE</div>
-        <h4>Kings, made and unmade</h4>
-        <p>Topple a government and install your candidate. Prop up a client state. Meddle in another power's backyard, then find out they were watching the whole time.</p>
+        <h4>Self Coups and Insurrection</h4>
       </div>
       <div class="rec">
         <div class="n">MILITIAS</div>
-        <h4>Hundreds of armed movements</h4>
-        <p>Ideological militias and insurgent fronts recruit, radicalize and rise on their own logic. Starve them, infiltrate them, crush them, or find out the crackdown was exactly what they were waiting for.</p>
+        <h4>Hundreds of Paramilitary Groups</h4>
       </div>
       <div class="rec">
         <div class="n">EXTREMISTS</div>
-        <h4>Radicalization, modeled and never moralized</h4>
-        <p>Extremism is an output, not a random event. Repression, collapse and humiliation breed movements with real ideologies, real leaders you can talk to, and real ambitions for your country.</p>
+        <h4>Radicals on the ends of the political spectrum</h4>
       </div>
       <div class="rec">
-        <div class="n">THE PRICE</div>
+        <div class="n">SIMULATION</div>
         <h4>Every choice is priced</h4>
-        <p>Crackdowns have lethality tiers. Strikes have civilian tolls. Broken promises are ledgered forever. Nothing is off the table and nothing is free. How far you go is on you.</p>
       </div>
     </div>
   </div>
@@ -1155,32 +1134,26 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
       <div class="rec" id="vs-hoi4">
         <div class="n">HOI4 &middot; MILLENNIUM DAWN</div>
         <h4>Born modern-day</h4>
-        <p>If you install Millennium Dawn to drag a 2016 engine into the present, PoliGeo is what you were reaching for. Real 2025 borders, real leaders, wars that start from today's headlines instead of 1936's. No total conversion mod required.</p>
       </div>
       <div class="rec" id="vs-vic3">
         <div class="n">VICTORIA 3</div>
         <h4>The society simulator, set to now</h4>
-        <p>Victoria 3's ambition, a whole society in motion, relocated to the present with a presidency on top instead of a spreadsheet. And when war comes you fight it, rather than watching dice roll your fronts from the sidelines.</p>
       </div>
       <div class="rec" id="vs-democracy4">
         <div class="n">DEMOCRACY 4</div>
         <h4>Policy depth, plus a planet</h4>
-        <p>Democracy 4's cause and effect policy web, plus a world map, a military, real wars, and legislators who argue back with names, factions and prices.</p>
       </div>
       <div class="rec" id="vs-suzerain">
         <div class="n">SUZERAIN</div>
         <h4>Consequential politics, unscripted</h4>
-        <p>Suzerain proved political conversation could be gripping. PoliGeo takes off the rails: no path is authored, no ending is written, and your Sordland is the actual world.</p>
       </div>
       <div class="rec" id="vs-gps">
         <div class="n">POWER &amp; REVOLUTION</div>
         <h4>The scope, done properly</h4>
-        <p>Sixteen years, ten near annual editions, one aging engine, and not a single release with good reviews. Instead of repackaging the same game for a decade, PoliGeo ships a modern engine, a coherent economy and a world that answers. Our patches are free.</p>
       </div>
       <div class="rec" id="vs-superpower">
         <div class="n">SUPERPOWER 2</div>
         <h4>The one you have waited twenty years for</h4>
-        <p>The whole world on one screen, genuinely alive this time. If you have been hunting a SuperPower 2 successor since 2004, this is it.</p>
       </div>
     </div>
   </div>
