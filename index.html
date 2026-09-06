@@ -190,6 +190,27 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   /* The hero tagline is a list of three claims, each marked with the same
      four-point star the closing card uses. The star is a mask, not an inline
      SVG, so its colour follows --gold and the markup stays three <li>. */
+  /* Construction banner. The stripes are a repeating gradient rather than an
+     image so they stay crisp at any size, and they run in --gold on the hero
+     ground so the barricade reads without breaking the palette. The bars are
+     ::before and ::after on a shrink-wrapping inline-block, which is what
+     keeps the banner exactly as wide as its own text. */
+  .hero-banner{
+    display:inline-block;margin:0 0 20px;
+    border:1px solid rgba(201,165,74,.4);
+    background:rgba(9,14,26,.72);
+    box-shadow:0 6px 22px rgba(0,0,0,.45);
+  }
+  .hero-banner span{
+    display:block;padding:10px 22px;
+    font:600 clamp(12px,1.35vw,15px)/1 var(--mono);
+    letter-spacing:.28em;text-transform:uppercase;color:var(--gold-hi);
+  }
+  .hero-banner::before,.hero-banner::after{
+    content:"";display:block;height:8px;
+    background:repeating-linear-gradient(-45deg,
+      var(--gold) 0 8px, rgba(9,14,26,.9) 8px 16px);
+  }
   .tag{
     list-style:none;margin:0 0 22px;padding:0 0 0 1.05em;
     font:400 clamp(19px,2.6vw,27px)/1.35 var(--serif);
@@ -839,8 +860,8 @@ if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   <div class="wrap">
     <p class="eyebrow">Politics &amp; Geography &middot; in development</p>
     <h1><span class="brand">PoliGeo</span></h1>
+    <p class="hero-banner"><span>Coming Soon</span></p>
     <ul class="tag" role="list">
-      <li>Coming Soon</li>
       <li>The Ultimate Geopolitical Simulator</li>
       <li>Real Time Grand Strategy</li>
     </ul>
